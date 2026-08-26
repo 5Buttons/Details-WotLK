@@ -23,7 +23,43 @@ function GetNumSubgroupMembers()
 end
 
 function GetNumGroupMembers()
-	return IsInRaid() and GetNumRaidMembers() or GetNumPartyMembers()
+	--retail semantics: total group size including the player (party of 5 returns 5), 0 when solo
+	local raidMembers = GetNumRaidMembers()
+	if raidMembers > 0 then
+		return raidMembers
+	end
+	local partyMembers = GetNumPartyMembers()
+	if partyMembers > 0 then
+		return partyMembers + 1
+	end
+	return 0
+end
+
+function UnitIsGroupLeader(unit)
+	--accepts a unit token ("player", "raid5") or a player name, like retail
+	unit = unit or "player"
+	local unitName = UnitName(unit) or unit
+
+	local raidMembers = GetNumRaidMembers()
+	if raidMembers > 0 then
+		for i = 1, raidMembers do
+			local name, rank = GetRaidRosterInfo(i)
+			if rank == 2 then
+				return name == unitName
+			end
+		end
+		return false
+	elseif GetNumPartyMembers() > 0 then
+		local leaderIndex = GetPartyLeaderIndex()
+		local leaderName
+		if leaderIndex == 0 then
+			leaderName = UnitName("player")
+		else
+			leaderName = UnitName("party"..leaderIndex)
+		end
+		return leaderName == unitName
+	end
+	return false
 end
 
 --[[

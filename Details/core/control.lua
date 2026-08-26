@@ -49,22 +49,8 @@ local OBJECT_TYPE_PETS = 0x00003000
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 --> details api functions
 
---> try to find the opponent of last fight, can be called during a fight as well
-function _detalhes:FindEnemy()
-	local ZoneName, InstanceType = _GetInstanceInfo()
-	local ZoneMapID = _GetCurrentMapAreaID()
-	local in_instance = IsInInstance() --> garrison returns party as instance type.
-
-	if (InstanceType == "party" or InstanceType == "raid") and in_instance then
-		if InstanceType == "party" then
-			if _detalhes:GetBossNames(_detalhes.zone_id) then
-				return Loc["STRING_SEGMENT_TRASH"]
-			end
-		else
-			return Loc["STRING_SEGMENT_TRASH"]
-		end
-	end
-
+--> scan the current combat actors for a named opponent
+local find_enemy_actor = function()
 	for _, actor in _ipairs(_detalhes.tabela_vigente[class_type_dano]._ActorTable) do
 		if not actor.grupo and not actor.owner and not actor.nome:find("[*]") and _bit_band(actor.flag_original, 0x00000060) ~= 0 then --> 0x20+0x40 neutral + enemy reaction
 			for name, _ in _pairs(actor.targets) do
@@ -88,8 +74,29 @@ function _detalhes:FindEnemy()
 			end
 		end
 	end
+end
 
-	return Loc["STRING_UNKNOW"]
+--> try to find the opponent of last fight, can be called during a fight as well
+function _detalhes:FindEnemy()
+	local ZoneName, InstanceType = _GetInstanceInfo()
+	local in_instance = IsInInstance() --> garrison returns party as instance type.
+
+	if (InstanceType == "party" or InstanceType == "raid") and in_instance then
+		if InstanceType == "party" then
+			if _detalhes:GetBossNames(_detalhes.zone_id) then
+				return Loc["STRING_SEGMENT_TRASH"]
+			end
+		else
+			--> name the trash segment after the main enemy so segments can be told apart
+			local enemy = find_enemy_actor()
+			if enemy then
+				return Loc["STRING_SEGMENT_TRASH"].." ("..enemy..")"
+			end
+			return Loc["STRING_SEGMENT_TRASH"]
+		end
+	end
+
+	return find_enemy_actor() or Loc["STRING_UNKNOW"]
 end
 
 local boss_found = function(index, name, zone, mapid, diff, encounterid)
@@ -194,21 +201,17 @@ function _detalhes:ReadBossFrames()
 		if _UnitExists("boss"..index) then
 			local guid = _UnitGUID("boss"..index)
 			if guid then
-				local serial = _detalhes:GetNpcIdFromGuid(guid)
-				if serial then
-					local ZoneName = _GetInstanceInfo()
-					local DifficultyID = _GetInstanceDifficulty()
-					local ZoneMapID = _GetCurrentMapAreaID()
-					local BossIds = _detalhes:GetBossIds(ZoneMapID)
-					if BossIds then
-						local BossIndex = BossIds[serial]
-						if BossIndex then
-							if _detalhes.debug then
-								_detalhes:Msg("(debug) boss found:",_detalhes:GetBossName(ZoneMapID, BossIndex))
-							end
-
-							return boss_found(BossIndex, _detalhes:GetBossName(ZoneMapID, BossIndex), ZoneName, ZoneMapID, DifficultyID)
+				local npcID = _detalhes:GetNpcIdFromGuid(guid)
+				if npcID and npcID ~= 0 then
+					local ZoneMapID, BossIndex, EncounterID, BossName = _detalhes:GetEncounterInfoFromNpcId(npcID)
+					if BossIndex then
+						if _detalhes.debug then
+							_detalhes:Msg("(debug) boss found:", BossName)
 						end
+
+						local ZoneName = _GetInstanceInfo()
+						local DifficultyID = _GetInstanceDifficulty()
+						return boss_found(BossIndex, BossName, ZoneName, ZoneMapID, DifficultyID, EncounterID)
 					end
 				end
 			end
@@ -860,7 +863,7 @@ function _detalhes:GetPlayersInArena()
 	end
 
 	if _detalhes.debug then
-		_detalhes:Msg("(debug) Found", oponentes, "enemies and", aliados, "allies")
+		_detalhes:Msg("(debug) Found", aliados, "allies")
 	end
 end
 

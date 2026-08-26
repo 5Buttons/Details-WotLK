@@ -896,6 +896,12 @@ function _detalhes:EstaEmCombate()
 --		return true
 --	end
 
+	--> the group left combat, check if the encounter was actually killed before closing the segment
+	--> handles the player dying before the boss (no PLAYER_REGEN_ENABLED fires at the kill)
+	if _detalhes:CheckForEncounterKill() then
+		return
+	end
+
 	_detalhes:SairDoCombate()
 end
 

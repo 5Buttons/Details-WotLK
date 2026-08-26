@@ -101,6 +101,8 @@ core\network.lua
 
 core\parser.lua
 
+functions\bossmods.lua
+
 functions\loaddata.lua
 
 startup.lua

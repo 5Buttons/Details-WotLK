@@ -217,6 +217,7 @@ local _death_event_amt = 16
 
 --> map type
 local _is_in_instance = false
+local _is_open_world = true --> not inside a party/raid/arena/battleground instance
 
 --> hooks
 local _hook_cooldowns = false
@@ -356,7 +357,9 @@ end
 [15]=1
 --]=]
 
-local function check_boss(npcID)
+local LibBossIDs = LibStub and LibStub:GetLibrary("LibBossIDs-1.0", true)
+
+local function check_boss(npcID, npcName)
 	if not _is_in_instance or (_current_encounter_id or not npcID) then
 		return
 	end
@@ -371,16 +374,26 @@ local function check_boss(npcID)
 				break
 			end
 		end
-		if not bossIDs then
-			return
-		end
+	elseif _detalhes.zone_type == "party" then
+		--> all registered instances are raids, so a hit while inside a dungeon means the map id is stale
+		bossIDs = nil
 	end
 
-	local bossIndex = bossIDs[npcID]
-	if bossIndex then
+	if bossIDs then
+		local bossIndex = bossIDs[npcID]
+		if bossIndex then
+			local _, _, _, _, maxPlayers = GetInstanceInfo()
+			local difficulty = GetInstanceDifficulty()
+			_detalhes.parser_functions:ENCOUNTER_START(_detalhes:GetBossEncounter(mapID, bossIndex), _detalhes:GetBossName(mapID, bossIndex), difficulty, maxPlayers)
+		end
+		return
+	end
+
+	--> instance without encounter data (5-man dungeons, unregistered raids): fall back to LibBossIDs
+	if LibBossIDs and npcName and LibBossIDs.BossIDs[npcID] then
 		local _, _, _, _, maxPlayers = GetInstanceInfo()
 		local difficulty = GetInstanceDifficulty()
-		_detalhes.parser_functions:ENCOUNTER_START(_detalhes:GetBossEncounter(mapID, bossIndex), _detalhes:GetBossName(mapID, bossIndex), difficulty, maxPlayers)
+		_detalhes.parser_functions:ENCOUNTER_START(npcID, npcName, difficulty, maxPlayers)
 	end
 end
 
@@ -407,6 +420,13 @@ function parser:spell_dmg(token, time, who_serial, who_name, who_flags, alvo_ser
 
 	--> check if the spell isn't in the backlist
 	if damage_spells_to_ignore[spellid] then
+		return
+	end
+
+	--> memory guard(github issue #70): outside instances only record events involving the player's group.
+	--> the combat log covers everything within 100 yards; recording every bystander in a crowded city
+	--> made the current segment grow until the 32-bit client ran out of memory.
+	if _is_open_world and _bit_band(who_flags or 0, AFFILIATION_GROUP) == 0 and _bit_band(alvo_flags or 0, AFFILIATION_GROUP) == 0 then
 		return
 	end
 
@@ -474,7 +494,7 @@ function parser:spell_dmg(token, time, who_serial, who_name, who_flags, alvo_ser
 			npcid_cache[alvo_serial] = npcId
 		end
 
-		check_boss(npcId)
+		check_boss(npcId, alvo_name)
 
 		if ignored_npcids[npcId] then
 			return
@@ -488,7 +508,7 @@ function parser:spell_dmg(token, time, who_serial, who_name, who_flags, alvo_ser
 			npcid_cache[who_serial] = npcId
 		end
 
-		check_boss(npcId)
+		check_boss(npcId, who_name)
 
 		if ignored_npcids[npcId] then
 			return
@@ -502,7 +522,10 @@ function parser:spell_dmg(token, time, who_serial, who_name, who_flags, alvo_ser
 ------------------------------------------------------------------------------------------------
 --> check if need start an combat
 	if not _in_combat then
-		if not (_bit_band(who_flags, REACTION_FRIENDLY) ~= 0 and _bit_band(alvo_flags, REACTION_FRIENDLY) ~= 0) and (_bit_band(who_flags, AFFILIATION_GROUP) ~= 0 or _bit_band(who_flags, AFFILIATION_GROUP) ~= 0) then
+		--> start combat when the source is in the group, or when a group member gets hit while flagged
+		--> in-combat(mob strikes first). the UnitAffectingCombat check keeps environmental damage
+		--> (falling, drowning) from opening a combat segment.
+		if not (_bit_band(who_flags, REACTION_FRIENDLY) ~= 0 and _bit_band(alvo_flags, REACTION_FRIENDLY) ~= 0) and (_bit_band(who_flags, AFFILIATION_GROUP) ~= 0 or (_bit_band(alvo_flags, AFFILIATION_GROUP) ~= 0 and _UnitAffectingCombat(alvo_name))) then
 			_detalhes:EntrarEmCombate(who_serial, who_name, who_flags, alvo_serial, alvo_name, alvo_flags)
 			if _detalhes.encounter_table.id and _detalhes.encounter_table["start"] and _detalhes.announce_firsthit.enabled then
 				local link = spellid <= 10 and _GetSpellInfo(spellid) or GetSpellLink(spellid)
@@ -999,6 +1022,12 @@ function parser:spell_dmg(token, time, who_serial, who_name, who_flags, alvo_ser
 		end
 
 	------------------------------------------------------------------------------------------------
+	--> memory guard(github issue #70): see parser:spell_dmg
+		if _is_open_world and _bit_band(who_flags or 0, AFFILIATION_GROUP) == 0 and _bit_band(alvo_flags or 0, AFFILIATION_GROUP) == 0 then
+			return
+		end
+
+	------------------------------------------------------------------------------------------------
 	--> get actors
 		--print("MISS", "|", missType, "|", "|", amountMissed, "|", arg1)
 
@@ -1368,6 +1397,12 @@ function parser:spell_dmg(token, time, who_serial, who_name, who_flags, alvo_ser
 			end
 		end
 
+		--> memory guard(github issue #70): the resting zone exception above made details record
+		--> every heal cast by bystanders in cities, only keep heals involving the player's group
+		if _is_open_world and _bit_band(who_flags or 0, AFFILIATION_GROUP) == 0 and _bit_band(alvo_flags or 0, AFFILIATION_GROUP) == 0 then
+			return
+		end
+
 		--> check invalid serial against pets
 		if(who_serial == "") then
 			if(who_flags and _bit_band(who_flags, OBJECT_TYPE_PETS) ~= 0) then --> � um pet
@@ -1652,6 +1687,14 @@ function parser:spell_dmg(token, time, who_serial, who_name, who_flags, alvo_ser
 		end
 
 	------------------------------------------------------------------------------------------------
+	--> memory guard(github issue #70): outside instances ignore auras among bystanders
+	--> (the escudo absorb stacks had no filter at all and entries whose removal happens out of
+	--> combat log range stay forever)
+		if _is_open_world and _bit_band(who_flags or 0, AFFILIATION_GROUP) == 0 and _bit_band(alvo_flags or 0, AFFILIATION_GROUP) == 0 then
+			return
+		end
+
+	------------------------------------------------------------------------------------------------
 	--> spell reflection
 		if reflection_spellid[spellid] then
 			--> this is a spell reflect aura
@@ -1902,6 +1945,12 @@ function parser:spell_dmg(token, time, who_serial, who_name, who_flags, alvo_ser
 	function parser:buff_refresh(token, time, who_serial, who_name, who_flags, alvo_serial, alvo_name, alvo_flags, spellid, spellname, spellschool, tipo, amount)
 
 	------------------------------------------------------------------------------------------------
+	--> memory guard(github issue #70): see parser:buff
+		if _is_open_world and _bit_band(who_flags or 0, AFFILIATION_GROUP) == 0 and _bit_band(alvo_flags or 0, AFFILIATION_GROUP) == 0 then
+			return
+		end
+
+	------------------------------------------------------------------------------------------------
 	--> handle shields
 	------------------------------------------------------------------------------------------------
 		--> healing done(shields)
@@ -2036,7 +2085,10 @@ function parser:spell_dmg(token, time, who_serial, who_name, who_flags, alvo_ser
 	end
 
 	function parser:unbuff_shield(alvo_name, who_serial, spellid)
-		escudo[alvo_name] = escudo[alvo_name] or {}
+		--> don't create a table for targets we never tracked a shield on(github issue #70)
+		if not escudo[alvo_name] then
+			return
+		end
 		local index
 		for i, applied_absorb in ipairs(escudo[alvo_name]) do
 			if applied_absorb.serial == who_serial and applied_absorb.spellid == spellid then
@@ -2472,6 +2524,11 @@ local energy_types = {
 
 		--> check if is valid
 		if(not energy_types[powertype]) then
+			return
+		end
+
+		--> memory guard(github issue #70): see parser:spell_dmg
+		if _is_open_world and _bit_band(who_flags or 0, AFFILIATION_GROUP) == 0 and _bit_band(alvo_flags or 0, AFFILIATION_GROUP) == 0 then
 			return
 		end
 
@@ -3165,7 +3222,10 @@ local energy_types = {
 	--> build dead
 		if _bit_band(alvo_flags, OBJECT_CONTROL_NPC) ~= 0 then
 			local npcID = npcid_cache[alvo_serial]
-			if npcID then
+			if not npcID then
+				npcID = _tonumber(_str_sub(alvo_serial, 8, 12), 16)
+			end
+			if npcID and npcID ~= 0 then
 				_table_insert(_detalhes.cache_dead_npc, npcID)
 			end
 		end
@@ -3701,6 +3761,12 @@ end
 
 function _detalhes:Check_ZONE_CHANGED_NEW_AREA(...)
 	local zoneName, zoneType = _GetInstanceInfo()
+
+	--> on 3.3.5 GetCurrentMapAreaID returns the map currently shown in the world map frame,
+	--> set it to the player zone first (but don't fight the player browsing an open map)
+	if SetMapToCurrentZone and not (WorldMapFrame and WorldMapFrame:IsShown()) then
+		SetMapToCurrentZone()
+	end
 	local zoneMapID = _GetCurrentMapAreaID()
 
 	_detalhes.zone_type = zoneType
@@ -3713,6 +3779,20 @@ function _detalhes:Check_ZONE_CHANGED_NEW_AREA(...)
 
 	if zoneType == "party" or zoneType == "raid" then
 		_is_in_instance = true
+	end
+
+	_is_open_world = zoneType ~= "party" and zoneType ~= "raid" and zoneType ~= "arena" and zoneType ~= "pvp"
+
+	--> throw away the per-unit caches from the previous zone(github issue #70): these are only
+	--> cleaned on combat start/end, so idling in a city let them grow for the whole session
+	if not _in_combat then
+		_table_wipe(escudo)
+		_table_wipe(reflection_damage)
+		_table_wipe(reflection_debuffs)
+		_table_wipe(reflection_events)
+		_table_wipe(reflection_auras)
+		_table_wipe(reflection_dispels)
+		_table_wipe(npcid_cache)
 	end
 
 	if _detalhes.last_zone_type ~= zoneType then
@@ -3883,6 +3963,18 @@ function _detalhes.parser_functions:ENCOUNTER_START(encounterID, encounterName, 
 		_detalhes.encounter_table.DBM_Mod = dbm_mod
 	end
 
+	--> the map id from GetCurrentMapAreaID may be wrong or missing (3.3.5 has no instance maps for tbc raids), resolve it from the encounter id
+	if not _detalhes:GetBossEncounterDetailsFromEncounterId(zoneMapID, encounterID) then
+		local realInstanceID = _detalhes:GetInstanceIdFromEncounterId(encounterID)
+		if realInstanceID then
+			zoneMapID = realInstanceID
+			_detalhes.encounter_table.mapid = zoneMapID
+		end
+	end
+
+	--> how the death-based kill detection works for this encounter
+	_detalhes.encounter_table.kill_spec = _detalhes:GetEncounterKillSpec(encounterID)
+
 	local encounter_start_table = _detalhes:GetEncounterStartInfo(zoneMapID, encounterID)
 	if encounter_start_table then
 		if encounter_start_table.delay then
@@ -3907,6 +3999,28 @@ function _detalhes.parser_functions:ENCOUNTER_START(encounterID, encounterName, 
 	end
 
 	_detalhes:SendEvent("COMBAT_ENCOUNTER_START", nil, encounterID, encounterName, difficultyID, raidSize)
+
+	--> boss pulled while the group was still in combat with trash: close the trash segment and open a new one for the boss
+	if _in_combat and not _detalhes.tabela_vigente.is_boss and not _detalhes.tabela_vigente.IsBeingCreated then
+		if (_detalhes.tabela_vigente:GetCombatTime() or 0) > 5 then
+			--> stash the fresh encounter data, the closing trash segment must not be flagged with it
+			local stash = {}
+			for key, value in _pairs(_detalhes.encounter_table) do
+				stash[key] = value
+			end
+			_table_wipe(_detalhes.encounter_table)
+
+			_detalhes:SairDoCombate()
+
+			for key, value in _pairs(stash) do
+				_detalhes.encounter_table[key] = value
+			end
+			_detalhes:EntrarEmCombate()
+		else
+			--> the on-going combat is this encounter, the detection was just a moment late: flag it in place
+			_detalhes:ReadBossFrames()
+		end
+	end
 end
 
 function _detalhes.parser_functions:ENCOUNTER_END(...)
@@ -3964,9 +4078,72 @@ function _detalhes.parser_functions:ENCOUNTER_END(...)
 	return true
 end
 
+--> check if the current encounter can be flagged as a kill based on the deaths seen in the combat log
+--> respects the encounter kill_spec (see raidinfo.lua): "none" = only boss mods can flag the kill,
+--> "all" = every listed npc must have died, "any" = one death of the listed npcs is enough
+--> returns true when the encounter was successfully closed as a kill
+function _detalhes:CheckForEncounterKill()
+	local encounterTable = _detalhes.encounter_table
+	if not encounterTable.id or not encounterTable.start or encounterTable["end"] then
+		return false
+	end
+
+	local killSpec = encounterTable.kill_spec
+	local deadNpcs = _detalhes.cache_dead_npc
+	local killDetected = false
+
+	if killSpec then
+		if killSpec.mode == "none" then
+			return false
+		elseif killSpec.mode == "any" then
+			for i = 1, #deadNpcs do
+				if killSpec.ids[deadNpcs[i]] then
+					killDetected = true
+					break
+				end
+			end
+		elseif killSpec.mode == "all" then
+			local missing = 0
+			for _ in _pairs(killSpec.ids) do
+				missing = missing + 1
+			end
+			local found = {}
+			for i = 1, #deadNpcs do
+				local npcID = deadNpcs[i]
+				if killSpec.ids[npcID] and not found[npcID] then
+					found[npcID] = true
+					missing = missing - 1
+				end
+			end
+			killDetected = missing <= 0
+		end
+	else
+		for i = 1, #deadNpcs do
+			if deadNpcs[i] == encounterTable.id then
+				killDetected = true
+				break
+			end
+		end
+	end
+
+	if killDetected then
+		local _, _, _, _, maxPlayers = GetInstanceInfo()
+		return _detalhes.parser_functions:ENCOUNTER_END(encounterTable.id, encounterTable.name, encounterTable.diff or GetInstanceDifficulty(), encounterTable.size or maxPlayers) and true or false
+	end
+
+	return false
+end
+
 function _detalhes.parser_functions:UNIT_PET(...)
 	_detalhes.container_pets:Unpet(...)
 	_detalhes:SchedulePetUpdate(1)
+end
+
+--> fires on 3.3.5 when blizzard boss frames (boss1-boss4) engage, gives instant boss detection
+function _detalhes.parser_functions:INSTANCE_ENCOUNTER_ENGAGE_UNIT(...)
+	if _detalhes.in_combat and not _detalhes.tabela_vigente.is_boss then
+		_detalhes:ReadBossFrames()
+	end
 end
 
 function _detalhes.parser_functions:PLAYER_REGEN_DISABLED(...)
@@ -4154,29 +4331,7 @@ function _detalhes.parser_functions:PLAYER_REGEN_ENABLED(...)
 		end
 	end
 
-	for _, npcID in _ipairs(_detalhes.cache_dead_npc) do
-		if _detalhes.encounter_table and _detalhes.encounter_table.id == npcID then
-			local mapID = _detalhes.zone_id
-			local bossIDs = _detalhes:GetBossIds(mapID)
-			if not bossIDs then
-				for id, data in _pairs(_detalhes.EncounterInformation) do
-					if data.name == _detalhes.zone_name then
-						bossIDs = _detalhes:GetBossIds(id)
-						mapID = id
-						break
-					end
-				end
-			end
-
-			local bossIndex = bossIDs and bossIDs[npcID]
-			if bossIndex then
-				local _, _, _, _, maxPlayers = GetInstanceInfo()
-				local difficulty = GetInstanceDifficulty()
-				_detalhes.parser_functions:ENCOUNTER_END(npcID, _detalhes:GetBossName(mapID, bossIndex), difficulty, maxPlayers)
-				break
-			end
-		end
-	end
+	_detalhes:CheckForEncounterKill()
 
 	--elapsed combat time
 	_detalhes.LatestCombatDone = GetTime()

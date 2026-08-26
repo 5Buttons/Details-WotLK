@@ -512,6 +512,12 @@ do --> data for The Ruby Sanctum
 
 		boss_ids = {
 			[39863] = 1, --Halion
+			[40142] = 1, --Halion (Twilight Realm)
+		},
+
+		--> a death of any of the two Halions (physical/twilight realm) counts as a kill
+		kill_any = {
+			[1] = {39863, 40142},
 		},
 	})
 end
@@ -604,17 +610,41 @@ do --> data for Icecrown Citadel
 		boss_ids = {
 			[36612] = 1, --Lord Marrowgar
 			[36855] = 2, --Lady Deathwhisper
-			[37540] = 3, --Icecrown Gunship Battle
-			[37215] = 3, --Icecrown Gunship Battle
+			[37540] = 3, --Icecrown Gunship Battle (The Skybreaker)
+			[37215] = 3, --Icecrown Gunship Battle (Orgrim's Hammer)
+			[36960] = 3, --Kor'kron Sergeant
+			[36968] = 3, --Kor'kron Axethrower
+			[36982] = 3, --Kor'kron Rocketeer
+			[37117] = 3, --Kor'kron Battle-Mage
+			[36961] = 3, --Skybreaker Sergeant
+			[36969] = 3, --Skybreaker Rifleman
+			[36978] = 3, --Skybreaker Mortar Soldier
+			[37116] = 3, --Skybreaker Sorcerer
 			[37813] = 4, --Deathbringer Saurfang
 			[36626] = 5, --Festergut
 			[36627] = 6, --Rotface
 			[36678] = 7, --Professor Putricide
-			[37970] = 8, --Blood Prince Council
+			[37970] = 8, --Prince Valanar
+			[37972] = 8, --Prince Keleseth
+			[37973] = 8, --Prince Taldaram
 			[37955] = 9, --Blood-Queen Lana'thel
 			[36789] = 10, --Valithria Dreamwalker
+			[36791] = 10, --Blazing Skeleton
+			[37868] = 10, --Risen Archmage
+			[37886] = 10, --Gluttonous Abomination
+			[37934] = 10, --Blistering Zombie
 			[36853] = 11, --Sindragosa
 			[36597] = 12, --The Lich King
+		},
+
+		--> a death of any of these npcs counts as a kill (the princes share a health pool and collapse together)
+		kill_any = {
+			[8] = {37970, 37972, 37973}, --Blood Prince Council
+		},
+		--> these encounters end without any npc death, only boss mods (dbm/bigwigs) can flag the kill
+		kill_none = {
+			[3] = true, --Icecrown Gunship Battle (enemy ship retreats)
+			[10] = true, --Valithria Dreamwalker (healed to full)
 		},
 	})
 end
@@ -715,9 +745,20 @@ do --> data for Trial of the Crusader
 			[34455] = 3, --Broln Stouthorn <Shaman>
 			[34450] = 3, --Harkzog <Warlock>
 			[34453] = 3, --Narrhok Steelbreaker <Warrior>
+			[35465] = 3, --Zhaagrym <Harkzog's Minion>
+			[35610] = 3, --Cat <Hunter's Pet>
 			[34497] = 4, --Fjola Lightbane
 			[34496] = 4, --Eydis Darkbane
 			[34564] = 5, --Anub'arak
+		},
+
+		--> a death of any of these npcs counts as a kill (the twins share a health pool)
+		kill_any = {
+			[4] = {34497, 34496}, --The Twin Val'kyr
+		},
+		--> the faction champions die one by one, a single death says nothing about the outcome
+		kill_none = {
+			[3] = true, --Faction Champions
 		},
 	})
 end
@@ -827,8 +868,15 @@ do --> data for Naxxramas
 			[15931] = 11, --Grobbulus
 			[15932] = 12, --Gluth
 			[15928] = 13, --Thaddius
+			[15930] = 13, --Feugen
+			[15929] = 13, --Stalagg
 			[15989] = 14, --Sapphiron
 			[15990] = 15, --Kel'Thuzad
+		},
+
+		--> all of these npcs must die for the encounter to count as a kill
+		kill_all = {
+			[9] = {30549, 16065, 16064, 16063}, --The Four Horsemen (Rivendare, Blaumeux, Korth'azz, Zeliek)
 		},
 	})
 end
@@ -1024,7 +1072,7 @@ do --> data for Ulduar
 	}
 
 	local ENCOUNTER_ID_CL = {
-		33113, 33118, 33186, 33293, 32867, 32930, 33515, 32845, 32865, 32906, 33350, 33271, 33136, 32871,
+		33113, 33118, 33186, 33293, 32867, 32930, 33515, 32845, 32865, 32906, 33350, 33271, 33288, 32871,
 		[33113] = 1, --Flame Leviathan
 		[33118] = 2, --Ignis the Furnace Master
 		[33186] = 3, --Razorscale
@@ -1037,7 +1085,7 @@ do --> data for Ulduar
 		[32906] = 10, --Freya
 		[33350] = 11, --Mimiron
 		[33271] = 12, --General Vezax
-		[33136] = 13, --Yogg-Saron
+		[33288] = 13, --Yogg-Saron (33288 is Yogg himself, 33136 is a Guardian which dies during the fight)
 		[32871] = 14, --Algalon the Observer
 	}
 
@@ -1094,15 +1142,34 @@ do --> data for Ulduar
 			[32933] = 6, --Left Arm
 			[32934] = 6, --Right Arm
 			[33515] = 7, --Auriaya
+			[34014] = 7, --Sanctum Sentry
+			[34035] = 7, --Feral Defender
 			[32845] = 8, --Hodir
 			[32865] = 9, --Thorim
 			[32882] = 9, --Jormungar Behemoth
 			[32906] = 10, --Freya
 			[33350] = 11, --Mimiron
+			[33432] = 11, --Leviathan Mk II
+			[33651] = 11, --VX-001
+			[33670] = 11, --Aerial Command Unit
 			[33271] = 12, --General Vezax
 			[33136] = 13, --Guardian of Yogg-Saron
 			[33288] = 13, --Yogg-Saron
+			[33890] = 13, --Brain of Yogg-Saron
 			[32871] = 14, --Algalon the Observer
+		},
+
+		--> all of these npcs must die for the encounter to count as a kill
+		kill_all = {
+			[5] = {32867, 32927, 32857}, --Assembly of Iron
+		},
+		--> these encounters end without any npc death, only boss mods (dbm/bigwigs) can flag the kill
+		kill_none = {
+			[8] = true, --Hodir (is freed, doesn't die)
+			[9] = true, --Thorim (yields)
+			[10] = true, --Freya (yields)
+			[11] = true, --Mimiron (V-07-TR-0N is disabled, Mimiron doesn't die)
+			[14] = true, --Algalon the Observer (despawns at 20%)
 		},
 	})
 end

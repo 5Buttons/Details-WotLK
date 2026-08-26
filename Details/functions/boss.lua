@@ -350,6 +350,87 @@ do
 		return _detalhes.EncounterInformation[mapid] and true
 	end
 
+	--> return how the death-based kill detection works for an encounter:
+	--> "none" = no npc death means a kill (gunship, valithria, thorim...), rely on boss mods
+	--> "all" = every npc id listed must die (iron council, four horsemen...)
+	--> "any" = a single death of any listed npc id is a kill (halion physical/twilight)
+	--> nil = default, the death of the npc id stored in encounter_ids2 is the kill
+	function _detalhes:GetEncounterKillSpec(encounterID)
+		if not encounterID then
+			return
+		end
+
+		for _, instanceTable in _pairs(_detalhes.EncounterInformation) do
+			local ids = instanceTable.encounter_ids2
+			local bossIndex = ids and ids[encounterID]
+			if bossIndex then
+				if instanceTable.kill_none and instanceTable.kill_none[bossIndex] then
+					return {mode = "none"}
+				end
+
+				local idList = instanceTable.kill_all and instanceTable.kill_all[bossIndex]
+				if idList then
+					local ids_hash = {}
+					for _, npcID in _ipairs(idList) do
+						ids_hash[npcID] = true
+					end
+					return {mode = "all", ids = ids_hash}
+				end
+
+				idList = instanceTable.kill_any and instanceTable.kill_any[bossIndex]
+				if idList then
+					local ids_hash = {}
+					for _, npcID in _ipairs(idList) do
+						ids_hash[npcID] = true
+					end
+					return {mode = "any", ids = ids_hash}
+				end
+
+				return
+			end
+		end
+	end
+
+	--> find which encounter a npc id belongs to, searching all registered instances
+	--> prefers the instance the player is in, returns: mapid, bossIndex, encounterID, bossName
+	function _detalhes:GetEncounterInfoFromNpcId(npcID)
+		if not npcID then
+			return
+		end
+
+		local function check(mapid)
+			local instanceTable = _detalhes.EncounterInformation[mapid]
+			local bossIndex = instanceTable and instanceTable.boss_ids and instanceTable.boss_ids[npcID]
+			if bossIndex then
+				return mapid, bossIndex, instanceTable.encounter_ids2 and instanceTable.encounter_ids2[bossIndex], instanceTable.boss_names and instanceTable.boss_names[bossIndex]
+			end
+		end
+
+		--> current zone by map id
+		local mapid, bossIndex, encounterID, bossName = check(_detalhes.zone_id)
+		if mapid then
+			return mapid, bossIndex, encounterID, bossName
+		end
+
+		--> current zone by name
+		for id, instanceTable in _pairs(_detalhes.EncounterInformation) do
+			if instanceTable.name == _detalhes.zone_name then
+				mapid, bossIndex, encounterID, bossName = check(id)
+				if mapid then
+					return mapid, bossIndex, encounterID, bossName
+				end
+			end
+		end
+
+		--> global search
+		for id in _pairs(_detalhes.EncounterInformation) do
+			mapid, bossIndex, encounterID, bossName = check(id)
+			if mapid then
+				return mapid, bossIndex, encounterID, bossName
+			end
+		end
+	end
+
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 --> core
 
