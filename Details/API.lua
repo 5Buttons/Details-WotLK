@@ -49,7 +49,7 @@ local currentCombat = Details:GetCurrentCombat()
 
 @TITLE- Getting a specific combat:@
 
-@CODElocal combat = Details:GetCombat (segmentID = DETAILS_SEGMENTID_CURRENT)@
+@CODElocal combat = Details:GetCombat(segmentID = DETAILS_SEGMENTID_CURRENT)@
 
 @DESCFor overall use DETAILS_SEGMENTID_OVERALL, for older segments use the combat index (1 ... 25), when the current combat ends, it is added to index 1 on the old segments table.@
 
@@ -58,10 +58,10 @@ local currentCombat = Details:GetCurrentCombat()
 
 @DESCThere's several ways to get a player object, the quick way is:@
 
-@CODElocal player = Details:GetActor (segmentID = DETAILS_SEGMENTID_CURRENT, attributeID = DETAILS_ATTRIBUTE_DAMAGE, "PlayerName")@
+@CODElocal player = Details:GetActor(segmentID = DETAILS_SEGMENTID_CURRENT, attributeID = DETAILS_ATTRIBUTE_DAMAGE, "PlayerName")@
 
 @DESCThe segmentID is the same as described on GetCombat(), attributeID is the ID for the attribute type.
-there is an alias which receives the player name as the first parameter: Details:GetPlayer (playerName, segmentID, attributeID), combat also accept GetActor(): combat:GetActor (attributeID, playerName).
+there is an alias which receives the player name as the first parameter: Details:GetPlayer(playerName, segmentID, attributeID), combat also accept GetActor(): combat:GetActor(attributeID, playerName).
 Retriving actors is expensive, try to cache the object once you have it.
 @
 
@@ -71,7 +71,7 @@ Retriving actors is expensive, try to cache the object once you have it.
 @CODElocal combat = Details:GetCurrentCombat()
 
 @COMMENT--if the player is from a different realm, use 'playername-realmname'@
-local player = combat:GetActor (DETAILS_ATTRIBUTE_DAMAGE, "PlayerName")
+local player = combat:GetActor(DETAILS_ATTRIBUTE_DAMAGE, "PlayerName")
 
 local damageDone = player.total
 local combatTime = combat:GetCombatTime()
@@ -128,6 +128,8 @@ DETAILS_SUBATTRIBUTE_REGENMANA = 1
 DETAILS_SUBATTRIBUTE_REGENRAGE = 2
 DETAILS_SUBATTRIBUTE_REGENENERGY = 3
 DETAILS_SUBATTRIBUTE_REGENRUNE = 4
+DETAILS_SUBATTRIBUTE_RESOURCES = 5
+DETAILS_SUBATTRIBUTE_ALTERNATEPOWER = 6
 
 DETAILS_SUBATTRIBUTE_CCBREAK = 1
 DETAILS_SUBATTRIBUTE_RESS = 2
@@ -146,6 +148,12 @@ DETAILS_SEGMENTTYPE_DUNGEON_TRASH = 5
 DETAILS_SEGMENTTYPE_DUNGEON_BOSS = 6
 DETAILS_SEGMENTTYPE_RAID_TRASH = 7
 DETAILS_SEGMENTTYPE_RAID_BOSS = 8
+DETAILS_SEGMENTTYPE_MYTHICDUNGEON_GENERIC = 10
+DETAILS_SEGMENTTYPE_MYTHICDUNGEON_TRASH = 11
+DETAILS_SEGMENTTYPE_MYTHICDUNGEON_OVERALL = 12
+DETAILS_SEGMENTTYPE_MYTHICDUNGEON_TRASHOVERALL = 13
+DETAILS_SEGMENTTYPE_MYTHICDUNGEON_BOSS = 14
+DETAILS_SEGMENTTYPE_MYTHICDUNGEON_BOSSTRASH = 15
 DETAILS_SEGMENTTYPE_PVP_ARENA = 20
 DETAILS_SEGMENTTYPE_PVP_BATTLEGROUND = 21
 
@@ -157,28 +165,28 @@ DETAILS_SEGMENTID_CURRENT = 0
 @TITLEPotions:@
 
 DETAILS_HEALTH_POTION_LIST = {[SpellID] = true, ...}
-DETAILS_HEALTH_POTION_ID = 188016
+DETAILS_HEALTH_POTION1_ID = 188016
 DETAILS_REJU_POTION_ID = 188018
 
 ]],
-
-
+	
+	
 	--combat object
 [[
 @TITLECombat Object:@
 
-actor = combat:GetActor ( attribute, character_name ) or actor = combat ( attribute, character_name )
+actor = combat:GetActor( attribute, character_name ) or actor = combat ( attribute, character_name )
 @COMMENTreturns an actor object@
 
 characterList = combat:GetActorList ( attribute )
 @COMMENTreturns a numeric table with all actors of the specific attribute, contains players, npcs, pets, etc.@
 
-combatName = combat:GetCombatName ( try_to_find )
+combatName = combat:GetCombatName( try_to_find )
 @COMMENTreturns the segment name, e.g. "Trainning Dummy", if try_to_find is true, it searches the combat for a enemy name.@
 
 bossInfo = combat:GetBossInfo()
 @COMMENTreturns the table containing informations about the boss encounter.
-table members: name, zone, mapid, diff, diff_string, id, killed, index@
+table members: name, zone, mapid, diff, diff_string, id, ej_instance_id, killed, index@
 
 battlegroudInfo = combat:GetPvPInfo()
 @COMMENTreturns the table containing infos about the battlegroud:
@@ -191,7 +199,7 @@ table members: name, mapid, zone@
 time = combat:GetCombatTime()
 @COMMENTreturns the length of the combat in seconds, if the combat is in progress, returns the current elapsed time.@
 
-minutes, seconds = GetFormatedCombatTime()
+minutes, seconds = GetMSTime()
 @COMMENTreturns the combat time formated with minutes and seconds.@
 
 startDate, endDate = combat:GetDate()
@@ -232,10 +240,22 @@ DETAILS_TOTALS_ONLYGROUP = true
 total = combat:GetTotal ( attribute, subAttribute [, onlyGroup] )
 @COMMENTreturns the total of the requested attribute.@
 
+mythictInfo = combat:GetMythicDungeonInfo()
+@COMMENTreturns a table with information about the mythic dungeon encounter.@
+
+isMythicDungeonSegment = combat:IsMythicDungeon()
+@COMMENTreturns if the segment is from a mythic dungeon.@
+
+isMythicDungeonOverallSegment = combat:IsMythicDungeonOverall()
+@COMMENTreturns if the segment is an overall mythic dungeon segment.@
+
 combatType = combat:GetCombatType()
 @COMMENTreturns the combat identification (see segment types).@
-]],
 
+alternatePowerTable = combat:GetAlteranatePower()
+@COMMENTreturns a table containing information about alternate power gains from players.@
+]],
+	
 
 	--container object
 [[
@@ -244,7 +264,7 @@ returns a iterated table of actors inside the container.
 Usage: 'for index, actor in container:ListActors() do'
 Note: if the container is a spell container, returns pairs() instead: 'for spellid, spelltable in container:ListActors() do'
 
-actor = container:GetActor (character_name)
+actor = container:GetActor(character_name)
 returns the actor, for spell container use the spellid instead.
 
 container:GetSpell (spellid)
@@ -273,8 +293,8 @@ similar to GetTotal, but only counts the total of raid members.
 combat is the combat object owner of this container.
 *only works for actor container
 ]],
-
-
+	
+	
 	--actor object
 [[
 name = actor:name()
@@ -328,8 +348,8 @@ returns the class color.
 texture, left, right, top, bottom = actor:GetClassIcon()
 returns the icon texture path and the texture's texcoords.
 ]],
-
-
+	
+	
 	--damage actor members
 [[
 members:
@@ -354,17 +374,15 @@ spell.counter = how many hits this spell made.
 spell.id = spellid
 
 spell.successful_casted = how many times this spell has been casted successfully (only for enemies).
-- players has its own spell cast counter inside Misc Container with the member "spell_cast".
-- the reason os this is spell_cast holds all spells regardless of its attribute (can hold healing/damage/energy/misc).
 
 spell.n_min = minimal damage made on a normal hit.
 spell.n_max = max damage made on a normal hit.
 spell.n_amt = amount of normal hits.
-spell.n_dmg = total amount made doing only normal hits.
+spell.n_total = total amount made doing only normal hits.
 spell.c_min = minimal damage made on a critical hit.
 spell.c_max = max damage made on a critical hit.
-spell.c_amt = how many times this spell got a critical hit (doesn't count critical by multistrike).
-spell.c_dmg = total amount made doing only normal hits.
+spell.c_amt = how many times this spell got a critical hit.
+spell.c_total = total amount made doing only normal hits.
 spell.g_amt = how many glancing blows this spell has.
 spell.g_dmg = total damage made by glancing blows.
 spell.r_amt = total of times this spell got resisted by the target.
@@ -377,11 +395,11 @@ spell.a_dmg = total damage while absorbed.
 spell.targets = hash table containing {["targetname"] = total damage done by this spell on this target}
 
 Getting Dps:
-For activity time: DPS = actor.total / actor:Tempo()
+For activity time: DPS = actor.total / actor:Tempo() 
 For effective time: DPS = actor.total / combat:GetCombatTime()
 ]],
-
-
+	
+	
 	--healing actor members
 [[
 members:
@@ -416,22 +434,22 @@ spell.overheal = amount of overheal made by this spell.
 spell.n_min = minimal heal made on a normal hit.
 spell.n_max = max heal made on a normal hit.
 spell.n_amt = amount of normal hits.
-spell.n_curado = total amount made doing only normal hits (weird name I know).
+spell.n_total = total amount made doing only normal hits (weird name I know).
 spell.c_min = minimal heal made on a critical hit.
 spell.c_max = max heal made on a critical hit.
-spell.c_amt = how many times this spell got a critical hit (doesn't count critical by multistrike).
-spell.c_curado = total amount made doing only normal hits.
+spell.c_amt = how many times this spell got a critical hit.
+spell.c_total = total amount made doing only normal hits.
 
 spell.targets = hash table containing {["targetname"] = total healing done by this spell on this target}
 spell.targets_overheal = hash table containing {["targetname"] = total overhealing by this spell on this target}
 spell.targets_absorbs = hash table containing {["targetname"] = total absorbs by shields (damage prevented) done by this spell on this target}
 
 Getting Hps:
-For activity time: HPS = actor.total / actor:Tempo()
+For activity time: HPS = actor.total / actor:Tempo() 
 For effective time: HPS = actor.total / combat:GetCombatTime()
 ]],
-
-
+	
+	
 	--energy actor members
 [[
 actor.total = total of energy generated.
@@ -450,8 +468,8 @@ id = spellid
 
 targets = hash table containing {["targetname"] = total energy produced towards this target}
 ]],
-
-
+	
+	
 	--misc actor members
 [[
 these members and tables may not be present on all actors, depends what the actor performs during the combat, these tables are created on the fly by the parser.
@@ -533,27 +551,27 @@ spell.cc_break = amount of CC broken by this spell.
 spell.cc_break_oque = hash table with {[CC spellid] = amount}
 spell.targets = hash table with {["targetname"] = amount}.
 ]],
-
-
+	
+	
 	--general functions
 [[
 Details:GetSourceFromNpcId (npcId)
 return the npc name for the specific npcId.
 this is a expensive function, once you get a valid result, store the npc name somewhere.
 
-bestResult, encounterTable = Details.storage:GetBestFromPlayer (encounterDiff, encounterId, playerRole, playerName)
+bestResult, encounterTable = Details222.storage.GetBestFromPlayer (encounterDiff, encounterId, playerRole, playerName)
 query the storage for the best result of the player on the encounter.
-encounterDiff = raid difficult ID (1 for 10 normal, 2 for 25 normal, 3 for 10 heroic, 4 for 25 heroic).
+encounterDiff = raid difficult ID (15 for heroic, 16 for mythic).
 encounterId = may be found on "id" member getting combat:GetBossInfo().
 playerRole = "DAMAGER" or "HEALER", tanks are considered "DAMAGER".
 playerName = name of the player to query (with server name if the player is from another realm).
 bestResult = integer, best damage or healing done on the boss made by the player.
 encounterTable = {["date"] = formated time() ["time"] = time() ["elapsed"] = combat time ["guild"] = guild name ["damage"] = all damage players ["healing"] = all healers}
 
-heal_or_damage_done = Details.storage:GetPlayerData (encounterDiff, encounterId, playerName)
+heal_or_damage_done = Details222.storage.GetUnitData (encounterDiff, encounterId, role, playerName)
 query the storage for previous ecounter data for the player.
 returns a numeric table with the damage or healing done by the player on all encounters found.
-encounterDiff = raid difficult ID (1 for 10 normal, 2 for 25 normal, 3 for 10 heroic, 4 for 25 heroic).
+encounterDiff = raid difficult ID (15 for heroic, 16 for mythic).
 encounterId = may be found on "id" member getting combat:GetBossInfo().
 playerName = name of the player to query (with server name if the player is from another realm).
 
@@ -565,7 +583,7 @@ talentsTable = Details:GetTalents (guid)
 if available, returns a table with 7 indexes with the talentId selected for each tree {talentId, talentId, talentId, talentId, talentId, talentId, talentId}.
 use with GetTalentInfoByID()
 
-spec = Details:GetSpec (guid)
+spec = Details:GetSpec(guid)
 if available, return the spec id of the actor, use with GetSpecializationInfoByID()
 
 Details:SetDeathLogLimit (limit)
@@ -573,9 +591,9 @@ Set the amount of lines to store on death log.
 
 npcId = Details:GetNpcIdFromGuid (guid)
 Extract the npcId from the actor guid.
-]],
-
-
+]], 
+	
+	
 	--custom displays
 [[
 @TITLECustom Displays@
@@ -711,11 +729,11 @@ Total Code and Percent Code:
 *Total - the total made by all actors.
 
 local value, top, total, combat, instance = ...
-local result = floor (value)
+local result = floor(value)
 return total
-]],
-
-
+]], 
+	
+	
 	--custom container
 [[
 Custom Container Object:
@@ -734,7 +752,7 @@ checkTop is for some special cases when the top value needs to be calculated imm
 nameComplement is a string to add on the end of the actor's name, for instance, in cases where the actor is a spell and its name is generated by the container.
 returns the current value for the actor.
 
-container:SetValue (actor, amount, nameComplement)
+container:SetValue(actor, amount, nameComplement)
 actor is any actor object or any other table containing a member "name" or "id", e.g. {name = "Jeff"} {id = 186451}
 amount is the amount to set to this actor on the container.
 nameComplement is a string to add on the end of the actor's name, for instance, in cases where the actor is a spell and its name is generated by the container.
@@ -758,15 +776,15 @@ this is automatically performed when the search script runs.
 
 for i = 1, #Details.APIText do
 	local text = Details.APIText [i]
-
+	
 	--add the color to the text
-	text = text:gsub ([[@TITLE]], "|c" .. titleColor)
-	text = text:gsub ([[@CODE]], "|c" .. codeColor)
-	text = text:gsub ([[@DESC]], "|c" .. descColor)
-	text = text:gsub ([[@COMMENT]], "|c" .. luacomentColor)
-
+	text = text:gsub([[@TITLE]], "|c" .. titleColor)
+	text = text:gsub([[@CODE]], "|c" .. codeColor)
+	text = text:gsub([[@DESC]], "|c" .. descColor)
+	text = text:gsub([[@COMMENT]], "|c" .. luacomentColor)
+	
 	--add the end color
-	text = text:gsub ([[@]], "|r")
-
+	text = text:gsub([[@]], "|r")
+	
 	Details.APIText [i] = text
 end

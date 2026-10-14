@@ -4,14 +4,14 @@
 ## RequiredDeps: Details
 ## OptionalDeps: Ace3
 ## SavedVariablesPerCharacter: EncounterDetailsDB
-
-
-#@no-lib-strip@
-embeds.xml
-#@end-no-lib-strip@
+## IconTexture: Interface\AddOns\Details\images\minimap
 
 enUS.lua
 ptBR.lua
-frames.lua
 
 Details_EncounterDetails.lua
+frames_chart.lua
+frames_emote.lua
+frames_phases.lua
+frames_summary.lua
+frames.lua

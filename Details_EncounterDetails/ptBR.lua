@@ -1,8 +1,8 @@
-local Loc = LibStub("AceLocale-3.0"):NewLocale("Details_EncounterDetails", "ptBR")
+local Loc = LibStub("AceLocale-3.0"):NewLocale("Details_EncounterDetails", "ptBR") 
 
 if (not Loc) then
-	return
-end
+	return 
+end 
 
 Loc ["STRING_PLUGIN_NAME"] = "Detalhes do Combate"
 Loc ["STRING_WINDOW_TITLE"] = "Detalhes do Combate"
@@ -41,7 +41,7 @@ Loc ["STRING_INTERRIPT_HELP"] = "\n\n|cFFFFFF00Clique|r na barra: abre a janela 
 Loc ["STRING_DISPELL_HELP"] = "\n\n|cFFFFFF00Clique|r na barra: abre a janela de enviar relatorio."
 Loc ["STRING_DEATHS_HELP"] = "\n\n|cFFFFFF00Clique|r na barra: abre a janela de enviar relatorio."
 
---> mechanic types
+--mechanic types
 Loc ["STRING_HEAL"] = "cura"
 Loc ["STRING_LOWDPS"] = "dpsbaixo"
 Loc ["STRING_LOWHEAL"] = "curabaixa"

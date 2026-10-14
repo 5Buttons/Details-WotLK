@@ -1,268 +1,249 @@
-local _detalhes = _G._detalhes
 
------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
---> local pointers
-local _ipairs = ipairs --lua local
-local _math_floor = math.floor --lua local
-local _pairs = pairs --lua local
-local _table_insert = table.insert --lua local
-local _table_wipe = table.wipe --lua local
-local _time = time --lua local
+	local addonName, Details222 = ...
+	local Details = 		_G.Details
+	local _
+	local ipairs = ipairs
+	local _time = _G.time
 
-local _GetTime = GetTime --api local
+	local timeMachine = Details.timeMachine
+	local _tempo = _time()
 
-local timeMachine = _detalhes.timeMachine --details local
+	timeMachine.bIsEnabled = false
 
------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
---> constants
-local _tempo = _time()
-
------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
---> core
-timeMachine.ligada = false
-
-local calc_for_pvp = function(self)
-	for tipo, tabela in _pairs(self.tabelas) do
-		for nome, jogador in _ipairs(tabela) do
-			if jogador then
-				if jogador.last_event + 3 > _tempo then --> okey o jogador esta dando dps
-					if jogador.on_hold then --> o dps estava pausado, retornar a ativa
-						jogador:HoldOn(false)
+	local calculateTimeFor_PvP = function(self)
+		for attributeType, thisDatabase in ipairs(self.playerDatabase) do
+			for actorObject in pairs(thisDatabase) do
+				if (not actorObject.last_event) then
+					print("actor without last event, is destroyed?", actorObject.__destroyed, actorObject.__destroyedBy)
+				end
+				if (actorObject.last_event + 3 > _tempo) then
+					if (actorObject.on_hold) then --the timer is on pause, turn it on
+						Details222.TimeMachine.SetOrGetPauseState(actorObject, false)
 					end
 				else
-					if not jogador.on_hold then --> n�o ta pausado, precisa por em pausa
-						--> verifica se esta castando alguma coisa que leve + que 3 segundos
-						jogador:HoldOn(true)
+					if (not actorObject.on_hold) then --not in pause, need to pause
+						--check if the player is casting something that takes more than 3 seconds
+						Details222.TimeMachine.SetOrGetPauseState(actorObject, true)
 					end
 				end
 			end
 		end
 	end
-end
 
-local calc_for_pve = function(self)
-	for tipo, tabela in _pairs(self.tabelas) do
-		for nome, jogador in _ipairs(tabela) do
-			if jogador then
-				if jogador.last_event + 10 > _tempo then --> okey o jogador esta dando dps
-					if jogador.on_hold then --> o dps estava pausado, retornar a ativa
-						jogador:HoldOn(false)
+	local calculateTimeFor_PvE = function(self)
+		for attributeType, thisDatabase in ipairs(self.playerDatabase) do
+			for actorObject in pairs(thisDatabase) do
+				if (not actorObject.last_event) then
+					print("actor without last event, is destroyed?", actorObject.__destroyed, actorObject.__destroyedBy)
+				end
+				if (actorObject.last_event + 10 > _tempo) then
+					if (actorObject.on_hold) then --the timer is on pause, turn it on
+						Details222.TimeMachine.SetOrGetPauseState(actorObject, false)
 					end
 				else
-					if not jogador.on_hold then --> n�o ta pausado, precisa por em pausa
-						--> verifica se esta castando alguma coisa que leve + que 10 segundos
-						jogador:HoldOn(true)
+					if (not actorObject.on_hold) then --not in pause, need to pause
+						--check if the player is casting something that takes more than 3 seconds
+						Details222.TimeMachine.SetOrGetPauseState(actorObject, true)
 					end
 				end
 			end
 		end
 	end
-end
 
-function timeMachine:Core()
-	_tempo = _time()
-	_detalhes._tempo = _tempo
-	_detalhes:UpdateGears()
+	function Details222.TimeMachine.Ticker()
+		_tempo = _time()
+		Details._tempo = _tempo
+		Details:UpdateGears() --update _tempo variable in 3 core files
 
-	if _detalhes.is_in_battleground or _detalhes.is_in_arena then
-		return calc_for_pvp(self)
-	else
-		return calc_for_pve(self)
-	end
-end
-
-function timeMachine:Ligar()
-	self.atualizador = self:ScheduleRepeatingTimer("Core", 1)
-	self.ligada = true
-	self.tabelas = {{}, {}} --> 1 dano 2 cura
-
-	local danos = _detalhes.tabela_vigente[1]._ActorTable
-	for _, jogador in _ipairs(danos) do
-		if jogador.dps_started then
-			jogador:RegistrarNaTimeMachine()
+		if (Details.is_in_battleground or Details.is_in_arena) then
+			return calculateTimeFor_PvP(timeMachine)
+		else
+			return calculateTimeFor_PvE(timeMachine)
 		end
 	end
-end
 
-function timeMachine:Desligar()
-	self.ligada = false
-	self.tabelas = nil
+	function Details222.TimeMachine.Start()
+		timeMachine.updateTicker = Details.Schedules.NewTicker(1, Details222.TimeMachine.Ticker)
+		timeMachine.bIsEnabled = true
 
-	if self.atualizador then
-		self:CancelTimer(self.atualizador)
-		self.atualizador = nil
-	end
-end
+		---@type table<actor, boolean>
+		local storeDamageActors = setmetatable({}, Details.weaktable)
+		---@type table<actor, boolean>
+		local storeHealingActors = setmetatable({}, Details.weaktable)
 
-function timeMachine:Reiniciar()
-	_table_wipe(self.tabelas[1])
-	_table_wipe(self.tabelas[2])
+		---@type {key1: table<actor, boolean>, key2: table<actor, boolean>}
+		timeMachine.playerDatabase = {
+			storeDamageActors, --store damage actors
+			storeHealingActors --store healing actors
+		}
 
-	self.tabelas = {{}, {}} --> 1 dano 2 cura
-end
+		---@type combat
+		local currentCombat = Details:GetCurrentCombat()
+		---@type actorcontainer
+		local damageContainer = currentCombat:GetContainer(DETAILS_ATTRIBUTE_DAMAGE)
 
-function _detalhes:DesregistrarNaTimeMachine()
-	if not timeMachine.ligada then
-		return
-	end
-
-	local timeMachineContainer = timeMachine.tabelas[self.tipo]
-	local actorTimeMachineID = self.timeMachine
-
-	if timeMachineContainer[actorTimeMachineID] == self then
-		self:TerminarTempo()
-		self.timeMachine = nil
-		timeMachineContainer[actorTimeMachineID] = false
-	end
-end
-
-function _detalhes:RegistrarNaTimeMachine()
-	if not timeMachine.ligada then
-		return
+		for _, actorObject in damageContainer:ListActors() do
+			---@cast actorObject actor
+			if (actorObject.dps_started) then
+				Details222.TimeMachine.AddActor(actorObject)
+			end
+		end
 	end
 
-	local esta_tabela = timeMachine.tabelas[self.tipo]
-	_table_insert(esta_tabela, self)
-	self.timeMachine = #esta_tabela
-end
+	---remove actors with __destroyed flag
+	function Details222.TimeMachine.Cleanup()
+		for attributeType, thisDatabase in ipairs(timeMachine.playerDatabase) do
+			for actorObject in pairs(thisDatabase) do
+				if (actorObject.__destroyed) then
+					thisDatabase[actorObject] = nil
+				end
+			end
+		end
+	end
 
-function _detalhes:ManutencaoTimeMachine()
-	for tipo, tabela in _ipairs(timeMachine.tabelas) do
-		local t = {}
-		local removed = 0
-		for index, jogador in _ipairs(tabela) do
-			if jogador then
-				t[#t + 1] = jogador
-				jogador.timeMachine = #t
+	function Details222.TimeMachine.Restart()
+		Details:Destroy(timeMachine.playerDatabase[1])
+		Details:Destroy(timeMachine.playerDatabase[2])
+
+		---@type table<actor, boolean>
+		local storeDamageActors = setmetatable({}, Details.weaktable)
+		---@type table<actor, boolean>
+		local storeHealingActors = setmetatable({}, Details.weaktable)
+
+		---@type {key1: table<actor, boolean>, key2: table<actor, boolean>}
+		timeMachine.playerDatabase = {
+			storeDamageActors, --store damage actors
+			storeHealingActors --store healing actors
+		}
+	end
+
+	---@param actorObject actor
+	function Details222.TimeMachine.RemoveActor(actorObject)
+		local thisDatabase = timeMachine.playerDatabase[actorObject.tipo]
+		--check if the database exists, the type could be wrong due to passing an resource or utility actor
+		if (thisDatabase) then
+			if (thisDatabase[actorObject]) then
+				thisDatabase[actorObject] = nil
+			end
+		end
+	end
+
+	function Details222.TimeMachine.AddActor(actorObject)
+		local thisDatabase = timeMachine.playerDatabase[actorObject.tipo]
+		if (thisDatabase) then
+			thisDatabase[actorObject] = true
+		end
+	end
+
+	function Details222.TimeMachine.StopTime(actorObject)
+		if (actorObject.end_time) then
+			return
+		end
+
+		if (actorObject.on_hold) then
+			Details222.TimeMachine.SetOrGetPauseState(actorObject, false)
+		end
+
+		actorObject.end_time = _tempo
+	end
+
+	---get the pause state or pause/unpause the timer of the player
+	---@param actorObject actor
+	---@param bIsPaused boolean|nil
+	function Details222.TimeMachine.SetOrGetPauseState(actorObject, bIsPaused)
+		if (bIsPaused == nil) then
+			return actorObject.on_hold --return if the timer is paused or not
+
+		elseif (bIsPaused) then --if true - pause the timer
+			if (not actorObject.last_event) then
+				print("actor without last event, is destroyed?", actorObject.__destroyed, actorObject.__destroyedBy)
+			end
+			actorObject.delay = math.floor(actorObject.last_event) --_tempo - 10
+			if (actorObject.delay < actorObject.start_time) then
+				actorObject.delay = actorObject.start_time
+			end
+			actorObject.on_hold = true
+
+		else --if false - unpause the timer
+			local diff = _tempo - actorObject.delay - 1
+			if (diff > 0) then
+				actorObject.start_time = actorObject.start_time + diff
+			end
+			actorObject.on_hold = false
+		end
+	end
+
+	---@param self actor
+	function Details:Tempo()
+		if (self.pvp) then
+			--pvp timer
+			if (self.end_time) then --the timer of the player is locked
+				local timer = self.end_time - self.start_time
+				if (timer < 3) then
+					timer = 3
+				end
+				return timer
+
+			elseif (self.on_hold) then --the timer is paused
+				local timer = self.delay - self.start_time
+				if (timer < 3) then
+					timer = 3
+				end
+				return timer
+
 			else
-				removed = removed + 1
-			end
-		end
-
-		timeMachine.tabelas[tipo] = t
-
-		if _detalhes.debug then
---			_detalhes:Msg("timemachine r"..removed.."| e"..#t.."| t"..tipo)
-		end
-	end
-end
-
-function _detalhes:Tempo()
-	if self.pvp then
-		--> pvp timer
-		if self.end_time then --> o tempo do jogador esta trancado
-			local t = self.end_time - self.start_time
-			if t < 3 then
-				t = 3
-			end
-
-			return t
-		elseif self.on_hold then --> o tempo esta em pausa
-			local t = self.delay - self.start_time
-			if t < 3 then
-				t = 3
-			end
-
-			return t
-		else
-			if self.start_time == 0 then
-				return 3
-			end
-
-			local t = _tempo - self.start_time
-			if t < 3 then
-				if _detalhes.in_combat then
-					local combat_time = _detalhes.tabela_vigente:GetCombatTime()
-					if combat_time < 3 then
-						return combat_time
-					end
+				if (self.start_time == 0) then
+					return 3
 				end
 
-				t = 3
-			end
-
-			return t
-		end
-	else
-		--> pve timer
-		if self.end_time then --> o tempo do jogador esta trancado
-			local t = self.end_time - self.start_time
-			if t < 10 then
-				t = 10
-			end
-
-			return t
-		elseif self.on_hold then --> o tempo esta em pausa
-			local t = self.delay - self.start_time
-			if t < 10 then
-				t = 10
-			end
-
-			return t
-		else
-			if self.start_time == 0 then
-				return 10
-			end
-
-			local t = _tempo - self.start_time
-			if t < 10 then
-				if _detalhes.in_combat then
-					local combat_time = _detalhes.tabela_vigente:GetCombatTime()
-					if combat_time < 10 then
-						return combat_time
+				local timer = _tempo - self.start_time
+				if (timer < 3) then
+					if (Details.in_combat) then
+						local combat_time = Details.tabela_vigente:GetCombatTime()
+						if (combat_time < 3) then
+							return combat_time
+						end
 					end
+					timer = 3
+				end
+				return timer
+			end
+		else
+			--pve timer
+			if (self.end_time) then --the timer of the player is locked
+				local timer = self.end_time - self.start_time
+				if (timer < 10) then
+					timer = 10
+				end
+				return timer
+
+			elseif (self.on_hold) then --the timer is paused
+				local timer = self.delay - self.start_time
+				if (timer < 10) then
+					timer = 10
+				end
+				return timer
+
+			else
+				if (self.start_time == 0) then
+					return 10
 				end
 
-				t = 10
+				local timer = _tempo - self.start_time
+				if (timer < 10) then
+					if (Details.in_combat) then
+						---@type combat
+						local currentCombat = Details:GetCurrentCombat()
+						local combatTime = currentCombat:GetCombatTime()
+						if (combatTime < 10) then
+							return combatTime
+						end
+					end
+
+					timer = 10
+				end
+
+				return timer
 			end
-
-			return t
 		end
 	end
-end
-
-function _detalhes:IniciarTempo(tempo)
-	self.start_time = tempo
-end
-
-function _detalhes:TerminarTempo()
-	if self.end_time then
-		return
-	end
-
-	if self.on_hold then
-		self:HoldOn(false)
-	end
-
-	self.end_time = _tempo
-end
-
---> diz se o dps deste jogador esta em pausa
-function _detalhes:HoldOn(pausa)
-	if pausa == nil then
-		return self.on_hold --retorna se o dps esta aberto ou fechado para este jogador
-	elseif pausa then --> true - colocar como inativo
-		self.delay = _math_floor(self.last_event) --_tempo - 10
-		if self.delay < self.start_time then
-			self.delay = self.start_time
-		end
-
-		self.on_hold = true
-	else --> false - retornar a atividade
-		local diff = _tempo - self.delay - 1
-		if diff > 0 then
-			self.start_time = self.start_time + diff
-		end
-
---		if _tempo - self.start_time < 20 then
---			self.start_time = self.start_time - 1
---		end
-
-		self.on_hold = false
-	end
-end
-
-function _detalhes:PrintTimeMachineIndexes()
-	print("timemachine damage", #timeMachine.tabelas[1])
-	print("timemachine heal", #timeMachine.tabelas[2])
-end

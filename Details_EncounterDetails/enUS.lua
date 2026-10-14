@@ -1,8 +1,8 @@
-local Loc = LibStub("AceLocale-3.0"):NewLocale("Details_EncounterDetails", "enUS", true)
+local Loc = LibStub("AceLocale-3.0"):NewLocale("Details_EncounterDetails", "enUS", true) 
 
 if (not Loc) then
-	return
-end
+	return 
+end 
 
 Loc ["STRING_PLUGIN_NAME"] = "Encounter Breakdown"
 Loc ["STRING_WINDOW_TITLE"] = "Details! Encounter Breakdown"
@@ -29,7 +29,7 @@ Loc ["STRING_ADDS"] = "Adds"
 Loc ["STRING_INTERRUPTS"] = "Interrupts"
 Loc ["STRING_INTERRUPTS_OF"] = "Interrupts of"
 Loc ["STRING_DISPELLS_OF"] = "dispells of"
-Loc ["STRING_DISPELLS"] = "Dispells"
+Loc ["STRING_DISPELLS"] = "Dispels"
 Loc ["STRING_DEATH_LOG"] = "Death Log"
 Loc ["STRING_FIGHT_SUMMARY"] = "Encounter Summary"
 Loc ["STRING_FIGHT_GRAPHIC"] = "Encounter Charts and Phases"
@@ -48,7 +48,7 @@ Loc ["STRING_INTERRIPT_HELP"] = " |cFFFFFF00Click|r on a bar:\nopen report windo
 Loc ["STRING_DISPELL_HELP"] = " \n|cFFFFFF00Click|r on a bar:\nopen report window."
 Loc ["STRING_DEATHS_HELP"] = " \n|cFFFFFF00Click|r on a bar:\nopen report window."
 
---> mechanic types
+--mechanic types
 Loc ["STRING_HEAL"] = "heal"
 Loc ["STRING_LOWDPS"] = "lowdps"
 Loc ["STRING_LOWHEAL"] = "lowheal"

@@ -106,7 +106,7 @@ Getting a Combat Object:
 combat = Details:GetCurrentCombat()
 returns the current combat object.
 
-combat = Details:GetCombat (combat)
+combat = Details:GetCombat(combat)
 returns the requested combat object.
 if 'combat' is omitted, returns the current combat.
 combat can be a number: -1 for overall, 0 for current and > 0 for past segments (1, 2, 3, ...).
@@ -124,7 +124,7 @@ reset only the overall segment
 
 Getting an Actor:
 =======================================
-local actor = Details:GetActor (combat = "current", attribute = DETAILS_ATTRIBUTE_DAMAGE, actorname = Details.playername)
+local actor = Details:GetActor(combat = "current", attribute = DETAILS_ATTRIBUTE_DAMAGE, actorname = Details.playername)
 returns the actor for the requested combat, attribute and actor name.
 if some parameter are omitted, it uses the default value which are current combat, damage container and the name of the player character.
 
@@ -135,18 +135,18 @@ Combat Object:
 A Combat object is a table with 4 numerical indexes holding: damage, healing, energy and misc containers.
 function for combat objects:
 
-actor = combat:GetActor ( attribute, character_name ) or actor = combat ( attribute, character_name )
+actor = combat:GetActor( attribute, character_name ) or actor = combat ( attribute, character_name )
 returns an actor object
 
 characterList = combat:GetActorList ( attribute )
 returns a numeric table with all actors of the specific attribute, contains players, npcs, pets, etc.
 
-combatName = combat:GetCombatName ( try_to_find )
+combatName = combat:GetCombatName( try_to_find )
 returns the segment name, e.g. "Trainning Dummy", if try_to_find is true, it searches the combat for a enemy name.
 
 bossInfo = combat:GetBossInfo()
 returns the table containing informations about the boss encounter.
-table members: name, zone, mapid, diff, diff_string, id, killed, index
+table members: name, zone, mapid, diff, diff_string, id, ej_instance_id, killed, index
 
 battlegroudInfo = combat:GetPvPInfo()
 returns the table containing infos about the battlegroud:
@@ -159,7 +159,7 @@ table members: name, mapid, zone
 time = combat:GetCombatTime()
 returns the length of the combat in seconds, if the combat is in progress, returns the current elapsed time.
 
-minutes, seconds = GetFormatedCombatTime()
+minutes, seconds = GetMSTime()
 returns the combat time formated with minutes and seconds.
 
 startDate, endDate = combat:GetDate()
@@ -200,14 +200,29 @@ DETAILS_TOTALS_ONLYGROUP = true
 total = combat:GetTotal ( attribute, subAttribute [, onlyGroup] )
 returns the total of the requested attribute.
 
+mythictInfo = combat:GetMythicDungeonInfo()
+returns a table with information about the mythic dungeon encounter.
+
+isMythicDungeonSegment = combat:IsMythicDungeon()
+returns if the segment is from a mythic dungeon.
+
+isMythicDungeonOverallSegment = combat:IsMythicDungeonOverall()
+returns if the segment is an overall mythic dungeon segment.
+
 combatType = combat:GetCombatType()
 returns the combat identification (see segment types).
+
+alternatePowerTable = combat:GetAlteranatePower()
+returns a table containing information about alternate power gains from players.
 
 
 
 --------------------------------------------------------------------
 
 Other Calls:
+
+Details:GetItemLevelFromGuid(guid)
+return the item level of a player passing the player guid, if the player is not found, returns 0.
 
 Details:GetCombatNumber()
 returns the current unique combat number counter.
@@ -220,7 +235,7 @@ returns if Details! is in combat or not.
 Details:IsInEncounter()
 returns if Details! is in a raid encounter combat.
 
-damage, healing, energy, misc = Details:GetAllActors (combat, actorname)
+damage, healing, energy, misc = Details:GetAllActors(combat, actorname)
 returns all the four actor objects for the requested combat and actor.
 combat must be a combat object.
 
@@ -228,6 +243,9 @@ Details:UnpackDeathTable (deathTable)
 break a death table returning the data from it:
 playername, playerclass, deathtime, deathcombattime, deathtimestring, playermaxhealth, deathevents, lastcooldown = Details:UnpackDeathTable (deathTable)
 
+
+isMythicOverallSegment, segmentID, mythicLevel, EJID, mapID, zoneName, encounterID, encounterName, startedAt, endedAt, runID = Details:UnpackMythicDungeonInfo (combat:GetMythicDungeonInfo())
+extract information from the mythic dungeon table for the combat.
 
 Container Object:
 =======================================
@@ -240,7 +258,7 @@ returns a iterated table of actors inside the container.
 Usage: 'for index, actor in container:ListActors() do'
 Note: if the container is a spell container, returns pairs() instead: 'for spellid, spelltable in container:ListActors() do'
 
-actor = container:GetActor (character_name)
+actor = container:GetActor(character_name)
 returns the actor, for spell container use the spellid instead.
 
 container:GetSpell (spellid)
@@ -361,17 +379,15 @@ spell.counter = how many hits this spell made.
 spell.id = spellid
 
 spell.successful_casted = how many times this spell has been casted successfully (only for enemies).
-	- players has its own spell cast counter inside Misc Container with the member "spell_cast".
-	- the reason os this is spell_cast holds all spells regardless of its attribute (can hold healing/damage/energy/misc).
 
 spell.n_min = minimal damage made on a normal hit.
 spell.n_max = max damage made on a normal hit.
 spell.n_amt = amount of normal hits.
-spell.n_dmg = total amount made doing only normal hits.
+spell.n_total = total amount made doing only normal hits.
 spell.c_min = minimal damage made on a critical hit.
 spell.c_max = max damage made on a critical hit.
-spell.c_amt = how many times this spell got a critical hit (doesn't count critical by multistrike).
-spell.c_dmg = total amount made doing only normal hits.
+spell.c_amt = how many times this spell got a critical hit.
+spell.c_total = total amount made doing only normal hits.
 spell.g_amt = how many glancing blows this spell has.
 spell.g_dmg = total damage made by glancing blows.
 spell.r_amt = total of times this spell got resisted by the target.
@@ -424,11 +440,11 @@ spell.overheal = amount of overheal made by this spell.
 spell.n_min = minimal heal made on a normal hit.
 spell.n_max = max heal made on a normal hit.
 spell.n_amt = amount of normal hits.
-spell.n_curado = total amount made doing only normal hits (weird name I know).
+spell.n_total = total amount made doing only normal hits (weird name I know).
 spell.c_min = minimal heal made on a critical hit.
 spell.c_max = max heal made on a critical hit.
-spell.c_amt = how many times this spell got a critical hit (doesn't count critical by multistrike).
-spell.c_curado = total amount made doing only normal hits.
+spell.c_amt = how many times this spell got a critical hit.
+spell.c_total = total amount made doing only normal hits.
 
 spell.targets = hash table containing {["targetname"] = total healing done by this spell on this target}
 spell.targets_overheal = hash table containing {["targetname"] = total overhealing by this spell on this target}
@@ -551,19 +567,19 @@ Details:GetSourceFromNpcId (npcId)
 return the npc name for the specific npcId.
 this is a expensive function, once you get a valid result, store the npc name somewhere.
 
-bestResult, encounterTable = Details.storage:GetBestFromPlayer (encounterDiff, encounterId, playerRole, playerName)
+bestResult, encounterTable = Details222.storage.GetBestFromPlayer (encounterDiff, encounterId, playerRole, playerName)
 query the storage for the best result of the player on the encounter.
-encounterDiff = raid difficult ID (1 for 10 normal, 2 for 25 normal, 3 for 10 heroic, 4 for 25 heroic).
+encounterDiff = raid difficult ID (15 for heroic, 16 for mythic).
 encounterId = may be found on "id" member getting combat:GetBossInfo().
 playerRole = "DAMAGER" or "HEALER", tanks are considered "DAMAGER".
 playerName = name of the player to query (with server name if the player is from another realm).
 bestResult = integer, best damage or healing done on the boss made by the player.
 encounterTable = {["date"] = formated time() ["time"] = time() ["elapsed"] = combat time ["guild"] = guild name ["damage"] = all damage players ["healing"] = all healers}
 
-heal_or_damage_done = Details.storage:GetPlayerData (encounterDiff, encounterId, playerName)
+heal_or_damage_done = Details222.storage.GetUnitData (encounterDiff, encounterId, role, playerName)
 query the storage for previous ecounter data for the player.
 returns a numeric table with the damage or healing done by the player on all encounters found.
-encounterDiff = raid difficult ID (1 for 10 normal, 2 for 25 normal, 3 for 10 heroic, 4 for 25 heroic).
+encounterDiff = raid difficult ID (15 for heroic, 16 for mythic).
 encounterId = may be found on "id" member getting combat:GetBossInfo().
 playerName = name of the player to query (with server name if the player is from another realm).
 
@@ -575,7 +591,7 @@ talentsTable = Details:GetTalents (guid)
 if available, returns a table with 7 indexes with the talentId selected for each tree {talentId, talentId, talentId, talentId, talentId, talentId, talentId}.
 use with GetTalentInfoByID()
 
-spec = Details:GetSpec (guid)
+spec = Details:GetSpec(guid)
 if available, return the spec id of the actor, use with GetSpecializationInfoByID()
 
 Details:SetDeathLogLimit (limit)
@@ -592,11 +608,11 @@ Examples:
 1) Get the player damage, heal, dps and hps:
 
 local combat = Details:GetCurrentCombat()
-local damageActor = combat:GetActor (DETAILS_ATTRIBUTE_DAMAGE, UnitName ("player"))
-local healingActor = combat:GetActor (DETAILS_ATTRIBUTE_HEAL, UnitName ("player"))
+local damageActor = combat:GetActor(DETAILS_ATTRIBUTE_DAMAGE, UnitName ("player"))
+local healingActor = combat:GetActor(DETAILS_ATTRIBUTE_HEAL, UnitName ("player"))
 or
-local damageActor = Details:GetActor ("current", DETAILS_ATTRIBUTE_DAMAGE, Details.playername)
-local healingActor = Details:GetActor ("current", DETAILS_ATTRIBUTE_HEAL, Details.playername)
+local damageActor = Details:GetActor("current", DETAILS_ATTRIBUTE_DAMAGE, Details.playername)
+local healingActor = Details:GetActor("current", DETAILS_ATTRIBUTE_HEAL, Details.playername)
 
 local totalDamage, totalHeal = damageActor.total, healingActor.total
 
@@ -640,11 +656,11 @@ there is two ways for do this:
 	for i, actor in damageContainer:ListActors() do
 		local amount = actor.targets [targetName]
 		if (amount and amount >= 1) then
-			tinsert (actorsAmount, {name = actor:name(), total = amount})
+			tinsert(actorsAmount, {name = actor:name(), total = amount})
 		end
 	end
 
-	table.sort (actorsAmount, function (a,b) return a.total > b.total end)
+	table.sort (actorsAmount, function(a,b) return a.total > b.total end)
 
 2 - replacing the member "custom" on the actor:
 
@@ -684,13 +700,13 @@ for i, actor in damageContainer:ListActors() do
 	actor.custom = 0
 end
 
-local source = damageContainer:GetActor (sourceNpc)
+local source = damageContainer:GetActor(sourceNpc)
 local felfireVolleySpell = source:GetSpell (targetSpell)
 if (felfireVolleySpell) then
-	for playerName, amount in pairs (felfireVolleySpell.targets) do
+	for playerName, amount in pairs(felfireVolleySpell.targets) do
 		--players who took damage from this ability
 		--now this result may be placed on a external table or .custom may also be used
-		local targetActor = damageContainer:GetActor (playerName)
+		local targetActor = damageContainer:GetActor(playerName)
 		targetActor.custom = amount
 	end
 end
@@ -731,14 +747,14 @@ Details.cache_npc_ids [90409] = npcName --for details!
 
 2 - get the npc actor and its damage_from table.
 
-	local actor = damageContainer:GetActor (npcName)
+	local actor = damageContainer:GetActor(npcName)
 	if (actor) then
 		--reset the custom member on all actors:
 		for i, actor in damageContainer:ListActors() do
 			actor.custom = 0
 		end
-		for playerName, _ in pairs (actor.damage_from) do
-			local player = damageContainer:GetActor (playerName)
+		for playerName, _ in pairs(actor.damage_from) do
+			local player = damageContainer:GetActor(playerName)
 			if (player:IsPlayer()) then --we only want players. pets always has their damage merged on its owner damage.
 				player.custom = actor.targets [npcName]
 			end

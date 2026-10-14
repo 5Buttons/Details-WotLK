@@ -1,5 +1,5 @@
-local L = LibStub("AceLocale-3.0"):NewLocale("Details", "ptBR")
-if not L then return end
+local L = LibStub("AceLocale-3.0"):NewLocale("Details", "ptBR") 
+if not L then return end 
 
 L["ABILITY_ID"] = "Id da Habilidade"
 L["STRING_"] = ""
@@ -38,14 +38,14 @@ L["STRING_ATTRIBUTE_DAMAGE_FRAGS"] = "Abates"
 L["STRING_ATTRIBUTE_DAMAGE_FRIENDLYFIRE"] = "Fogo Amigo"
 L["STRING_ATTRIBUTE_DAMAGE_TAKEN"] = "Dano Recebido"
 L["STRING_ATTRIBUTE_ENERGY"] = "Recursos"
-L["STRING_ATTRIBUTE_ENERGY_ALTERNATEPOWER"] = "Poder Alternativo."
+L["STRING_ATTRIBUTE_ENERGY_ALTERNATEPOWER"] = "Poder alternativo"
 L["STRING_ATTRIBUTE_ENERGY_ENERGY"] = "Energia Gerada"
 L["STRING_ATTRIBUTE_ENERGY_MANA"] = "Mana Restaurada"
 L["STRING_ATTRIBUTE_ENERGY_RAGE"] = "Raiva Gerada"
 L["STRING_ATTRIBUTE_ENERGY_RESOURCES"] = "Outros Recursos"
 L["STRING_ATTRIBUTE_ENERGY_RUNEPOWER"] = "Poder Rúnico Gerado"
 L["STRING_ATTRIBUTE_HEAL"] = "Cura"
-L["STRING_ATTRIBUTE_HEAL_ABSORBED"] = "Cura Absorvida."
+L["STRING_ATTRIBUTE_HEAL_ABSORBED"] = "Cura absorvida"
 L["STRING_ATTRIBUTE_HEAL_DONE"] = "Cura Feita"
 L["STRING_ATTRIBUTE_HEAL_ENEMY"] = "Cura Feita por Inimigos"
 L["STRING_ATTRIBUTE_HEAL_HPS"] = "Cura Por Segundo"
@@ -53,10 +53,10 @@ L["STRING_ATTRIBUTE_HEAL_OVERHEAL"] = "Sobrecura"
 L["STRING_ATTRIBUTE_HEAL_PREVENT"] = "Dano Prevenido"
 L["STRING_ATTRIBUTE_HEAL_TAKEN"] = "Cura Recebida"
 L["STRING_ATTRIBUTE_MISC"] = "Diversos"
-L["STRING_ATTRIBUTE_MISC_BUFF_UPTIME"] = "Tempo Ativo: Buff"
-L["STRING_ATTRIBUTE_MISC_CCBREAK"] = "Quebras de CC"
+L["STRING_ATTRIBUTE_MISC_BUFF_UPTIME"] = "Duração de buffs"
+L["STRING_ATTRIBUTE_MISC_CCBREAK"] = "Quebras de controle de grupo"
 L["STRING_ATTRIBUTE_MISC_DEAD"] = "Mortes"
-L["STRING_ATTRIBUTE_MISC_DEBUFF_UPTIME"] = "Tempo Ativo: Debuff"
+L["STRING_ATTRIBUTE_MISC_DEBUFF_UPTIME"] = "Duração de debuffs"
 L["STRING_ATTRIBUTE_MISC_DEFENSIVE_COOLDOWNS"] = "Cooldowns"
 L["STRING_ATTRIBUTE_MISC_DISPELL"] = "Dissipados"
 L["STRING_ATTRIBUTE_MISC_INTERRUPT"] = "Interrupções"
@@ -69,7 +69,7 @@ L["STRING_BOTTOM"] = "baixo"
 L["STRING_BOTTOM_TO_TOP"] = "De Baixo Para Cima"
 L["STRING_CAST"] = "Conjurada"
 L["STRING_CAUGHT"] = "pega"
-L["STRING_CCBROKE"] = "CC Quebrados"
+L["STRING_CCBROKE"] = "Controles de grupo quebrados"
 L["STRING_CENTER"] = "centro"
 L["STRING_CENTER_UPPER"] = "Centro"
 L["STRING_CHANGED_TO_CURRENT"] = "Segmento Trocado: |cFFFFFF00Atual|r"
@@ -84,6 +84,7 @@ L["STRING_CLICK_REPORT_LINE2"] = "|cFFFFCC22Shift+Clique|r: |cFFFFEE00modo janel
 L["STRING_CLOSEALL"] = "Todas as janelas estão fechadas, digite '/details show' para reabri-las."
 L["STRING_COLOR"] = "Cor"
 L["STRING_COMMAND_LIST"] = "lista de comandos"
+L["STRING_CONTEXT"] = "Contexto"
 L["STRING_COOLTIP_NOOPTIONS"] = "não há opções"
 L["STRING_CREATEAURA"] = "Criar Aura"
 L["STRING_CRITICAL_HITS"] = "Golpes Críticos"
@@ -168,6 +169,7 @@ L["STRING_CUSTOM_TARGET_DESC"] = [=[Este é o alvo aonde a Fonte esta causando o
 
 O botão na direita mostra uma lista pré-definida com npcs.]=]
 L["STRING_CUSTOM_TEMPORARILY"] = " (|cFFFFC000temporário|r)"
+L["STRING_CUSTOM_TEXTURE_GUIDE"] = "Para carregar um arquivo de textura no World of Warcraft é necessário um arquivo no formato .TGA e a sua largura e altura devem ser múltiplas de 8. Coloque a textura dentro de: /Pasta do WoW/retail/Interface/"
 L["STRING_DAMAGE"] = "Dano"
 L["STRING_DAMAGE_DPS_IN"] = "DPS recebido de"
 L["STRING_DAMAGE_FROM"] = "Recebeu dano de"
@@ -182,6 +184,7 @@ L["STRING_DODGE"] = "Desvio"
 L["STRING_DOT"] = " (DoT)"
 L["STRING_DPS"] = "Dps"
 L["STRING_EMPTY_SEGMENT"] = "Segmento Vazio"
+L["STRING_ENABLE_DO_NOT_DISTURB"] = "Ativar Não Perturbe"
 L["STRING_ENABLED"] = "Ativado,"
 L["STRING_ENVIRONMENTAL_DROWNING"] = "Ambiente (Afogar)"
 L["STRING_ENVIRONMENTAL_FALLING"] = "Ambiente (Queda)"
@@ -189,7 +192,6 @@ L["STRING_ENVIRONMENTAL_FATIGUE"] = "Ambiente (Fadiga)"
 L["STRING_ENVIRONMENTAL_FIRE"] = "Ambiente (Fogo)"
 L["STRING_ENVIRONMENTAL_LAVA"] = "Ambiente (Lava)"
 L["STRING_ENVIRONMENTAL_SLIME"] = "Ambiente (Ácido)"
-L["STRING_EQUILIZING"] = "Compartilhando dados"
 L["STRING_ERASE"] = "apagar"
 L["STRING_ERASE_DATA"] = "Apagar Todos os Dados"
 L["STRING_ERASE_DATA_OVERALL"] = "Apagar Apenas os Dados Gerais"
@@ -261,8 +263,8 @@ L["STRING_GUILDDAMAGERANK_PLAYERBASE_PLAYER"] = "Jogador"
 L["STRING_GUILDDAMAGERANK_PLAYERBASE_RAID"] = "Todos os jogadores"
 L["STRING_GUILDDAMAGERANK_RAID"] = "Raid"
 L["STRING_GUILDDAMAGERANK_ROLE"] = "Função"
-L["STRING_GUILDDAMAGERANK_SHOWHISTORY"] = "Mostrar histórico"
-L["STRING_GUILDDAMAGERANK_SHOWRANK"] = "Mostrar ranking da guilda"
+L["STRING_GUILDDAMAGERANK_SHOWHISTORY"] = "Histórico"
+L["STRING_GUILDDAMAGERANK_SHOWRANK"] = "Ranking da guilda"
 L["STRING_GUILDDAMAGERANK_SYNCBUTTONTEXT"] = "Sincronizar com a guilda"
 L["STRING_GUILDDAMAGERANK_TUTORIAL_DESC"] = "Details! salva o dano e cura causados em cada encontro que você realizou com sua guilda. \\n\\nNavegue pelo histórico marcando a caixa '|cFFFFFF00Show History|r', os resultados para todos os combates serão exibidos.\\n Ao selecionar '|cFFFFFF00Show Guild Rank|r', as melhores pontuações para o chefão selecionado são mostradas. \\n\\nSe você está usando essa ferramenta pela primeira vez ou caso tenha perdido um dia de raide, clique no botão '|cFFFFFF00Sync With Guild|r'."
 L["STRING_GUILDDAMAGERANK_WINDOWALERT"] = "Chefe derrotado! Mostrar Ranking"
@@ -289,6 +291,7 @@ L["STRING_INFO_TUTORIAL_COMPARISON1"] = [=[Clique na aba |cFFFFDD00Comparar|r pa
 L["STRING_INSTANCE_CHAT"] = "Bate-papo da instância."
 L["STRING_INSTANCE_LIMIT"] = "o limite de janelas criadas foi atingido, você pode modificar este limite no painel de opções. Você também pode reabrir janelas fechadas anteriormente no menu da engrenagem."
 L["STRING_INTERFACE_OPENOPTIONS"] = "Abrir Painel de Opções"
+L["STRING_INVERT_RULE"] = "Regra de inversão"
 L["STRING_ISA_PET"] = "Este Ator é um Ajudante"
 L["STRING_KEYBIND_BOOKMARK"] = "Atalhos"
 L["STRING_KEYBIND_BOOKMARK_NUMBER"] = "Atalho #%s"
@@ -302,13 +305,20 @@ L["STRING_KEYBIND_TOGGLE_WINDOWS"] = "Alterna Todas as Janelas"
 L["STRING_KEYBIND_WINDOW_CONTROL"] = "Janelas"
 L["STRING_KEYBIND_WINDOW_REPORT"] = "Reporta dados mostrados na janela #%s."
 L["STRING_KEYBIND_WINDOW_REPORT_HEADER"] = "Reportar Dados"
+L["STRING_KEYSTONE_ADD_TO_FRIENDS_TOOLTIP"] = "Adicionar à lista de amigos como personagem (não solicitação de amigo do Battle.net)"
+L["STRING_KEYSTONE_CLICK_TO_VIEW_SCOREBOARD"] = "Clique para ver o placar"
+L["STRING_KEYSTONE_DND_TOOLTIP"] = "Sua chave não será enviada para sua guilda ou amigos. Enquanto estiver em um grupo, ela ainda será enviada"
+L["STRING_KEYSTONE_LIFETIME_LIKES_YOU_GAVE"] = "Curtidas totais que você deu a este jogador através do botão 'GG' no addon |cFFFFFF00Details! Damage Meter Mythic+|r. Veja a análise da run selecionando uma run Mítica+ que você fez com este jogador"
+L["STRING_KEYSTONE_NO_MYTHICPLUS_ADDON"] = "Addon Mítica+ não encontrado"
+L["STRING_KEYSTONE_REQUEST_FROM_GUILD"] = "Solicitação da guilda"
 L["STRING_KILLED"] = "Morto"
 L["STRING_LAST_COOLDOWN"] = "último cooldown usado"
 L["STRING_LEFT"] = "esquerda"
 L["STRING_LEFT_CLICK_SHARE"] = "Clique para enviar relatório."
 L["STRING_LEFT_TO_RIGHT"] = "Esquerda para Direita"
+L["STRING_LIKES_YOU_GAVE"] = "Curtidas que você deu"
 L["STRING_LOCK_DESC"] = "Travar ou destravar esta janela"
-L["STRING_LOCK_WINDOW"] = "travar"
+L["STRING_LOCK_WINDOW"] = "Travar"
 L["STRING_MASTERY"] = "Maestria"
 L["STRING_MAXIMUM"] = "Máximo"
 L["STRING_MAXIMUM_SHORT"] = "Máx"
@@ -374,9 +384,11 @@ L["STRING_NEWS_REINSTALL"] = "Encontrou problemas após atualizar? tente o coman
 L["STRING_NEWS_TITLE"] = "Quais As Novidades Desta Versão"
 L["STRING_NO"] = "Não"
 L["STRING_NO_DATA"] = "data já foi limpada"
+L["STRING_NO_MYTHIC_PLUS_ADDON"] = "Para acompanhar suas runs Mítica+, incluindo loot, pontuação, dano, cura realizada e com quem você jogou, instale o addon |cFFFFAA00Details! Damage Meter Mythic+|r no |cFFfff1c1Wago AddOns|r ou |cFFfff1c1Curse Forge|r"
 L["STRING_NO_SPELL"] = "Nenhuma habilidade foi usada"
 L["STRING_NO_TARGET"] = "Nenhum alvo encontrado."
 L["STRING_NO_TARGET_BOX"] = "Nenhum alvo disponível."
+L["STRING_NO_TELEPORTER"] = "Você não possui este teletransportador"
 L["STRING_NOCLOSED_INSTANCES"] = [=[Não há janelas fechadas,
 clique para abrir uma nova.]=]
 L["STRING_NOLAST_COOLDOWN"] = "nenhum cooldown usado"
@@ -404,6 +416,14 @@ L["STRING_OPTIONS_3D_UANCHOR"] = "Modelo 3D Superior"
 L["STRING_OPTIONS_3D_UENABLED_DESC"] = "Ativa ou desativa o uso de modelo 3d acima da barra."
 L["STRING_OPTIONS_3D_USELECT_DESC"] = "Escolha qual o modelo será usado no modelo superior."
 L["STRING_OPTIONS_ADVANCED"] = "Avançado"
+L["STRING_OPTIONS_ALIGNED_TEXT_COLUMNS"] = "Colunas de texto alinhadas"
+L["STRING_OPTIONS_ALIGNED_TEXT_COLUMNS_AUTOALIGN"] = [=[Alinhamento Automático
+]=]
+L["STRING_OPTIONS_ALIGNED_TEXT_COLUMNS_AUTOALIGN_DESC"] = "O alinhamento é feito automaticamente baseado no comprimento de cada texto"
+L["STRING_OPTIONS_ALIGNED_TEXT_COLUMNS_DESC"] = "Desative colchetes e separadores e alinhe textos de barras em colunas verticais"
+L["STRING_OPTIONS_ALIGNED_TEXT_COLUMNS_OFFSET"] = "Deslocamento %d do texto"
+L["STRING_OPTIONS_ALIGNED_TEXT_COLUMNS_OFFSET_DESC"] = "Deslocamento da borda direita"
+L["STRING_OPTIONS_ALIGNED_TEXT_COLUMNS_WARNING"] = "está habilitado, separadores e colchetes não são usados"
 L["STRING_OPTIONS_ALPHAMOD_ANCHOR"] = "Auto Ocultar:"
 L["STRING_OPTIONS_ALWAYS_USE"] = "Usar Em Todos os Personagens"
 L["STRING_OPTIONS_ALWAYS_USE_DESC"] = "O mesmo perfil é usado em todos os personagens. Você pode sobre escrever ele em qualquer personagem apenas escolhendo um perfil na caixa de cima."
@@ -417,6 +437,8 @@ L["STRING_OPTIONS_ANIMATESCROLL_DESC"] = "Quanto ativa, a barra de rolagem faz u
 L["STRING_OPTIONS_APPEARANCE"] = "Aparência"
 L["STRING_OPTIONS_ATTRIBUTE_TEXT"] = "Configurações de Títulos"
 L["STRING_OPTIONS_ATTRIBUTE_TEXT_DESC"] = "Essas opções controlam as configurações dos títulos de uma janela."
+L["STRING_OPTIONS_AUTO_COMBATLOG"] = "Iniciar automaticamente o registro de combate"
+L["STRING_OPTIONS_AUTO_COMBATLOG_DESC"] = "Inicia e interrompe automaticamente o registro de combate no arquivo CombatLog.txt ao entrar ou sair de uma raide ou masmorra."
 L["STRING_OPTIONS_AUTO_SWITCH"] = "Todas as Funções |cFFFFAA00(em combate)|r"
 L["STRING_OPTIONS_AUTO_SWITCH_COMBAT"] = "|cFFFFAA00(em combate)|r"
 L["STRING_OPTIONS_AUTO_SWITCH_DAMAGER_DESC"] = "Quando estiver com especialização de dano, esta janela mostra o atributo ou plugin escolhido."
@@ -491,18 +513,15 @@ L["STRING_OPTIONS_BARRIGHTTEXTCUSTOM2_DESC"] = [=[|cFFFFFF00{data1}|r: é o prim
 
 |cFFFFFF00{data2}|r: é o segundo número passado, na maioria das vezes representa a média por segundos.
 
-|cFFFFFF00{data3}|r: terceiro número passado, normalmente é a porcentagem.
+|cFFFFFF00{data3}|r: terceiro número passado, normalmente é a porcentagem. 
 
 |cFFFFFF00{func}|r: Executa uma função Lua customizada, adicionando seu valor retornado ao texto.
-Example:
+Example: 
 {func return 'hello azeroth'}
 
 |cFFFFFF00Chaves de Edição de Texto|r: use para mudar a cor ou adicionar texturas. Busque por 'UI escape sequences' para mais informações.]=]
 L["STRING_OPTIONS_BARS"] = "Configurações das Barras"
 L["STRING_OPTIONS_BARS_CUSTOM_TEXTURE"] = "Arquivo de Textura Customizado"
-L["STRING_OPTIONS_BARS_CUSTOM_TEXTURE_DESC"] = [=[
-
-|cFFFFFF00Importante|r: a imagem precisa ter 256x32 pixels.]=]
 L["STRING_OPTIONS_BARS_DESC"] = "Estas opções controlam a aparência das barra da janela."
 L["STRING_OPTIONS_BARSORT"] = "Ordem do Rank"
 L["STRING_OPTIONS_BARSORT_DESC"] = "Ordena as barras para aparecerem na ordem do menor para o maior ou maior para o menor."
@@ -510,12 +529,12 @@ L["STRING_OPTIONS_BARSTART"] = "Barra inicia depois do ícone"
 L["STRING_OPTIONS_BARSTART_DESC"] = "Quando desabilitado, a textura superior inicia no ícone do lado esquerdo ao invés do direito (útil para ícones transparentes)."
 L["STRING_OPTIONS_BARUR_ANCHOR"] = "Atualização Dinâmica:"
 L["STRING_OPTIONS_BARUR_DESC"] = "Quando ativado, o Dano e Cura por segundo são atualizados com mais frequência do que o normal."
-L["STRING_OPTIONS_BG_ALL_ALLY"] = "Mostrar Todos"
+L["STRING_OPTIONS_BG_ALL_ALLY"] = "Mostrar inimigos do campo de batalha"
 L["STRING_OPTIONS_BG_ALL_ALLY_DESC"] = [=[Quando ativado, jogadores inimigos também são mostrados na janela mesmo ela estando no modo de Grupo.
 
 |cFFFFFF00Importante|r: alterações são aplicadas nos combates seguintes.]=]
 L["STRING_OPTIONS_BG_ANCHOR"] = "Campos de Batalha:"
-L["STRING_OPTIONS_BG_UNIQUE_SEGMENT"] = "Segmento Exclusivo"
+L["STRING_OPTIONS_BG_UNIQUE_SEGMENT"] = "Segmento Exclusivo Campo de Batalha"
 L["STRING_OPTIONS_BG_UNIQUE_SEGMENT_DESC"] = "Um segmento é criado no início do campo de batalha até o seu final."
 L["STRING_OPTIONS_CAURAS"] = "Coletar Auras"
 L["STRING_OPTIONS_CAURAS_DESC"] = [=[Ativa a Captura de:
@@ -599,13 +618,14 @@ L["STRING_OPTIONS_CMISC_DESC"] = [=[Ativa a Captura de:
 L["STRING_OPTIONS_COLORANDALPHA"] = "Cor & Transparência"
 L["STRING_OPTIONS_COLORFIXED"] = "Cor Fixada"
 L["STRING_OPTIONS_COMBAT_ALPHA"] = "Quando"
-L["STRING_OPTIONS_COMBAT_ALPHA_1"] = "Sem modificações"
 L["STRING_OPTIONS_COMBAT_ALPHA_2"] = "Durante o combate"
 L["STRING_OPTIONS_COMBAT_ALPHA_3"] = "Enquanto fora de combate"
 L["STRING_OPTIONS_COMBAT_ALPHA_4"] = "Enquanto fora de um grupo"
 L["STRING_OPTIONS_COMBAT_ALPHA_5"] = "Quando não Estiver Em Instância"
 L["STRING_OPTIONS_COMBAT_ALPHA_6"] = "Quando Estiver em Instância"
 L["STRING_OPTIONS_COMBAT_ALPHA_7"] = "Raid Debug"
+L["STRING_OPTIONS_COMBAT_ALPHA_8"] = "No Campo de batalha"
+L["STRING_OPTIONS_COMBAT_ALPHA_9"] = "Em mítico+"
 L["STRING_OPTIONS_COMBAT_ALPHA_DESC"] = [=[Seleciona a forma como o combate afeta a transparência da janela.
 
 |cFFFFFF00Nenhuma modificação|r: Não modifica o alpha.
@@ -662,6 +682,144 @@ L["STRING_OPTIONS_DEATHLOG_MINHEALING"] = "Registro de Morte Cura Mínima"
 L["STRING_OPTIONS_DEATHLOG_MINHEALING_DESC"] = "Registro de morte não mostrará a cura abaixo deste limite. |cFFFFFF00Tip|r: clique com o botão direito para inserir um valor manualmente."
 L["STRING_OPTIONS_DESATURATE_MENU"] = "Menu de Dessaturação"
 L["STRING_OPTIONS_DESATURATE_MENU_DESC"] = "Habilitando essa opção fará com que os ícones do menu da barra de ferramentas se tornem brancos e pretos."
+--[[Translation missing --]]
+L["STRING_OPTIONS_DESIGNER_ALIGN_COLUMNS"] = "Align Value Columns"
+--[[Translation missing --]]
+L["STRING_OPTIONS_DESIGNER_ALIGN_COLUMNS_DESC"] = "Draws the value columns in fixed columns instead of running them together into one formatted string. This is not a window setting, it changes every window at once."
+--[[Translation missing --]]
+L["STRING_OPTIONS_DESIGNER_ARENA_ROLE_ICON_SIZE_OFFSET"] = "Arena Role Icon Size Offset"
+--[[Translation missing --]]
+L["STRING_OPTIONS_DESIGNER_ARENA_TEAM_COLOR"] = "Arena Team Color"
+--[[Translation missing --]]
+L["STRING_OPTIONS_DESIGNER_BACKGROUND_BY_CLASS"] = "Background by Class"
+--[[Translation missing --]]
+L["STRING_OPTIONS_DESIGNER_BAR_ALPHA"] = "Opacity"
+--[[Translation missing --]]
+L["STRING_OPTIONS_DESIGNER_BAR_BORDER"] = "Show Bar Border"
+--[[Translation missing --]]
+L["STRING_OPTIONS_DESIGNER_BAR_START_AFTER_ICON"] = "Bar Starts After Icon"
+--[[Translation missing --]]
+L["STRING_OPTIONS_DESIGNER_BORDER_COLOR"] = "Border Color"
+--[[Translation missing --]]
+L["STRING_OPTIONS_DESIGNER_BORDER_THICKNESS"] = "Border Thickness"
+--[[Translation missing --]]
+L["STRING_OPTIONS_DESIGNER_BUTTON_MODE"] = "Mode"
+--[[Translation missing --]]
+L["STRING_OPTIONS_DESIGNER_COLOR_BY_CLASS"] = "Color by Class"
+--[[Translation missing --]]
+L["STRING_OPTIONS_DESIGNER_DESATURATED_MENU"] = "Desaturated Buttons"
+--[[Translation missing --]]
+L["STRING_OPTIONS_DESIGNER_FACTION_ICON_SIZE_OFFSET"] = "Faction Icon Size Offset"
+--[[Translation missing --]]
+L["STRING_OPTIONS_DESIGNER_HINT"] = "Click a part of the preview to edit it. Changes apply to the window selected at the top right."
+--[[Translation missing --]]
+L["STRING_OPTIONS_DESIGNER_ICON_GRAYSCALE"] = "Grayscale Icons"
+--[[Translation missing --]]
+L["STRING_OPTIONS_DESIGNER_ICON_SET"] = "Icon Set"
+--[[Translation missing --]]
+L["STRING_OPTIONS_DESIGNER_ICON_SIZE_OFFSET"] = "Icon Size Offset"
+--[[Translation missing --]]
+L["STRING_OPTIONS_DESIGNER_MENU_ICON_SIZE"] = "Button Size"
+--[[Translation missing --]]
+L["STRING_OPTIONS_DESIGNER_MENU_ICON_SPACING"] = "Button Spacing"
+--[[Translation missing --]]
+L["STRING_OPTIONS_DESIGNER_NAME_OFFSET"] = "Name Offset"
+--[[Translation missing --]]
+L["STRING_OPTIONS_DESIGNER_NAME_SIZE_OFFSET"] = "Unit Name Size Offset"
+--[[Translation missing --]]
+L["STRING_OPTIONS_DESIGNER_NAME_SIZE_OFFSET_DESC"] = "Give the unit name more or less room before it is cut short by the value columns."
+--[[Translation missing --]]
+L["STRING_OPTIONS_DESIGNER_NAME_TEXT"] = "Unit Name"
+--[[Translation missing --]]
+L["STRING_OPTIONS_DESIGNER_NAME_TEXT_COLOR_DESC"] = [=[Change the text color of the unit name.
+
+Ignored if |cFFFFFFFFcolor by class|r is enabled.]=]
+--[[Translation missing --]]
+L["STRING_OPTIONS_DESIGNER_NO_BRACKET"] = "no bracket"
+--[[Translation missing --]]
+L["STRING_OPTIONS_DESIGNER_NO_SEPARATOR"] = "no separator"
+--[[Translation missing --]]
+L["STRING_OPTIONS_DESIGNER_OBJECT_BARICONS"] = "Bar Icons"
+--[[Translation missing --]]
+L["STRING_OPTIONS_DESIGNER_OBJECT_BARNAMETEXT"] = "Bar Unit Name"
+--[[Translation missing --]]
+L["STRING_OPTIONS_DESIGNER_OBJECT_BARS"] = "Bars"
+--[[Translation missing --]]
+L["STRING_OPTIONS_DESIGNER_OBJECT_BARTEXTS"] = "Bar Texts"
+--[[Translation missing --]]
+L["STRING_OPTIONS_DESIGNER_OBJECT_BARVALUETEXT"] = "Bar Values"
+--[[Translation missing --]]
+L["STRING_OPTIONS_DESIGNER_OBJECT_STATUSBAR"] = "Status Bar"
+--[[Translation missing --]]
+L["STRING_OPTIONS_DESIGNER_OBJECT_TITLEBUTTONS"] = "Title Buttons"
+--[[Translation missing --]]
+L["STRING_OPTIONS_DESIGNER_OBJECT_TITLETEXT"] = "Title Text"
+--[[Translation missing --]]
+L["STRING_OPTIONS_DESIGNER_OBJECT_WINDOW"] = "Window"
+--[[Translation missing --]]
+L["STRING_OPTIONS_DESIGNER_OVERLAY"] = "Overlay"
+--[[Translation missing --]]
+L["STRING_OPTIONS_DESIGNER_OVERLAY_TEXTURE_DESC"] = "Texture which sits above the bar"
+--[[Translation missing --]]
+L["STRING_OPTIONS_DESIGNER_PERCENT_OF_TOP"] = "Relative to Top Player"
+--[[Translation missing --]]
+L["STRING_OPTIONS_DESIGNER_PERCENT_OF_TOTAL"] = "Relative to Total"
+--[[Translation missing --]]
+L["STRING_OPTIONS_DESIGNER_PERCENT_TYPE"] = "Percent Type"
+--[[Translation missing --]]
+L["STRING_OPTIONS_DESIGNER_PREVIEW"] = "Preview"
+--[[Translation missing --]]
+L["STRING_OPTIONS_DESIGNER_PREVIEW_MISSING"] = "A preview window could not be created, so there is nothing to edit here."
+--[[Translation missing --]]
+L["STRING_OPTIONS_DESIGNER_REMOVE_CUSTOM_TEXTURE"] = "Remove Custom Texture"
+--[[Translation missing --]]
+L["STRING_OPTIONS_DESIGNER_ROUNDED_CORNERS"] = "Rounded Corners"
+--[[Translation missing --]]
+L["STRING_OPTIONS_DESIGNER_ROW_AREA_ALPHA"] = "Row Area Opacity"
+--[[Translation missing --]]
+L["STRING_OPTIONS_DESIGNER_SHADOW_OFFSET_X"] = "Shadow Offset X"
+--[[Translation missing --]]
+L["STRING_OPTIONS_DESIGNER_SHADOW_OFFSET_Y"] = "Shadow Offset Y"
+--[[Translation missing --]]
+L["STRING_OPTIONS_DESIGNER_SHOW_ARENA_ROLE_ICON"] = "Show Arena Role Icon"
+--[[Translation missing --]]
+L["STRING_OPTIONS_DESIGNER_SHOW_ENCOUNTER_TIMER"] = "Show Encounter Timer"
+--[[Translation missing --]]
+L["STRING_OPTIONS_DESIGNER_SHOW_FACTION_ICON"] = "Show Faction Icon"
+--[[Translation missing --]]
+L["STRING_OPTIONS_DESIGNER_SHOW_FACTION_ICON_DESC"] = "When showing a player from the opposite faction, show the faction icon."
+--[[Translation missing --]]
+L["STRING_OPTIONS_DESIGNER_SHOW_PERCENT_DESC"] = "Shows the percent column beside the value columns. Applies while the value columns are aligned; with the simple text format the columns are decided by that format instead."
+--[[Translation missing --]]
+L["STRING_OPTIONS_DESIGNER_SHOW_RANK_NUMBER"] = "Show Rank Number"
+--[[Translation missing --]]
+L["STRING_OPTIONS_DESIGNER_SHOW_STATUSBAR"] = "Show Status Bar"
+--[[Translation missing --]]
+L["STRING_OPTIONS_DESIGNER_SHOW_WINDOW_BORDER"] = "Show Border"
+--[[Translation missing --]]
+L["STRING_OPTIONS_DESIGNER_TEXT_OUTLINE"] = "Outline"
+--[[Translation missing --]]
+L["STRING_OPTIONS_DESIGNER_TEXT_X_OFFSET"] = "Horizontal Offset"
+--[[Translation missing --]]
+L["STRING_OPTIONS_DESIGNER_TEXT_Y_OFFSET"] = "Vertical Offset"
+--[[Translation missing --]]
+L["STRING_OPTIONS_DESIGNER_TITLE_TEXT_ENABLED"] = "Show Title Text"
+--[[Translation missing --]]
+L["STRING_OPTIONS_DESIGNER_TITLEBAR_ENABLED"] = "Custom Title Bar"
+--[[Translation missing --]]
+L["STRING_OPTIONS_DESIGNER_TITLEBAR_ENABLED_DESC"] = [=[Use an alternative title bar instead of the title bar builtin in the Skin file.
+
+|cFFFFFF00Important|r: To disable the title bar from the Skin file, go to 'Window' and make the 'skin color' fully transparent.]=]
+--[[Translation missing --]]
+L["STRING_OPTIONS_DESIGNER_TITLEBAR_HEIGHT"] = "Height"
+--[[Translation missing --]]
+L["STRING_OPTIONS_DESIGNER_VALUE_TEXT"] = "Value Columns"
+--[[Translation missing --]]
+L["STRING_OPTIONS_DESIGNER_VALUE_TEXT_COLOR_DESC"] = [=[Change the text color of the value columns.
+
+Ignored if |cFFFFFFFFcolor by class|r is enabled.]=]
+--[[Translation missing --]]
+L["STRING_OPTIONS_DESIGNER_WHICH_BUTTONS"] = "Buttons shown"
 L["STRING_OPTIONS_DISABLE_ALLDISPLAYSWINDOW"] = "Desativar Janela 'Todos Displays'"
 L["STRING_OPTIONS_DISABLE_ALLDISPLAYSWINDOW_DESC"] = "Quanto ativado, irá abrir o painel de favoritos quando clicar com o botão direito do mouse sobre a barra de título."
 L["STRING_OPTIONS_DISABLE_BARHIGHLIGHT"] = "Desativar o Brilho das Barras"
@@ -686,14 +844,17 @@ L["STRING_OPTIONS_ED_DESC"] = [=[|cFFFFFF00Manualmente|r: o usuário precisa cli
 L["STRING_OPTIONS_ED1"] = "Manualmente"
 L["STRING_OPTIONS_ED2"] = "Perguntar"
 L["STRING_OPTIONS_ED3"] = "Automático"
+L["STRING_OPTIONS_EDIT_CUSTOM_TEXT"] = "Editar Texto Personalizado"
 L["STRING_OPTIONS_EDITIMAGE"] = "Editar Imagem"
 L["STRING_OPTIONS_EDITINSTANCE"] = "Editando a Janela:"
 L["STRING_OPTIONS_ERASECHARTDATA"] = "Apagar Gráficos"
 L["STRING_OPTIONS_ERASECHARTDATA_DESC"] = "Quando deslogar do jogo, as informações guardadas para gerar gráficos são apagadas."
+L["STRING_OPTIONS_EXPORT_PROFILE"] = "Exportar Perfil"
 L["STRING_OPTIONS_EXTERNALS_TITLE"] = "Widgets Externos"
 L["STRING_OPTIONS_EXTERNALS_TITLE2"] = "Esta opção controla o comportamento de vários widgets externos."
 L["STRING_OPTIONS_GENERAL"] = "Configurações Gerais"
 L["STRING_OPTIONS_GENERAL_ANCHOR"] = "Geral:"
+L["STRING_OPTIONS_GROUPING_HORIZONTAL_GAP"] = "\"Espaço entre janelas\""
 L["STRING_OPTIONS_HIDE_ICON"] = "Esconder ícone"
 L["STRING_OPTIONS_HIDE_ICON_DESC"] = [=[Quando habilitado, o ícone no canto superior esquerdo não será exibido.
 
@@ -717,14 +878,13 @@ L["STRING_OPTIONS_ILVL_TRACKER_DESC"] = [=[Quando ativo e fora de combate, o add
 
 Quando desativado, ele ainda lê o level de item a partir de consultas de outros addons ou quando você inspeciona outro jogador.]=]
 L["STRING_OPTIONS_ILVL_TRACKER_TEXT"] = "Ativado"
-L["STRING_OPTIONS_INSTANCE_ALPHA2"] = "Cor de Fundo"
-L["STRING_OPTIONS_INSTANCE_ALPHA2_DESC"] = "Seleciona a cor do fundo da janela."
+L["STRING_OPTIONS_IMPORT_PROFILE"] = "Importar Perfil"
+L["STRING_OPTIONS_IMPORT_PROFILE_NAME"] = "Insira um Nome para o Novo Perfil"
+L["STRING_OPTIONS_IMPORT_PROFILE_PASTE"] = "Details! Importar perfil (colar string)"
 L["STRING_OPTIONS_INSTANCE_BACKDROP"] = "Textura de fundo"
 L["STRING_OPTIONS_INSTANCE_BACKDROP_DESC"] = [=[Seleciona a textura de fundo usada por essa janela.
 
 |cFFFFFF00Padrão|r: Details Background.]=]
-L["STRING_OPTIONS_INSTANCE_COLOR"] = "Cor e Transparência"
-L["STRING_OPTIONS_INSTANCE_COLOR_DESC"] = "Altera a cor e a transparência da janela."
 L["STRING_OPTIONS_INSTANCE_CURRENT"] = "Mudar Para Atual"
 L["STRING_OPTIONS_INSTANCE_CURRENT_DESC"] = "Quando qualquer combate começar e não há nenhuma janela no segmento atual, esta janela automaticamente troca para o segmento atual."
 L["STRING_OPTIONS_INSTANCE_DELETE"] = "Apagar"
@@ -732,7 +892,7 @@ L["STRING_OPTIONS_INSTANCE_DELETE_DESC"] = [=[Remove permanentemente uma janela.
 Seu jogo poderá recarregar durante o processo de limpeza.]=]
 L["STRING_OPTIONS_INSTANCE_SKIN"] = "Pele (skin)"
 L["STRING_OPTIONS_INSTANCE_SKIN_DESC"] = "Modifica todas as texturas e opções da janela através de um padrão pré-definido."
-L["STRING_OPTIONS_INSTANCE_STATUSBAR_ANCHOR"] = "Barra de Status:"
+L["STRING_OPTIONS_INSTANCE_STATUSBAR_ANCHOR"] = "Barra de Status"
 L["STRING_OPTIONS_INSTANCE_STATUSBARCOLOR"] = "Cor e transparência"
 L["STRING_OPTIONS_INSTANCE_STATUSBARCOLOR_DESC"] = [=[Seleciona a cor usada pela barra de status.
 
@@ -747,7 +907,6 @@ Usar uma camada alta fará com que a janela fica na frente dos outros painéis..
 Quando alterando as camadas você pode encontar alguns conflitos com outros painéis cobrindo uns aos outros.]=]
 L["STRING_OPTIONS_INSTANCES"] = "Janelas:"
 L["STRING_OPTIONS_INTERFACEDIT"] = "Editar Interface"
-L["STRING_OPTIONS_LEFT_MENU_ANCHOR"] = "Opções de Menu:"
 L["STRING_OPTIONS_LOCKSEGMENTS"] = "Segmentos travados"
 L["STRING_OPTIONS_LOCKSEGMENTS_DESC"] = "Quando habilitado, modificar um seguimento em uma janela também modifica todas as outras."
 L["STRING_OPTIONS_MANAGE_BOOKMARKS"] = "Gerenciar Atalhos"
@@ -830,10 +989,23 @@ L["STRING_OPTIONS_MINIMAP_ANCHOR"] = "Minimapa:"
 L["STRING_OPTIONS_MINIMAP_DESC"] = "Mostra ou esconde o ícone no mini mapa."
 L["STRING_OPTIONS_MISCTITLE"] = "Configurações Diversas"
 L["STRING_OPTIONS_MISCTITLE2"] = "Essa opção controla várias opções."
+L["STRING_OPTIONS_MPLUS_AUTO_CLOSE_TIME"] = "Tempo Para Fechar Automaticamente."
+L["STRING_OPTIONS_MPLUS_AUTO_CLOSE_TIME_DESC"] = "Tempo para fechar automaticamente o Painel de Finalização da M+."
+L["STRING_OPTIONS_MPLUS_BOSSNEWCOMBAT"] = "Novo combate ao puxar o chefe"
+L["STRING_OPTIONS_MPLUS_BOSSNEWCOMBAT_DESC"] = "Se um chefe for puxado enquanto estiver em combate, esta opção encerra o encontro de combate atual e inicia um novo para o chefe."
+L["STRING_OPTIONS_MPLUS_DPS_ANCHOR"] = "Cálculo de DPS do segmento geral"
+L["STRING_OPTIONS_MPLUS_MERGETRASH"] = "Unir lixo"
+L["STRING_OPTIONS_MPLUS_PANELS_ANCHOR"] = "Painéis"
+L["STRING_OPTIONS_MPLUS_SHOWENDPANEL"] = "Mostrar final do painel de M+"
+L["STRING_OPTIONS_MPLUS_TIME_INCOMBAT"] = "Tempo em combate"
+L["STRING_OPTIONS_MPLUS_TIME_INCOMBAT_DESC"] = "O segmento geral para a corrida de Mítico+ usará 'danoTotal / tempoTotalEmCombate' para calcular o DPS."
+L["STRING_OPTIONS_MPLUS_TIME_RUNTIME"] = "Tempo da corrida na masmorra"
+L["STRING_OPTIONS_MPLUS_TIME_RUNTIME_DESC"] = "O segmento geral para a corrida de Mítico+ calculará o DPS usando 'danoTotal / tempoDaCorrida'."
 L["STRING_OPTIONS_NICKNAME"] = "Apelido"
 L["STRING_OPTIONS_NICKNAME_DESC"] = "Digite o seu apelido neste campo. O apelido escolhido será enviado aos membros da sua guilda e o Details! ira substituir o nome do personagem pelo apelido."
 L["STRING_OPTIONS_OPEN_ROWTEXT_EDITOR"] = "Editor de Texto das Barras"
 L["STRING_OPTIONS_OPEN_TEXT_EDITOR"] = "Abrir o Editor de Texto"
+L["STRING_OPTIONS_OPENBROKER"] = "Abrir editor de texto do corretor"
 L["STRING_OPTIONS_OVERALL_ALL"] = "Todos os segmentos"
 L["STRING_OPTIONS_OVERALL_ALL_DESC"] = "Todos os segmentos são adicionados aos dados globais."
 L["STRING_OPTIONS_OVERALL_ANCHOR"] = "Dados Globais:"
@@ -843,8 +1015,8 @@ L["STRING_OPTIONS_OVERALL_DUNGEONCLEAN"] = "'Trash' de Masmorra"
 L["STRING_OPTIONS_OVERALL_DUNGEONCLEAN_DESC"] = "Segmentos de limpeza de 'trash mobs' em masmorras são adicionados aos dados globais."
 L["STRING_OPTIONS_OVERALL_LOGOFF"] = "Limpar ao Deslogar"
 L["STRING_OPTIONS_OVERALL_LOGOFF_DESC"] = "Quando ativado, os dados gerais de combate são automaticamente apagados quando seu personagem efetua logoff."
-L["STRING_OPTIONS_OVERALL_MYTHICPLUS"] = "Limpar ao Iniciar Dungeon Mítica+"
-L["STRING_OPTIONS_OVERALL_MYTHICPLUS_DESC"] = "Limpa os dados do overall quando iniciar uma dungeon mítica+."
+L["STRING_OPTIONS_OVERALL_MYTHICPLUS"] = "Limpar ao Iniciar Masmorra Mítica+"
+L["STRING_OPTIONS_OVERALL_MYTHICPLUS_DESC"] = "Limpa os dados do overall quando iniciar uma masmorra mítica+."
 L["STRING_OPTIONS_OVERALL_NEWBOSS"] = "Limpar em um novo chefe de raide"
 L["STRING_OPTIONS_OVERALL_NEWBOSS_DESC"] = "Quando habilitado, os dados gerais são limpos automaticamente quando enfrentando um novo chefe."
 L["STRING_OPTIONS_OVERALL_RAIDBOSS"] = "Chefes de raide"
@@ -873,8 +1045,8 @@ L["STRING_OPTIONS_PERFORMANCE_ERASEWORLD"] = "Apagas Segmentos Mundiais Automati
 L["STRING_OPTIONS_PERFORMANCE_ERASEWORLD_DESC"] = "Apagar segmentos de combate em mundo aberto automaticamente."
 L["STRING_OPTIONS_PERFORMANCE_MYTHIC"] = "Mítico"
 L["STRING_OPTIONS_PERFORMANCE_PROFILE_LOAD"] = "Perfil de desempenho alterado: "
-L["STRING_OPTIONS_PERFORMANCE_RAID25"] = "Raide 10-25"
-L["STRING_OPTIONS_PERFORMANCE_RAID40"] = "Raide 26-40"
+L["STRING_OPTIONS_PERFORMANCE_RAID15"] = "Raide 10-15"
+L["STRING_OPTIONS_PERFORMANCE_RAID30"] = "Raide 16-30"
 L["STRING_OPTIONS_PERFORMANCE_RF"] = "Localizador de raide"
 L["STRING_OPTIONS_PERFORMANCE_TYPES"] = "Tipo"
 L["STRING_OPTIONS_PERFORMANCE_TYPES_DESC"] = "Estes são os tipos de raide onde diferentes opções podem mudar automaticamente."
@@ -885,6 +1057,11 @@ L["STRING_OPTIONS_PERFORMANCECAPTURES_DESC"] = "Esta opção controla quais info
 L["STRING_OPTIONS_PERFORMANCEPROFILES_ANCHOR"] = "Perfis de performance:"
 L["STRING_OPTIONS_PICONS_DIRECTION"] = "Direção dos ícones de plugin"
 L["STRING_OPTIONS_PICONS_DIRECTION_DESC"] = "Muda a direção dos ícones dos plugins que são exibidos na barra de ferramentas."
+L["STRING_OPTIONS_PLAYERNAME"] = "Nome do jogador"
+L["STRING_OPTIONS_PLAYERNAME_AUTO_ALIGNMENT"] = "Alinhamento automático"
+L["STRING_OPTIONS_PLAYERNAME_AUTO_ALIGNMENT_DESC"] = "Desative apenas se você tiver problemas de alinhamento do nome do jogador."
+L["STRING_OPTIONS_PLAYERNAME_AUTO_WIDTH"] = "Comprimento automático"
+L["STRING_OPTIONS_PLAYERNAME_WIDTH"] = "Comprimento"
 L["STRING_OPTIONS_PLUGINS"] = "Plugins"
 L["STRING_OPTIONS_PLUGINS_AUTHOR"] = "Autor"
 L["STRING_OPTIONS_PLUGINS_NAME"] = "Nome"
@@ -965,7 +1142,6 @@ L["STRING_OPTIONS_REPORT_SCHEMA1"] = "Total / Por Segundo / Porcento"
 L["STRING_OPTIONS_REPORT_SCHEMA2"] = "Porcento / Por Segundo / Total"
 L["STRING_OPTIONS_REPORT_SCHEMA3"] = "Porcento / Total / Por Segundo"
 L["STRING_OPTIONS_RESET_TO_DEFAULT"] = "Resetar Para os Padrões"
-L["STRING_OPTIONS_ROW_SETTING_ANCHOR"] = "Layout:"
 L["STRING_OPTIONS_ROWADV_TITLE"] = "Ajustes Avançados das Barras"
 L["STRING_OPTIONS_ROWADV_TITLE_DESC"] = "Neste opções você pode alterar configurações avançadas das barras."
 L["STRING_OPTIONS_RT_COOLDOWN1"] = "%s usado em %s!"
@@ -1057,8 +1233,9 @@ L["STRING_OPTIONS_SEGMENTSSAVE_DESC"] = [=[Esta opção controla quantos segment
 Valores altos podem fazer o tempo de logoff do seu personagem demorar mais.
 
 Se você raramente olha os dados da raide do dia anterior, eh muito recomendado deixar esta opção em 1|cFFFFFFFF1|r.]=]
+L["STRING_OPTIONS_SELECT_TEMPLATE"] = "Selecionar modelo"
 L["STRING_OPTIONS_SENDFEEDBACK"] = "Feedback"
-L["STRING_OPTIONS_SHOW_SIDEBARS"] = "Mostrar Barras Laterais"
+L["STRING_OPTIONS_SHOW_SIDEBARS"] = "Mostrar Bordas Laterais"
 L["STRING_OPTIONS_SHOW_SIDEBARS_DESC"] = "Mostrar ou esconder as barras laterais na esquerda e direita da janela."
 L["STRING_OPTIONS_SHOW_STATUSBAR"] = "Exibir barra de Status"
 L["STRING_OPTIONS_SHOW_STATUSBAR_DESC"] = "Exibe ou Oculta a barra de status inferior."
@@ -1149,9 +1326,12 @@ L["STRING_OPTIONS_TEXT_LPOSITION"] = "Mostrar Número"
 L["STRING_OPTIONS_TEXT_LPOSITION_DESC"] = "Mostra o número da colocação do jogador ao lado esquerdo do seu nome."
 L["STRING_OPTIONS_TEXT_LTRANSLIT"] = "Translit"
 L["STRING_OPTIONS_TEXT_LTRANSLIT_DESC"] = "Transformar os caracteres russos que ninguém entende em letras ocidentais."
+L["STRING_OPTIONS_TEXT_OUTLINE"] = "Contorno do Texto."
 L["STRING_OPTIONS_TEXT_RIGHT_ANCHOR"] = "Texto a Direita:"
 L["STRING_OPTIONS_TEXT_ROUTILINE_DESC"] = "Quando ativado o texto da direita ganhara um efeito de sombra ao seu redor."
 L["STRING_OPTIONS_TEXT_ROWICONS_ANCHOR"] = "Ícones:"
+L["STRING_OPTIONS_TEXT_SHADOWCOLOR"] = "Cor da sombra"
+L["STRING_OPTIONS_TEXT_SHADOWOFFSET"] = "Deslocamento da sombra %s"
 L["STRING_OPTIONS_TEXT_SHOW_BRACKET"] = "Tipo do Colchete"
 L["STRING_OPTIONS_TEXT_SHOW_BRACKET_DESC"] = "Tipo de carácter usado para abrir e fechar o bloco do DPS e porcentagem."
 L["STRING_OPTIONS_TEXT_SHOW_PERCENT"] = "Mostrar Porcentagem"
@@ -1193,6 +1373,7 @@ L["STRING_OPTIONS_TIMEMEASURE"] = "Medidas do Tempo"
 L["STRING_OPTIONS_TIMEMEASURE_DESC"] = [=[|cFFFFFFFFTempo de Atividade|r: o tempo de cada membro da raide eh posto em pausa quando ele ficar ocioso e volta a contar o tempo quando ele voltar a atividade, eh a maneira mais comum de medir o Dps e Hps.
 
 |cFFFFFFFFTempo Efetivo|r: muito usado para ranqueamentos, este metodo usa o tempo total da luta para medir o Dps e Hps de todos os membros da raide.]=]
+L["STRING_OPTIONS_TITLEBAR_MENUBUTTONS_HEADER"] = "Botões e Configurações"
 L["STRING_OPTIONS_TOOLBAR_SETTINGS"] = "Configuração da Barra de Título"
 L["STRING_OPTIONS_TOOLBAR_SETTINGS_DESC"] = "Essa opção altera o menu principal no topo da janela"
 L["STRING_OPTIONS_TOOLBARSIDE"] = "Âncora da Barra de Ferramentas"
@@ -1222,6 +1403,8 @@ L["STRING_OPTIONS_TOOLTIPS_BACKGROUNDCOLOR_DESC"] = "Seleciona a cor usada no fu
 L["STRING_OPTIONS_TOOLTIPS_BORDER_COLOR_DESC"] = "Muda a cor da borda."
 L["STRING_OPTIONS_TOOLTIPS_BORDER_SIZE_DESC"] = "Muda o tamanho da borda."
 L["STRING_OPTIONS_TOOLTIPS_BORDER_TEXTURE_DESC"] = "Modifica a textura usada na borda do tooltip."
+L["STRING_OPTIONS_TOOLTIPS_DISABLE"] = "Desativar dicas"
+L["STRING_OPTIONS_TOOLTIPS_DISABLE_DESC"] = "Desativa as dicas para a janela selecionada."
 L["STRING_OPTIONS_TOOLTIPS_FONTCOLOR"] = "Cor de texto"
 L["STRING_OPTIONS_TOOLTIPS_FONTCOLOR_DESC"] = "Muda a cor usada nos textos do tooltip."
 L["STRING_OPTIONS_TOOLTIPS_FONTFACE"] = "Fonte de texto"
@@ -1294,17 +1477,11 @@ L["STRING_OPTIONS_WC_ANCHOR"] = "Controle Rápido da Janela (#%s):"
 L["STRING_OPTIONS_WC_BOOKMARK"] = "Configurar Atalhos"
 L["STRING_OPTIONS_WC_BOOKMARK_DESC"] = "Abre o painel de configuração de atalhos."
 L["STRING_OPTIONS_WC_CLOSE"] = "Fechar"
-L["STRING_OPTIONS_WC_CLOSE_DESC"] = [=[Fecha esta janela.
-
-Quando fechada, a janela é considerada inativa e pode ser reaberta a qualquer momento através do botão de janelas #.
-
-Para deleta-la completamente, veja a sessão Diversos -> Apagar.]=]
+L["STRING_OPTIONS_WC_CLOSE_DESC"] = "Fecha esta janela. Quando fechada, a janela é considerada inativa e pode ser reaberta a qualquer momento através do Menu de controle de janela. Para remover completamente uma janela, vá para a seção 'Janela'."
 L["STRING_OPTIONS_WC_CREATE"] = "Criar Janela"
 L["STRING_OPTIONS_WC_CREATE_DESC"] = "Cria uma nova janela."
 L["STRING_OPTIONS_WC_LOCK"] = "Travar"
-L["STRING_OPTIONS_WC_LOCK_DESC"] = [=[Trava ou Destrava a janela.
-
-Quando travada, a janela não pode ser movida.]=]
+L["STRING_OPTIONS_WC_LOCK_DESC"] = "Trava ou Destrava a janela. Quando travada, a janela não pode ser movida."
 L["STRING_OPTIONS_WC_REOPEN"] = "Reabrir"
 L["STRING_OPTIONS_WC_UNLOCK"] = "Destravar"
 L["STRING_OPTIONS_WC_UNSNAP"] = "Desagrupar"
@@ -1315,8 +1492,12 @@ L["STRING_OPTIONS_WINDOW"] = "Painel de Opções"
 L["STRING_OPTIONS_WINDOW_ANCHOR_ANCHORS"] = "Âncoras:"
 L["STRING_OPTIONS_WINDOW_IGNOREMASSTOGGLE"] = "Ignorar Alterar em Massa"
 L["STRING_OPTIONS_WINDOW_IGNOREMASSTOGGLE_DESC"] = "Quanto ativa, esta janela é ignorada quando for esconder, mostrar ou alternar todas as janelas."
+L["STRING_OPTIONS_WINDOW_ROWAREA_COLOR"] = "Preenchimento da linha"
+L["STRING_OPTIONS_WINDOW_ROWAREA_COLOR_DESC"] = "Aplica a cor de fundo quando as linhas são exibidas"
 L["STRING_OPTIONS_WINDOW_SCALE"] = "Escala"
 L["STRING_OPTIONS_WINDOW_SCALE_DESC"] = "Ajusta a escala da janela."
+L["STRING_OPTIONS_WINDOW_SKIN_COLOR"] = "Cor da Aparência"
+L["STRING_OPTIONS_WINDOW_SKIN_COLOR_DESC"] = "Modifica a cor da Aparência aplicada a esta janela. |cFFFFFF00Importante|r: a transparência escolhida é substituída com |cFFFFFF00Valores Automáticos de Transparência|r quando ativado. |cFFFFFF00Importante|r: Selecionando a cor da Aparência, substitui qualquer cor personalizada aplicada à Barra de Status."
 L["STRING_OPTIONS_WINDOW_TITLE"] = "Configurações de Janela"
 L["STRING_OPTIONS_WINDOW_TITLE_DESC"] = "Essa opção controla a aparência da janela de uma instância selecionada."
 L["STRING_OPTIONS_WINDOWSPEED"] = "Velocidade de Atualização"
@@ -1353,6 +1534,8 @@ L["STRING_OPTIONSMENU_COMBAT"] = "Combate"
 L["STRING_OPTIONSMENU_DATACHART"] = "Dados Para Gráficos"
 L["STRING_OPTIONSMENU_DATACOLLECT"] = "Coletor de Dados"
 L["STRING_OPTIONSMENU_DATAFEED"] = "Alimentação de Dados"
+--[[Translation missing --]]
+L["STRING_OPTIONSMENU_DESIGNER"] = "Designer"
 L["STRING_OPTIONSMENU_DISPLAY"] = "Display"
 L["STRING_OPTIONSMENU_DISPLAY_DESC"] = "Ajustes básicos gerais e controles rápidos da janela."
 L["STRING_OPTIONSMENU_LEFTMENU"] = "Barra de Título: Geral"
@@ -1368,10 +1551,13 @@ L["STRING_OPTIONSMENU_ROWTEXTS"] = "Barras: Textos"
 L["STRING_OPTIONSMENU_SKIN"] = "Seletor de Skin"
 L["STRING_OPTIONSMENU_SPELLS"] = "Customização de Magia"
 L["STRING_OPTIONSMENU_SPELLS_CONSOLIDATE"] = "Consolidar habilidades comuns com o mesmo nome"
+L["STRING_OPTIONSMENU_TITLEBAR"] = "Barra de titulo"
 L["STRING_OPTIONSMENU_TITLETEXT"] = "Barra de Título: Texto"
 L["STRING_OPTIONSMENU_TOOLTIP"] = "Tooltips"
 L["STRING_OPTIONSMENU_WALLPAPER"] = "Janela: Papel de Parede"
 L["STRING_OPTIONSMENU_WINDOW"] = "Janela: Configurações"
+L["STRING_OPTIONSMENU_WINDOWBODY"] = "Configurações de janela"
+L["STRING_OR"] = "Ou"
 L["STRING_OVERALL"] = "Dados Gerais"
 L["STRING_OVERHEAL"] = "Sobrecura"
 L["STRING_OVERHEALED"] = "Sobrecura"
@@ -1420,6 +1606,7 @@ L["STRING_QUERY_INSPECT_REFRESH"] = "precisa atualizar"
 L["STRING_RAID_WIDE"] = "[*] cooldown de raide"
 L["STRING_RAIDCHECK_PLUGIN_DESC"] = "Enquanto estiver dentro de uma raide, é mostrado um ícone na barra de título mostrando o uso de comida, frascos e poções."
 L["STRING_RAIDCHECK_PLUGIN_NAME"] = "Raid Check"
+L["STRING_RECENT_PLAYERS"] = "Jogadores recentes:"
 L["STRING_REPORT"] = "Relatório para"
 L["STRING_REPORT_BUTTON_TOOLTIP"] = "Clique para abrir a Caixa de Relatórios."
 L["STRING_REPORT_FIGHT"] = "luta"
@@ -1433,6 +1620,7 @@ L["STRING_REPORT_SINGLE_BUFFUPTIME"] = "duração dos buffs de"
 L["STRING_REPORT_SINGLE_COOLDOWN"] = "cooldowns usados por"
 L["STRING_REPORT_SINGLE_DEATH"] = "detalhes da morte de"
 L["STRING_REPORT_SINGLE_DEBUFFUPTIME"] = "duração dos debuffs de"
+L["STRING_REPORT_TEXT"] = "Relatório"
 L["STRING_REPORT_TOOLTIP"] = "Reportar Resultados"
 L["STRING_REPORTFRAME_COPY"] = "Copiar e Colar"
 L["STRING_REPORTFRAME_CURRENT"] = "Mostrando"
@@ -1470,6 +1658,7 @@ L["STRING_RIGHTCLICK_TYPEVALUE"] = "botão direito para digitar o valor"
 L["STRING_SCORE_BEST"] = "você fez |cFFFFFF00%d|r, você bateu seu recorde, parabéns!"
 L["STRING_SCORE_NOTBEST"] = [=[você fez |cFFFFFF00%d|r, seu recorde é |cFFFFFF00%d|r em %d com %d de item level.
 ]=]
+L["STRING_SCRIPTS_TITLE"] = "Scripts"
 L["STRING_SEE_BELOW"] = "veja abaixo"
 L["STRING_SEGMENT"] = "Segmento"
 L["STRING_SEGMENT_EMPTY"] = "este segmento esta vazio"
@@ -1490,6 +1679,26 @@ L["STRING_SEGMENTS_LIST_WASTED_TIME"] = "Fora de Combate"
 L["STRING_SHIELD_HEAL"] = "Prevenido"
 L["STRING_SHIELD_OVERHEAL"] = "Desperdiçado"
 L["STRING_SHORTCUT_RIGHTCLICK"] = "Menu de Atalho (botão direito para fechar)"
+L["STRING_SIMPLE_TEXT_FORMAT"] = "Usar formatação de texto simples"
+L["STRING_SIMPLE_TEXT_FORMAT_ASLIGNED"] = "Usar texto alinhado"
+L["STRING_SIMPLE_TEXT_FORMAT_ASLIGNED_DESC"] = "O texto é alinhado em colunas, configure o espaçamento entre colunas."
+L["STRING_SIMPLE_TEXT_FORMAT_ASLIGNED_SPACE_BETWEEN"] = "Espaço entre colunas"
+L["STRING_SIMPLE_TEXT_FORMAT_DESC"] = "Habilita o uso das três regras abaixo."
+L["STRING_SIMPLE_TEXT_FORMAT_TEMPLATE2"] = "Não mostrar porcentagem"
+L["STRING_SIMPLE_TEXT_FORMAT_TEMPLATE3"] = "Mostrar apenas total"
+L["STRING_SIMPLE_TEXT_FORMAT_TEMPLATE4"] = "Separar com | como separador"
+L["STRING_SIMPLE_TEXT_FORMAT_TEMPLATE5"] = "Separar com [colchetes]"
+L["STRING_SIMPLE_TEXT_FORMAT_TEMPLATE6"] = "Total (DPS) Porcentagem"
+L["STRING_SIMPLE_TEXT_FORMAT_TITLE"] = "Texto à Direita: Simples ou Alinhado"
+L["STRING_SIMPLE_TEXT_FORMAT_TYPE1"] = [=[Quando a linha possui informações
+sobre total e porcentagem.
+|cFFAAAAAA%s ordem: total, porcentagem.]=]
+L["STRING_SIMPLE_TEXT_FORMAT_TYPE2"] = [=[Quando a linha possui informações
+sobre total e por segundo.
+|cFFAAAAAA%s ordem: total, por segundo.]=]
+L["STRING_SIMPLE_TEXT_FORMAT_TYPE3"] = [=[Quando a linha possui informações
+sobre total, por segundo e porcentagem.
+|cFFAAAAAA%s ordem: total, por segundo, porcentagem.]=]
 L["STRING_SLASH_API_DESC"] = "abre o painel da API (em inglês) para construir plugins, displays customizados, auras, etc."
 L["STRING_SLASH_CAPTURE_DESC"] = "liga ou desliga toda captura de dados."
 L["STRING_SLASH_CAPTUREOFF"] = "todas as capturas foram desligadas."
@@ -1538,23 +1747,25 @@ L["STRING_SWITCH_WARNING"] = "Especialização Alterada. Trocando: |cFFFFAA00%s|
 L["STRING_TARGET"] = "Alvo"
 L["STRING_TARGETS"] = "Alvos"
 L["STRING_TARGETS_OTHER1"] = "Ajudantes e Outros Alvos"
+L["STRING_TELEPORT"] = "Teletransportar"
+L["STRING_TELEPORTERS"] = "Teletransportadores"
 L["STRING_TEXTURE"] = "Textura"
 L["STRING_TIME_OF_DEATH"] = "Morreu"
 L["STRING_TOOOLD"] = "não pode ser instalado pois sua versão do Details! e muito antiga."
 L["STRING_TOP"] = "topo"
 L["STRING_TOP_TO_BOTTOM"] = "Cima para Baixo"
 L["STRING_TOTAL"] = "Total"
+L["STRING_TRAINING_DUMMY"] = "Boneco de Treinamento"
 L["STRING_TRANSLATE_LANGUAGE"] = "Ajude a traduzir o Details!"
 L["STRING_TUTORIAL_FULLY_DELETE_WINDOW"] = [=[Você fechou uma janela e pode reabri-la quando quiser.
 Para deleta-la por completo, vá nas opções -> Janela: Geral -> Deletar.]=]
-L["STRING_TUTORIAL_OVERALL1"] = "ajuste o overall no painel de opções > PvE/PvP."
+L["STRING_TUTORIAL_OVERALL1"] = "A Data Overall atualiza apenas após o combate, clique com o botão direito na barra de título e escolha 'Dynamic Overall Damage' se você desejar atualizações regulares. "
 L["STRING_UNKNOW"] = "Desconhecido"
 L["STRING_UNKNOWSPELL"] = "Magia Desconhecida"
-L["STRING_UNLOCK"] = [=[Separe as janelas
-neste botão]=]
-L["STRING_UNLOCK_WINDOW"] = "destravar"
+L["STRING_UNLOCK"] = "Separe as janelas neste botão"
+L["STRING_UNLOCK_WINDOW"] = "Destravar"
 L["STRING_UPTADING"] = "atualizando"
-L["STRING_VERSION_AVAILABLE"] = "uma nova versão está disponível. Baixe pelo aplicativo da Twitch ou pelo site da Curse."
+L["STRING_VERSION_AVAILABLE"] = "uma nova versão está disponível. Baixe pelo aplicativo da Curse Forge ou pelo site da Curse."
 L["STRING_VERSION_UPDATE"] = "nova versão: clique para ver o que mudou"
 L["STRING_VOIDZONE_TOOLTIP"] = "Dano e tempo:"
 L["STRING_WAITPLUGIN"] = [=[esperando por
@@ -1589,7 +1800,7 @@ L["STRING_WELCOME_3"] = "Escolha o método de DPS e HPS preferido:"
 L["STRING_WELCOME_30"] = "Usando a Interface: Atalhos"
 L["STRING_WELCOME_31"] = [=[- Clicando com o Direito |cFFFFFF00em uma barra ou na janela|r abre |cFFFFFF00o menu de atalhos|r.
 - Voce pode escolher o |cFFFFFF00atributo|r que o atalho terá |cFFFFFF00clicando com o botão direito|r no seu ícone.
-- Botão esquerdo |cFFFFFF00troca para aquele atributo|r
+- Botão esquerdo |cFFFFFF00troca para aquele atributo|r 
 - Botão direito fecha o painel de atalhos.]=]
 L["STRING_WELCOME_32"] = "Usando a Interface: Agrupar Janelas"
 L["STRING_WELCOME_34"] = "Usando a Interface: Mini Displays"
@@ -1652,7 +1863,3 @@ L["STRING_WIPE_ERROR1"] = "um wipe já foi chamado."
 L["STRING_WIPE_ERROR2"] = "não estamos em um chefe de raide."
 L["STRING_WIPE_ERROR3"] = "não foi possível finalizar o encontro."
 L["STRING_YES"] = "Sim"
-
-
-
-

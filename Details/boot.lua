@@ -1,39 +1,885 @@
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
---> global name declaration
-_detalhes = LibStub("AceAddon-3.0"):NewAddon("_detalhes", "AceTimer-3.0", "AceComm-3.0", "AceSerializer-3.0", "NickTag-1.0")
+--global name declaration
+--use lua-language-server annotations to help the linter:
+--https://github.com/LuaLS/lua-language-server/wiki/Annotations#documenting-types
+--follow definitions declared in the file definitions.lua
+--follow game api definitions in the file LibLuaServer.lua
 
-_detalhes.build_counter = 7269
-_detalhes.alpha_build_counter = 7269 --if this is higher than the regular counter, use it instead
-_detalhes.game_version = "v8.3.0"
-_detalhes.userversion = "v8.3.0." .. _detalhes.build_counter
-_detalhes.realversion = 140 --core version, this is used to check API version for scripts and plugins (see alias below)
-_detalhes.APIVersion = _detalhes.realversion --core version
-_detalhes.version = _detalhes.userversion .. " (core " .. _detalhes.realversion .. ")" --simple stirng to show to players
+		_ = nil
+		_G.Details = LibStub("AceAddon-3.0"):NewAddon("_detalhes", "AceTimer-3.0", "AceComm-3.0", "AceSerializer-3.0", "NickTag-1.0")
 
-_detalhes.BFACORE = 131 --core version on BFA launch
+		--add the original name to the global namespace
+		_detalhes = _G.Details --[[GLOBAL]]
 
-Details = _detalhes
+		__details_debug = __details_debug or {}
+		if (__details_debug.prescience_timeline) then
+			wipe(__details_debug.prescience_timeline)
+		end
+		local addonName, Details222 = ...
+		local version, build, date, tvs = GetBuildInfo()
+		Details.build_counter = 15326
+		Details.alpha_build_counter = 15326 --if this is higher than the regular counter, use it instead
+		Details.dont_open_news = true
+		Details.game_version = version
+		Details.userversion = version .. " " .. Details.build_counter
+		Details.realversion = 172 --core version, this is used to check API version for scripts and plugins (see alias below)
+		Details.gametoc = tvs
+		Details.APIVersion = Details.realversion --core version
+		Details.version = Details.userversion .. " (core " .. Details.realversion .. ")" --simple stirng to show to players
+
+		Details.acounter = 1 --in case of a second release with the same .build_counter
+		Details.curseforgeVersion = C_AddOns and C_AddOns.GetAddOnMetadata and C_AddOns.GetAddOnMetadata("Details", "Version")
+		if (not Details.curseforgeVersion and GetAddOnMetadata) then
+			Details.curseforgeVersion = GetAddOnMetadata("Details", "Version")
+		end
+
+		function Details:GetCoreVersion()
+			return Details.realversion
+		end
+
+		Details.BFACORE = 131 --core version on BFA launch
+		Details.SHADOWLANDSCORE = 143 --core version on Shadowlands launch
+		Details.DRAGONFLIGHT = 147 --core version on Dragonflight launch
+		Details.TBCANNIVERSARY = 166
+		Details.V11CORE = 160 --core version on V11 launch
+		Details.V12CORE = 166 --core version on V12 launch
+
+		Details = Details
+
+		local gameVersionPrefix = "VCPM" --v1, v2 v5, v12
+
+		Details.gameVersionPrefix = gameVersionPrefix
+
+		pcall(function() Details.version_alpha_id = tonumber(Details.curseforgeVersion:match("%-(%d+)%-")) end)
+
+		--WD 10288 RELEASE 10.0.2
+		--WD 10288 ALPHA 21 10.0.2
+		function Details.GetVersionString()
+			local curseforgeVersion = Details.curseforgeVersion or ""
+			local alphaId = curseforgeVersion:match("%-(%d+)%-")
+
+			if (not alphaId) then
+				--this is a release version
+				alphaId = "RELEASE"
+			else
+				alphaId = "ALPHA " .. alphaId
+			end
+
+			return Details.gameVersionPrefix .. " " .. Details.build_counter .. " " .. alphaId .. " " .. Details.game_version .. ""
+		end
+
+		Details.DM = C_DamageMeter
+		Details.DefaultTooltipIconSize = 20
+		local isWowApocalypse = DetailsFramework.IsAddonApocalypseWow()
+
+		function Details222.UpdateIsAllowed()
+			if (isWowApocalypse) then
+				if InCombatLockdown() then
+					return false
+				end
+			end
+			return true
+		end
+
+		--namespace for the player breakdown window
+		Details.PlayerBreakdown = {}
+		Details222.PlayerBreakdown = {
+			DamageSpellsCache = {}
+		}
+
+		Details222.StartUp = {}
+
+		Details222.Unknown = _G["UNKNOWN"]
+
+		Details222.IsPTR = function()
+			local _, _, _, a = GetBuildInfo()
+			if a >= 120005 then
+				return true
+			end
+		end
+
+		Details222.IsTOCBiggerOrEqualTo = function(tocNumber)
+			if tvs >= tocNumber then
+				return true
+			end
+		end
+
+		function Details222.IsPTR1205()
+			local _, _, _, a = GetBuildInfo()
+			if tvs >= 120005 then
+				return true
+			end
+		end
+
+		--namespace color
+		Details222.ColorScheme = {
+			["gradient-background"] = {0.1215, 0.1176, 0.1294, 0.8},
+		}
+		function Details222.ColorScheme.GetColorFor(colorScheme)
+			return Details222.ColorScheme[colorScheme]
+		end
+
+		function Details222.DebugMsg(...)
+			if (Details.debug) then
+				print("|cFFCCAAAADetails! Debug:|r", ...)
+			end
+		end
+
+		--cache of frames to call :SetColor() when the color scheme changes
+		Details222.RegisteredFramesToColor = {}
+
+		Details222.TrainingDummiesNpcId = {
+			[194649] = true, --valdraken
+			[189617] = true, --valdraken
+			[194644] = true, --valdraken
+			[198594] = true, --valdraken
+			[194643] = true, --valdraken
+			[189632] = true, --valdraken
+			[194648] = true, --valdraken
+			[194646] = true, --valdraken
+			[197834] = true, --valdraken
+			[31146] = true, --orgrimmar
+			[153285] = true, --orgrimmar
+			[114840] = true, --orgrimmar
+			[114832] = true, --stormwind
+			[153292] = true, --stormwind
+			[225982] = true, --dornogal
+			[225977] = true, --dornogal
+			[225983] = true, --dornogal
+			[225978] = true, --dornogal
+			[219250] = true, --dornogal
+			[225985] = true, --dornogal
+			[225976] = true, --dornogal
+			[225984] = true, --dornogal
+		}
+
+
+		---@type details_storage_feature
+		---@diagnostic disable-next-line: missing-fields
+		local storage = {
+			DiffNames = {"normal", "heroic", "mythic", "raidfinder", "10player", "25player", "10playerheroic", "25playerheroic", "raidfinderclassic", "raidfindertimewalking", "timewalking"},
+			DiffNamesHash = {normal = 14, heroic = 15, mythic = 16, raidfinder = 17, ["10player"] = 3, ["25player"] = 4, ["10playerheroic"] = 5, ["25playerheroic"] = 6, raidfinderclassic = 7, raidfindertimewalking = 151, timewalking = 33},
+			DiffIdToName = {
+				[14] = "normal",
+				[15] = "heroic",
+				[16] = "mythic",
+				[17] = "raidfinder",
+				[3] = "10player",
+				[4] = "25player",
+				[5] = "10playerheroic",
+				[6] = "25playerheroic",
+				[7] = "raidfinderclassic",
+				[8] = "mythicdungeon",
+				[151] = "raidfindertimewalking",
+				[33] = "timewalking"
+			},
+			IsDebug = false
+		}
+		Details222.storage = storage
+
+		--namespace for damage spells (spellTable)
+		Details222.DamageSpells = {}
+		--namespace for texture
+		Details222.Textures = {}
+
+		Details222.Debug = {
+			DebugPets = false,
+			DebugPlayerPets = false,
+			DebugBuff = false,
+		}
+
+		---@type details_allinonewindow
+		---@diagnostic disable-next-line: missing-fields
+		Details222.AllInOneWindow = {}
+
+		Details222.Tvs = tvs
+		--namespace for pet
+		Details222.Pets = {}
+		Details222.PetContainer = {
+			---@type table<guid, petdata>
+			Pets = {},
+			---@type table<guid, boolean>
+			IgnoredActors = {},
+			---table that stores the player guid as keys and their petguid as values
+			---this is useful to know which pets are the legit class pet from the UNIT_PET event
+			---@type table<guid, guid>
+			UnitPetCache = {},
+		}
+
+		--auto run code
+		Details222.AutoRunCode = {}
+		--options panel
+		Details222.OptionsPanel = {}
+		--store bar icons (left side of the damage bar)
+		Details222.BarIconSetList = {}
+		Details222.Instances = {}
+		Details222.Combat = {}
+		Details222.BParser = {}
+		Details222.MythicPlus = {
+			Charts = {},
+			Frames = {},
+			LogStep = function() end, --[3.3.5]
+			IsMythicPlus = function() return false end, --[3.3.5]
+		}
+		--[3.3.5]
+		Details.MythicPlus = {
+			RunID = 0,
+		}
+		--[3.3.5]
+		--IsEnabled() returns nil, so network.lua / util.lua / startup.lua callers keep working
+		do
+			local noop = function() end
+			local noopNamespace = function()
+				return setmetatable({}, {__index = function() return noop end})
+			end
+			Details.Coach = noopNamespace()
+			Details.Coach.Server = noopNamespace()
+			Details.Coach.Client = noopNamespace()
+		end
+		Details222.Notes = {}
+		Details222.MythicPlusBreakdown = {}
+		Details222.MythicKeys = {}
+		Details222.EJCache = {}
+		Details222.Segments = {}
+		Details222.Tables = {}
+		Details222.Mixins = {}
+		Details222.Cache = {}
+		Details222.Perf = {}
+		Details222.Recap = {}
+		Details222.Cooldowns = {}
+		Details222.GarbageCollector = {}
+		Details222.BreakdownWindow = {}
+		Details222.PlayerStats = {}
+		Details222.LoadSavedVariables = {}
+		Details222.SaveVariables = {}
+		Details222.Encode = {}
+		Details222.GuessSpecSchedules = {
+			Schedules = {},
+		}
+		Details222.Profiling = {}
+		Details222.ProfilingCache = {}
+		Details222.TimeMachine = {}
+		Details222.OnUseItem = {Trinkets = {}}
+
+		Details222.Date = {
+			GetDateForLogs = function()
+				return _G.date("%Y-%m-%d %H:%M:%S")
+			end,
+		}
+
+		Details222.ClassCache = {}
+		Details222.ClassCache.ByName = {}
+		Details222.ClassCache.ByGUID = {}
+		Details222.UnitIdCache = {}
+		Details222.Roskash = {}
+		Details222.SpecHelpers = {
+			[1473] = {},
+		}
+
+		Details222.IgnoredWorldAuras = {}
+		Details222.OneHourAuras = {}
+
+		Details222.Parser = {}
+
+		Details222.Actors = {}
+
+		Details222.CurrentDPS = {
+			Cache = {}
+		}
+		--store all data from the encounter journal
+		Details222.EncounterJournalDump = {}
+		--aura scanner
+		Details222.AuraScan = {}
+
+		Details222.B = {}
+
+		Details222.Apocalypse = {
+			ServerInCombat = false,
+			TypeDetails = 0,
+			TypeGame = 1,
+			segmentType = 1,
+			GetType = function() --addon wide segment type
+				return Details222.Apocalypse.segmentType
+			end,
+			SetType = function(newType)
+				Details222.Apocalypse.segmentType = newType
+			end,
+			IsServerInCombat = function(forceCheckOverall, forceRecheck, fullScan)
+				if fullScan then
+					--print("performing full scan for secrets")
+					local analyzed = {
+						type = {amount = 0},
+						ids = {amount = 0}
+					}
+					local getSegment = C_DamageMeter.GetCombatSessionFromType
+					for i = 0, 1 do
+						for j = 0, 10 do
+							local thisSegment = getSegment(i, j)
+							if thisSegment then
+								analyzed.type.amount = analyzed.type.amount + 1
+								if DetailsCompat335.IsSecretValue(thisSegment.combatSources and thisSegment.combatSources[1] and thisSegment.combatSources[1].name) then
+									return true
+								end
+							end
+						end
+					end
+
+					getSegment = C_DamageMeter.GetCombatSessionFromID
+					local allSegments = Details.DM.GetAvailableCombatSessions()
+					for i = #allSegments, #allSegments-2, -1 do
+						if i > 0 then
+							local newSegmentID = allSegments[i].sessionID
+							if newSegmentID then
+								for j = 0, 10 do
+									local thisSegment = getSegment(newSegmentID, j)
+									if thisSegment then
+										analyzed.ids.amount = analyzed.ids.amount + 1
+										if DetailsCompat335.IsSecretValue(thisSegment.combatSources and thisSegment.combatSources[1] and thisSegment.combatSources[1].name) then
+											return true
+										end
+									end
+								end
+							end
+						end
+					end
+
+					--dumpt(analyzed)
+				else
+					if (forceCheckOverall) then
+						local s = Details222.B.GetSegment("Type", 0, 0)
+						if s and s.combatSources and s.combatSources[1] and DetailsCompat335.IsSecretValue(s.combatSources[1].name) then
+							return true
+						else
+							local e = Details222.B.GetSegment("Type", 0, 10)
+							if e and e.combatSources and e.combatSources[1] and DetailsCompat335.IsSecretValue(e.combatSources[1].name) then
+								return true
+							end
+						end
+					end
+
+					if forceRecheck then
+						local s = Details222.B.GetSegment("Type", 1, 0)
+						if s and s.combatSources and s.combatSources[1] and DetailsCompat335.IsSecretValue(s.combatSources[1].name) then
+							return true
+						else
+							local e = Details222.B.GetSegment("Type", 1, 10)
+							if e and e.combatSources and e.combatSources[1] and DetailsCompat335.IsSecretValue(e.combatSources[1].name) then
+								return true
+							end
+						end
+					end
+				end
+
+				return Details222.Apocalypse.ServerInCombat
+			end
+		}
+
+		--simplify and reduce the amount of functions to work with
+		local mainFName = "GetCombatSession"
+		local getSegmentFName = mainFName .. "From"
+		local getSpellFname = mainFName .. "SourceFrom"
+
+		function Details222.B.GetEmptySegment()
+			return {
+				combatSources = {},
+				totalAmount = 0,
+				maxAmount = 0,
+				durationSeconds = 0,
+			}
+		end
+
+		---return a segment
+		---@param type string
+		---@param identifier number
+		---@param attribute number
+		---@return damagemeter_combat_session
+		function Details222.B.GetSegment(type, identifier, attribute)
+			if attribute < 0 then
+				local result = Details222.BParser.GetCustomDataForWindow(nil, attribute, type, identifier)
+				return result
+			else
+				local result = Details.DM[(getSegmentFName .. type)](identifier, attribute)
+				return result
+			end
+		end
+
+		---return a spell container
+		---@param type string
+		---@param identifier number
+		---@param attribute number
+		---@param guid string
+		---@return damagemeter_combat_session_source
+		function Details222.B.GetSpells(type, identifier, attribute, guid, x)
+			if Details222.B.IsSegmentType(type) then
+				return Details.DM[(getSpellFname .. DETAILS_SEGMENTTYPE_TYPE)](identifier, attribute, guid, x)
+			else
+				return Details.DM[(getSpellFname .. type)](identifier, attribute, guid, x)
+			end
+		end
+
+		function Details222.B.GetCombatTime(type)
+			return C_DamageMeter.GetSessionDurationSeconds(type)
+		end
+
+		---usage: local actorList, amountOfActors, totalAmount, combatTime = Details222.B.GetSegmentInfo(segment)
+		---@param s damagemeter_combat_session
+		---@return damagemeter_combat_source[] actorList
+		---@return number amountOfActors
+		---@return number totalAmount
+		---@return number combatTime
+		---@return number maxAmount
+		function Details222.B.GetSegmentInfo(s)
+			return s.combatSources, #s.combatSources, s.totalAmount, s.durationSeconds, s.maxAmount
+		end
+
+		---usage: local spellList, amountOfSpells, totalAmount, maxAmount = Details222.B.GetSpellContainerInfo(spellContainer)
+		---@param s damagemeter_combat_session_source
+		---@return damagemeter_combat_spell[] spells
+		---@return number totalSpells
+		---@return number totalAmount
+		---@return number maxAmount
+		function Details222.B.GetSpellContainerInfo(s)
+			return s.combatSpells, #s.combatSpells, s.totalAmount, s.maxAmount
+		end
+
+		---usage: local spellId, total, perSecond, creatureName, overkill, isAvoidable, isDeadly, spellDetails = Details222.B.GetSpellInfo(spell)
+		---@param s damagemeter_combat_spell
+		---@return number spellID
+		---@return number totalAmount
+		---@return number amountPerSecond
+		---@return string creatureName
+		---@return number overkillAmount
+		---@return boolean isAvoidable
+		---@return boolean isDeadly
+		---@return damagemeter_combat_spell_unit_details[] combatSpellDetails
+		function Details222.B.GetSpellDetails(s)
+			return s.spellID, s.totalAmount, s.amountPerSecond, s.creatureName, s.overkillAmount, s.isAvoidable, s.isDeadly, s.combatSpellDetails
+		end
+
+		---usage: local actorName, actorGUID, total, perSecond, icon, class, deathId, deathTime, creatureId, classification, isLocalPlayer = Details222.B.GetActorDetails(actor)
+		---@param s damagemeter_combat_source
+		---@return string actorName
+		---@return string actorGUID
+		---@return number totalAmount
+		---@return number amountPerSecond
+		---@return number specIconID
+		---@return string classFilename
+		---@return number deathRecapID
+		---@return number deathTimeSeconds
+		---@return number sourceCreatureID
+		---@return string classification
+		---@return boolean isLocalPlayer
+		function Details222.B.GetActorDetails(s)
+			return s.name, s.sourceGUID, s.totalAmount, s.amountPerSecond, s.specIconID,
+			s.classFilename, s.deathRecapID, s.deathTimeSeconds, s.sourceCreatureID, s.classification, s.isLocalPlayer
+		end
+
+		function Details222.B.GetAllCombatTypes(type, identifier)
+			local result = {}
+			for i = 0, 10 do
+				local segment = Details222.B.GetSegment(type, identifier, i)
+				if segment then
+					result[#result + 1] = segment
+				end
+			end
+			return result
+		end
+
+		function Details222.B.IsSegmentType(id)
+			if type(id) == "number" and id <= 1 then
+				return true
+			end
+			return false
+		end
+
+		---return the amount of segments available in Details!
+		---usage: local amountOfSegments = Details222.B.GetAmountOfSegments()
+		---@return number
+		function Details222.B.GetAmountOfSegments()
+			return #Details.DM.GetAvailableCombatSessions()
+		end
+
+		---usage: local allSegments = Details222.B.GetAllSegments()
+		function Details222.B.GetAllSegments()
+			return Details.DM.GetAvailableCombatSessions()
+		end
+
+		function Details222.B.GetSegmentIdFromCurrent()
+			local s = Details222.B.GetAllSegments()
+			if s[#s] then
+				return s[#s].sessionID
+			end
+			return 1
+		end
+
+		function Details222.B.GetCombatTime(id)
+			return Details222.B.GetSegment("ID", id, 0).durationSeconds
+		end
+
+		function Details222.B.GetCurrentTime(segmentType)
+			return Details222.B.GetSegment("Type", segmentType, 0).durationSeconds
+		end
+
+		function Details222.B.GetOverallTime()
+			return  C_DamageMeter.GetSessionDurationSeconds(0)
+		end
+
+		function Details:BleachFontString(fontString)
+			fontString:SetToDefaults()
+			fontString:SetFontObject("GameFontHighlight")
+			fontString:SetText("")
+		end
+
+		---@type instancedifficulty
+		Details222.InstanceDifficulty = {
+			["DungeonNormal"] = 1,
+			["DungeonHeroic"] = 2,
+			["DungeonMythic"] = 23,
+			["DungeonMythicPlus"] = 8,
+			["RaidLFR"] = 17,
+			["RaidNormal"] = 14,
+			["RaidHeroic"] = 15,
+			["RaidMythic"] = 16,
+		}
+		Details222.DHook = hooksecurefunc
+
+		local emptyFunction = function()end
+		local emptyTable = {}
+
+		---context manager is a system that evaluates where the player is and create a set of extra rules that fit the content the player is doing
+		---@class contextmanager : table
+		---@field instanceType string
+		---@field instanceName string
+		---@field instanceId number
+		---@field instanceDifficulty number
+		---@field lastInstanceType string
+		---@field lastInstanceName string
+		---@field lastInstanceDifficulty number
+		---@field contextId string
+		---@field bContextStarted boolean
+		---@field bContextFinished boolean
+		---@field bHasContext boolean
+		---@field fHasLostInterest function
+		---@field fOnContextFinished function
+		---@field fOnCombatFinished function
+		---@field eventFrame frame
+		---@field DetailsEventListener table
+		---@field contextEventTable table
+		---@field StartContext function
+		---@field CheckContextInterest function
+		---@field FinishContext function
+		---@field GetContext function
+
+		DAMAGE_METER_SESSIONPARAMETER_TYPE = "type"
+		DAMAGE_METER_SESSIONPARAMETER_ID = "id"
+
+		--tells what is the activity the player is doing
+		Details222.ContextManager = {
+			instanceType = "INIT",
+			instanceName = "INIT",
+			instanceDifficulty = 0,
+			lastInstanceType = "INIT",
+			lastInstanceName = "INIT",
+			lastInstanceDifficulty = 0,
+			contextId = "INIT",
+			bContextStarted = false,
+			bContextFinished = false,
+			bHasContext = false,
+			fOnContextFinished = emptyFunction,
+			fHasLostInterest = emptyFunction,
+			fOnCombatFinished = emptyFunction,
+			contextEventTable = emptyTable,
+
+			eventFrame = CreateFrame("frame"),
+
+			---start a new context, this is called from the CheckContextInterest() function
+			---@param self contextmanager
+			---@param instanceId number
+			---@param instanceName string
+			---@param instanceType string
+			---@param difficultyId number
+			---@param contextEventTable table
+			---@param fOnCombatFinished function run when details! finishes a combat
+			---@param fOnContextFinished function run when the context is finished
+			---@param fHasLostInterest function run when CheckContextInterest() fails to find a context
+			StartContext = function(self, instanceId, instanceName, instanceType, difficultyId, contextEventTable, fOnCombatFinished, fOnContextFinished, fHasLostInterest)
+				self.instanceType = instanceType
+				self.instanceName = instanceName
+				self.instanceId = instanceId
+				self.instanceDifficulty = difficultyId
+				self.bContextStarted = true
+				self.bContextFinished = false
+				self.bHasContext = true
+				self.fOnContextFinished = fOnContextFinished
+				self.fHasLostInterest = fHasLostInterest
+				self.fOnCombatFinished = fOnCombatFinished
+				self.contextEventTable = contextEventTable
+
+				--create an event listener to grab the event when Details! finishes a combat
+				if (not self.DetailsEventListener) then
+					self.DetailsEventListener = Details:CreateEventListener()
+				end
+				self.DetailsEventListener:UnregisterEvent("COMBAT_PLAYER_LEAVE")
+				--register the onFinishCombat for the context
+				self.DetailsEventListener:RegisterEvent("COMBAT_PLAYER_LEAVE", fOnCombatFinished)
+
+				--unregister all events
+				self.eventFrame:UnregisterAllEvents()
+
+				--register the events that the context require
+				for i = 1, #contextEventTable.events do
+					self.eventFrame:RegisterEvent(contextEventTable.events[i])
+				end
+
+				--if the callback function returns true, the context is finished
+				self.eventFrame:SetScript("OnEvent", function(eventFrame, event, ...)
+					if (contextEventTable.callback(event, ...)) then
+						Details222.DebugMsg("context manager event", event)
+						--context completed
+						Details222.DebugMsg("Context Completed!")
+						C_Timer.After(1, fOnContextFinished)
+						C_Timer.After(1.1, function() self:FinishContext() end)
+					end
+				end)
+
+				Details222.DebugMsg("a new context has been set.")
+			end,
+
+			---check if the player is in a context of interest
+			---@param self contextmanager
+			---@param instanceId number
+			---@param instanceName string
+			---@param instanceType string
+			---@param difficultyId number
+			CheckContextInterest = function(self, instanceId, instanceName, instanceType, difficultyId)
+				Details222.DebugMsg("Checking for new context:", instanceId, instanceName, instanceType, difficultyId)
+				--normal, heroic and mythic0 dungeons on Retail
+				local diffTable = Details222.InstanceDifficulty
+				if (difficultyId == diffTable.DungeonNormal or difficultyId == diffTable.DungeonHeroic or difficultyId == diffTable.DungeonMythic) then
+					if (DetailsFramework.IsDragonflightAndBeyond()) then
+						--check if the player is in the same context
+						if (self.bHasContext and self.instanceId == instanceId and self.instanceType == instanceType and self.instanceName == instanceName and self.instanceDifficulty == difficultyId) then
+							return
+						end
+
+						do return end
+
+						--if a context is found, finishes it before a new one is created
+						if (self.bHasContext) then
+							--discard the context
+							Details222.DebugMsg("had an active context, finishing it.")
+							self:FinishContext()
+						end
+
+						--set a new context where at the end of the dungeon it creates an overall segment for the run
+						--function to verify if context is finished, in this case if all objectives of the dungeon has been completed by listening to the SCENARIO_COMPLETED event
+						local contextEventTable = {
+							events = {"SCENARIO_COMPLETED"},
+							callback = function(...)
+								--when a context return true, the context is finished and will trigger a call on the fOnContextFinished function
+								return true
+							end
+						}
+
+						--create a contextId to tag combats that are part of the same context
+						self.contextId = instanceName .. tostring(time())
+
+						--called when a combat finishes and this context is still active
+						local fOnCombatFinished = function()
+							local currentCombat = Details:GetCurrentCombat()
+							currentCombat.context = self.contextId
+						end
+
+						---this function evaluates if this context has lost its interest and should be discarded, return true if the context is no longer valid
+						local fHasLostInterest = function(instanceId, instanceName, instanceType, difficultyId)
+							--check if the player is still in the same context
+							if (self.instanceId ~= instanceId or self.instanceType ~= instanceType or self.instanceName ~= instanceName or self.instanceDifficulty ~= difficultyId) then
+								return true
+							end
+						end
+
+						--will ba called when the context finishes, in this case when the SCENARIO_COMPLETED event is triggered
+						local fOnContextFinished = function()
+							--check if this is not a mythic+ run
+							if (C_ChallengeMode) then
+								if (C_ChallengeMode.GetActiveChallengeMapID() or C_ChallengeMode.GetActiveKeystoneInfo() or C_ChallengeMode.IsChallengeModeActive()) then
+									print("did not start as this is a m+ run")
+									return
+								else
+									print("this is not a m+ run")
+								end
+							end
+
+							---@type combat[]
+							local interestCombats = {}
+							--get all segments
+							local segments = Details:GetCombatSegments()
+							for i = 1, #segments do
+								local segment = segments[i]
+								if (segment.context == self.contextId) then
+									interestCombats[#interestCombats+1] = segment
+								end
+							end
+
+							if (#interestCombats > 0) then
+								--start a new combat
+								Details222.StartCombat()
+
+								Details222.DebugMsg("merging", #interestCombats, "combats into a single combat.")
+
+								---@type combat
+								local currentCombat = Details:GetCurrentCombat()
+
+								--iterate over all interest combats
+								for i = 1, #interestCombats do
+									local interestCombat = interestCombats[i]
+									--add the combat to the new combat
+									currentCombat:AddCombat(interestCombat, i == 1, i == #interestCombats)
+								end
+
+								Details222.DebugMsg("combat time:", currentCombat:GetCombatTime())
+
+								--finish the new combat
+								Details:EndCombat()
+
+								currentCombat.is_trash = false
+								currentCombat.combat_type = DETAILS_SEGMENTTYPE_DUNGEON_OVERALL
+								currentCombat.is_dungeon_overall = true
+							end
+
+							Details222.DebugMsg("overall segment has been created.")
+						end
+
+						self:StartContext(instanceId, instanceName, instanceType, difficultyId, contextEventTable, fOnCombatFinished, fOnContextFinished, fHasLostInterest)
+
+						return
+					end
+				else
+					--if no context is found, check if there is a current context and check if it lost its interest
+					if (self.bHasContext) then
+						if (self.fHasLostInterest(self, instanceId, instanceName, instanceType, difficultyId)) then
+							Details222.DebugMsg("no context found, but context is active, finishing the current context.")
+							--discard the context
+							self:FinishContext()
+						end
+					end
+				end
+			end,
+
+			---finish the current context
+			---@param self contextmanager
+			FinishContext = function(self)
+				if (not self.bHasContext or not self.bContextStarted or self.bContextFinished) then
+					return
+				end
+
+				--mark this context as finished
+				self.bContextFinished = true
+
+				--reset context
+				self.instanceType = "INIT"
+				self.instanceName = "INIT"
+				self.contextId = "INIT"
+				self.instanceId = -1
+				self.instanceDifficulty = 0
+				self.bContextStarted = false
+				self.bHasContext = false
+				self.fOnContextFinished = emptyFunction
+				self.fHasLostInterest = emptyFunction
+				self.fOnCombatFinished = emptyFunction
+				self.contextEventTable = emptyTable
+			end,
+
+			---return the current contextIndex
+			---@param self contextmanager
+			---@return number|boolean, string?, string?, number?
+			GetContext = function(self)
+				if (self.bHasContext) then
+					return self.instanceId, self.instanceName, self.instanceType, self.instanceDifficulty
+				end
+				return false
+			end,
+		}
+
+        local GetSpellInfo = C_Spell and C_Spell.GetSpellInfo or GetSpellInfo
+        Details222.GetSpellInfo = GetSpellInfo
+
+		local UnitBuff = C_UnitAuras and C_UnitAuras.GetBuffDataByIndex or UnitBuff
+		Details222.UnitBuff = UnitBuff
+
+		local UnitDebuff = C_UnitAuras and C_UnitAuras.GetDebuffDataByIndex or UnitDebuff
+		Details222.UnitDebuff = UnitDebuff
+
+		local dr = C_DeathRecap
+		Details.DR = dr
+		Details222.DR = dr
+
+        if (C_Spell and C_Spell.GetSpellInfo) then
+            Details222.GetSpellInfo = function(...)
+                local result = GetSpellInfo(...)
+                if result then
+                    return result.name, 1, result.iconID
+                end
+            end
+        end
+
+        if (C_UnitAuras and C_UnitAuras.GetAuraDataByIndex) then
+			Details222.UnitBuff = function(unitToken, index, filter)
+				local auraData = UnitBuff(unitToken, index, filter)
+				if (not auraData) then
+					return nil
+				end
+				return AuraUtil.UnpackAuraData(auraData)
+			end
+
+			Details222.UnitDebuff = function(unitToken, index, filter)
+				local auraData = UnitDebuff(unitToken, index, filter)
+				if (not auraData) then
+					return nil
+				end
+				return AuraUtil.UnpackAuraData(auraData)
+			end
+        end
+
 
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
---> initialization stuff
+--initialization stuff
+local _
 
 do
-
-	local _detalhes = _G._detalhes
-
+	local _detalhes = _G.Details
 	_detalhes.resize_debug = {}
 
-	local Loc = LibStub ("AceLocale-3.0"):GetLocale ( "Details" )
---[[
-|cFFFFFF00v8.3.0.7255.140 (|cFFFFCC00January 20th, 2020|r|cFFFFFF00)|r:\n\n
-|cFFFFFF00-|r Fixed Eye of Corruption and Grand Delusions.\n\n
---]]
+	local Loc = _G.LibStub("AceLocale-3.0"):GetLocale("Details")
 
-	Loc ["STRING_VERSION_LOG"] = "|cFFFFFF00v8.3.0.7255.140 (|cFFFFCC00January 20th, 2020|r|cFFFFFF00)|r:\n\n|cFFFFFF00-|r Fixed Eye of Corruption and Grand Delusions.\n\n|cFFFFFF00v8.3.0.7239.140 (|cFFFFCC00January 06th, 2020|r|cFFFFFF00)|r:\n\n|cFFFFFF00-|r Healers can now heal training dummies inside cities without being in combat.\n\n|cFFFFFF00-|r Added Shaman's Stormstrike ability to auto merge (consolidate skills feature).\n\n|cFFFFFF00v8.2.5.7224.140 (|cFFFFCC00October 20th, 2019|r|cFFFFFF00)|r:\n\n|cFFFFFF00-|r Total revamp on '/details users'.\n\n|cFFFFFF00-|r Rewrite on the 'Potion Used' script, it should get all potions from the framework now.\n\n|cFFFFFF00-|r Done a workaround on a rare bug where pet ability isn't found in the game database.\n\n|cFFFFFF00v8.2.0.7172.140 (|cFFFFCC00August 3rd, 2019|r|cFFFFFF00)|r:\n\n|cFFFFFF00-|r Fixed player detail window showing a blank page after selecting another player when in the comparison tab.\n\n|cFFFFFF00-|r Added information about the Eternal Palace raid, this brings better boss icons, background textures and other things (by GyroJoe).\n\n|cFFFFFF00v8.2.0.7167.140 (|cFFFFCC00July 24th, 2019|r|cFFFFFF00)|r:\n\n|cFFFFFF00-|r Fixed overkill amount (by nullKomplex).\n\n|cFFFFFF00v8.2.0.7166.140 (|cFFFFCC00July 18th, 2019|r|cFFFFFF00)|r:\n\n|cFFFFFF00-|r Added new potions, food and flasks. (by nullKomplex).\n\n|cFFFFFF00v8.2.0.7165.140 (|cFFFFCC00July 14th, 2019|r|cFFFFFF00)|r:\n\n|cFFFFFF00-|r More 8.2 bug fixes.\n\n|cFFFFFF00v8.2.0.7152.140 (|cFFFFCC00July 7th, 2019|r|cFFFFFF00)|r:\n\n|cFFFFFF00-|r Fixed some issues with classes showing some wrong icons (by nullKomplex).\n\n|cFFFFFF00v8.2.0.7150.140 (|cFFFFCC00July 2nd, 2019|r|cFFFFFF00)|r:\n\n|cFFFFFF00-|r Added click through options.\n\n|cFFFFFF00-|r More 8.2 fixes.\n\n|cFFFFFF00v8.1.5.7129.140 (|cFFFFCC00May 2nd, 2019|r|cFFFFFF00)|r:\n\n|cFFFFFF00-|r Energy redesign: track only the energy generated below the maximum energy amount.\nEnergy generated above the maximum energy now counts as energy 'overflow', this info is in the tooltip.\n\n|cFFFFFF00v8.1.5.7102.139 (|cFFFFCC00April 23rd, 2019|r|cFFFFFF00)|r:\n\n|cFFFFFF00-|r Added API Details.SegmentPhases() and Details.UnitDamageByPhase() see '/details api' for the full API.\n\n|cFFFFFF00-|r Minor fixes for the mythic version of 'The Restless Cabal' encounter.\n\n|cFFFFFF00v8.1.5.7099.139 (|cFFFFCC00April 16rd, 2019|r|cFFFFFF00)|r:\n\n|cFFFFFF00-|r Damage and Healing API is ready to be used by scripters, use '/details api' for more information.\n\n|cFFFFFF00v8.1.5.7084.138 (|cFFFFCC00April 9rd, 2019|r|cFFFFFF00)|r:\n\n|cFFFFFF00-|r Replacing the old API with the new, see /details api.\n\n|cFFFFFF00v8.1.5.7053.138 (|cFFFFCC00April 3rd, 2019|r|cFFFFFF00)|r:\n\n|cFFFFFF00-|r Fixed the 'Event Tracker' not showing all cooldowns and crowdcontrol.\n\n|cFFFFFF00-|r Added new gradient wallpapers.\n\n|cFFFFFF00v8.1.5.7042.138 (|cFFFFCC00March 23th, 2019|r|cFFFFFF00)|r:\n\n|cFFFFFF00-|r Added the first batch of functions call for Details API 2.0.\n\n|cFFFFFF00v8.1.0.6923.136 (|cFFFFCC00March 06th, 2019|r|cFFFFFF00)|r:\n\n|cFFFFFF00-|r Fixed Vamguard plugin not showing debuffs on tanks.\n\n|cFFFFFF00-|r Attempt to fix some plugins loading after details! start and failing to install.\n\n|cFFFFFF00-|r Fixed a bug within Atal'Dazar dungeon where in some cases adds damage where considered friendly fire.\n\n|cFFFFFF00v8.1.0.6902.135 (|cFFFFCC00February 19th, 2019|r|cFFFFFF00)|r:\n\n|cFFFFFF00-|r Fixed some window gliches with lock, snap and resize buttons.\n\n|cFFFFFF00-|r Fixed issue with the window unlocking after a /reload.\n\n|cFFFFFF00v8.1.0.6861.135 (|cFFFFCC00January 20th, 2019|r|cFFFFFF00)|r:\n\n|cFFFFFF00-|r Fixed rogue spec icons.\n\n|cFFFFFF00-|r Some visuals improvements.\n\n|cFFFFFF00-|r Added some buttons below the release death recap window, only show in raid after a boss.\n\n|cFFFFFF00v8.1.0.6702.135 (|cFFFFCC00December 31th, 2018|r|cFFFFFF00)|r:\n\n|cFFFFFF00-|r Streamers/Youtubers the Event Tracker tool has been fixed for 8.1, enjoy!\n\n|cFFFFFF00v8.0.1.6692.135 (|cFFFFCC00December 11th, 2018|r|cFFFFFF00)|r:\n\n|cFFFFFF00-|r Fixed East Asian myriads showing a giganting non formated number in the total bar DPS.\n\n|cFFFFFF00-|r Added a reset nickname button in the right side of the nickname field.\n\n|cFFFFFF00-|r Framework and NickTag library updates.\n\n|cFFFFFF00v8.0.1.6691.135 (|cFFFFCC00November 23th, 2018|r|cFFFFFF00)|r:\n\n|cFFFFFF00-|r Experimental: added deaths to overall data during a mythic dungeon run.\n\n|cFFFFFF00-|r Report window revamp: removed report history.\n\n|cFFFFFF00-|r Fixed report tooltip not closing on report button click.\n\n|cFFFFFF00-|r Fixed copy/paste report window.\n\n|cFFFFFF00-|r Time Line (plugin) added enemy cast time line.\n\n|cFFFFFF00v8.0.1.6678.135 (|cFFFFCC00November 07th, 2018|r|cFFFFFF00)|r:\n\n|cFFFFFF00-|r New Feature: import and export profiles.\n\n|cFFFFFF00-|r Major improvements on bar text scripts.\n\n|cFFFFFF00-|r Improved import and export custom skins.\n\n|cFFFFFF00-|r Fixed shaman's sundering spell not showing in crowd control.\n\n|cFFFFFF00-|r Fixed sharing guild statistics.\n\n|cFFFFFF00-|r More spells added to spell consolidation: Whirlwind, Fracture, Mutilate.\n\n|cFFFFFF00-|r Monk Mistweaver Blackout Kick now has a indicator when it comes from passive 'Teachings of the Monastery'.\n\n|cFFFFFF00-|r Added slash command '/details debugwindow' for cases when the window isn't shown or are anchored in the wrong place.\n\n|cFFFFFF00-|r Exposed spell ignore table, you can now add spells to be ignored using Details.SpellsToIgnore [spellID] = true.\n\n|cFFFFFF00v8.0.1.6599.135 (|cFFFFCC00October 19th, 2018|r|cFFFFFF00)|r:\n\n|cFFFFFF00-|r Fixed damage on low level training dummies where it was showing 1 damage for each ability.\n\n|cFFFFFF00-|r Added a line in the tooltip shown when hovering over the spec icon to show non-formated DPS, example: '12.0K' DPS shows '11,985.8'.\n\n|cFFFFFF00-|r Developers: command /run Details:DumpTable() should now show the correct table names with quotation marks if string.\n\n|cFFFFFF00v8.0.1.6553.135 (|cFFFFCC00October 06th, 2018|r|cFFFFFF00)|r:\n\n|cFFFFFF00-|r Added a 'Macros' section in the options panel.\n\n|cFFFFFF00-|r Updated to BFA 'Potion Used' and 'Health Potion and Stone' custom displays.\n\n|cFFFFFF00-|r Backfire damage from Light of the Martyr now shows on death logs as friendly fire.\n\n|cFFFFFF00-|r Deprecated rules for friendly fire has been removed, this might fix some random issues with mind controlled players in the Lord Stormsong encounter in the Shrine of the Storm dungeon.\n\n|cFFFFFF00-|r Fixed DBM/BigWigs aura creation from the Spell List panel.\n\n|cFFFFFF00-|r Chart scripts now receives the envTable, use local envTable = ... .\n\n|cFFFFFF00-|r Polymorth (Black Cat) and Between the Eyes got added to Crowd Control list.\n\n|cFFFFFF00-|r Fixed Timeline plugin not showing the cooldown panel.\n\n|cFFFFFF00-|r Overall data setting won't reset on every logout.\n\n|cFFFFFF00-|r Slash command '/details merge' won't flag the merged combat as a trash segment anymore.\n\n|cFFFFFF00-|r Added function to use on macros to open the Player Details Window: /script Details:OpenPlayerDetails(1).\n\n|cFFFFFF00-|r Done more improvements on the Death Recap window.\n\n|cFFFFFF00v8.0.1.6449.134 (|cFFFFCC00September 11th, 2018|r|cFFFFFF00)|r:\n\n|cFFFFFF00-|r Details! is ready for Uldir mythic raiding!.\n\n|cFFFFFF00-|r Several improvements on Encounter Details plugin.\n\n|cFFFFFF00-|r Details! Scroll Damage for training in dummies is now ready for more tests, access it |cFFFFFF00/details scrolldamage|r.\n\n|cFFFFFF00-|r Damage and Healing tooltips now show a statusbar indicating the percent done by the ability.\n\n|cFFFFFF00-|r Added a scale slider  to the options panel.\n\n|cFFFFFF00-|r Added monk's Quaking Palm to crowd control spells.\n\n|cFFFFFF00-|r Fixed an issue with Plater integration.\n\n|cFFFFFF00-|r Fixed tooltips not hiding when the cursor leaves the spell icon in the Damage Taken by Spell.\n\n|cFFFFFF00-|r Framework: fixed an issue with tooltips and menus where the division line wasn't hiding properly.\n\n|cFFFFFF00-|r Framework: fixed some buttons not showing its text in the options panel.\n\n|cFFFFFF00v8.0.1.6272.134 (|cFFFFCC00August 28th, 2018|r|cFFFFFF00)|r:\n\n|cFFFFFF00-|r Fixed Dynamic Overall Data custom display.\n\n|cFFFFFF00-|r Fixed friendly fire on some dungeon fights with mind control.\n\n|cFFFFFF00-|r Raid Check plugin fully revamped, now shows talents, spec and role.\n\n|cFFFFFF00-|r Updated flask and food list for BFA.\n\n|cFFFFFF00-|r Added NpcID listing at the Spell List window.\n\n|cFFFFFF00-|r Fixed an issue with Alliance or Horde icons showing at random in player bars.\n\n|cFFFFFF00-|r Small revamp in the Death Recap window.\n\n|cFFFFFF00-|r Fixed new segment creation when the option to use only one segment while in a battleground is disabled.\n\n|cFFFFFF00-|r Fixed east asian number format on several strings.\n\n|cFFFFFF00-|r 'Smart Score' option renamed to 'Unique Segment' under the PvP options for battlegrounds.\n\n|cFFFFFF00v8.0.1.6120.132 (|cFFFFCC00August 07th, 2018|r|cFFFFFF00)|r:\n\n|cFFFFFF00-|r Death Knight: Epidemic, Scourge Strike and Howling Blast now has a better description on the spell name.\n\n|cFFFFFF00-|r Fixed snap button showing when 'Hide Resize Buttons' are enabled.\n\n|cFFFFFF00-|r Fixed title bar icons not hiding when 'Auto Hide Buttons' is enabled.\n\n|cFFFFFF00-|r Several improvements to overall data, it should be more consistent now.\n\n|cFFFFFF00-|r Details! now passes to identify the tank role of the player even when out of a party or raid.\n\n|cFFFFFF00-|r Debug helper /run Details:DumpTable(table) now correctly shows the key name when it isn't a string.\n\n|cFFFFFF00-|r Improvements done on the Bookmark config frame accessed by the options panel > display section.\n\n|cFFFFFF00-|r New slash command: '/details spells'.\n\n|cFFFFFF00-|r Statistics for Legion has been closed! You can access statistics from the orange gear > statistics.\n\n|cFFFFFF00v8.0.1.6027.132 (|cFFFFCC00July 28th, 2018|r|cFFFFFF00)|r:\n\n|cFFFFFF00-|r Added size offset options for the chat tab embed feature.\n\n|cFFFFFF00-|r Revamp on the editor for the custom line text.\n\n|cFFFFFF00v8.0.1.5985.131 (|cFFFFCC00July 17th, 2018|r|cFFFFFF00)|r:\n\n|cFFFFFF00-|r Added 'Auto Run Code' module.\n\n|cFFFFFF00-|r Added 'Plater Nameplates' integration.\n\n|cFFFFFF00-|r Weakauras integration with the Create Aura panel got great improvements.\n\n|cFFFFFF00-|r Many options has been renamed or moved from groups for better organization .\n\n|cFFFFFF00-|r Several skins got some revamp for 2018.\n\n|cFFFFFF00-|r Default settings for Arenas and Battlegrounds got changes and the experience should be more smooth now.\n\n|cFFFFFF00v7.3.5.5559.130 (|cFFFFCC00April 13th, 2018|r|cFFFFFF00)|r:\n\n|cFFFFFF00-|r Added slash commands: /details 'softtoggle' 'softshow' 'softhide'. Use them to manipulate the window visibility while using auto hide.\n\n|cFFFFFF00-|r Mythic dungeon graphic window won't show up if the user leaves the dungeon before completing it.\n\n|cFFFFFF00v7.3.5.5529.130 (|cFFFFCC00April 06th, 2018|r|cFFFFFF00)|r:\n\n|cFFFFFF00-|r Added minimize button on the mythic dungeon run chart.\n\n|cFFFFFF00-|r Added API calls: Details:ResetSegmentOverallData() and Details:ResetSegmentData().\n\n|cFFFFFF00v7.3.5.5499.130 (|cFFFFCC00Mar 30th, 2018|r|cFFFFFF00)|r:\n\n|cFFFFFF00-|r Added outline option for the right text.\n\n|cFFFFFF00v7.3.5.5469.130 (|cFFFFCC00Mar 23th, 2018|r|cFFFFFF00)|r:\n\n|cFFFFFF00-|r Fixed a few things on the mythic dungeon chart.\n\n|cFFFFFF00v7.3.5.5424.129 (|cFFFFCC00Mar 10th, 2018|r|cFFFFFF00)|r:\n\n|cFFFFFF00-|r Added macro support to open plugins. Example:\n /run Details:OpenPlugin ('Time Line')\n\n|cFFFFFF00v7.3.5.5351.129 (|cFFFFCC00Feb 26rd, 2018|r|cFFFFFF00)|r:\n\n|cFFFFFF00-|r Added a damage chart for mythic dungeon runs, it shows at the of the run. You may disable it at the Streamer Settings.\n\n|cFFFFFF00v7.3.5.5231.128 (|cFFFFCC00Feb 02nd, 2018|r|cFFFFFF00)|r:\n\n|cFFFFFF00-|r Fixed an issue with wasted shield absorbs where the wasted amount was subtracting the total healing done.\n\n|cFFFFFF00v7.3.5.5221.128 (|cFFFFCC00Jan 26th, 2018|r|cFFFFFF00)|r:\n\n|cFFFFFF00-|r Warlock mana from Life Tap won't show up any more under mana regen, this makes easy to see Soul Shard gain.\n\n|cFFFFFF00v7.3.2.5183.128 (|cFFFFCC00Jan 12th, 2018|r|cFFFFFF00)|r:\n\n|cFFFFFF00-|r The new bar animation is now applied to all users by default.\n\n|cFFFFFF00-|r Fixed an issue with the threat plugin where sometimes it was triggering errors.\n\n|cFFFFFF00v7.3.2.5175.128 (|cFFFFCC00Jan 03rd, 2018|r|cFFFFFF00)|r:\n\n|cFFFFFF00-|r ElvUI skins should have now a more good looking scrollbar.\n\n|cFFFFFF00-|r When starting to edit a custom display, the code window now clear the code from the previous display.\n\n|cFFFFFF00v7.3.2.5154.128 (|cFFFFCC00Dec 22th, 2017|r|cFFFFFF00)|r:\n\n|cFFFFFF00-|r API and Create Aura windows are now attached to the new plugin window.\n\n|cFFFFFF00v7.3.2.5101.128 (|cFFFFCC00Dec 15th, 2017|r|cFFFFFF00)|r:\n\n|cFFFFFF00-|r Moving the custom display window to the new plugins window.\n\n|cFFFFFF00-|r Major layout changes on the Encounter Details plugin window.\n\n|cFFFFFF00v7.3.2.4919.128 (|cFFFFCC00Dec 08th, 2017|r|cFFFFFF00)|r:\n\n|cFFFFFF00-|r Fixed an issue with the statistics sharing among guild members.\n\n|cFFFFFF00-|r Fixed an issue with Argus encounter where two segments were created.\n\n|cFFFFFF00-|r Fixed aura type images on the Create Aura Panel.\n\n|cFFFFFF00-|r Create Aura Panel can now be closed with Right Click.\n\n|cFFFFFF00-|r Framework updated to r60, plugins should be more stable now.\n\n|cFFFFFF00v7.3.0.4830.126 (|cFFFFFF00v7.3.2.4836.126 (|cFFFFCC00Nov 21th, 2017|r|cFFFFFF00)|r:\n\n|cFFFFFF00-|r Removed some tutorial windows popups.\n\n|cFFFFCC00Oct 21th, 2017|r|cFFFFFF00)|r:\n\n|cFFFFFF00-|r Fixed opening windows when streamer settings > no alerts is enabled.\n\n|cFFFFFF00v7.3.0.4823.126 (|cFFFFCC00Oct 09th, 2017|r|cFFFFFF00)|r:\n\n|cFFFFFF00-|r Added new options section: Streamer Settings, focused on adjustments for streamers and youtubers.\n\n|cFFFFFF00-|r Animations now always run at the same speed regardless the framerate.\n\n|cFFFFFF00-|r Click-To-Open menus now close the menu if the menu is already open.\n\n|cFFFFFF00v7.3.0.4723.126 (|cFFFFCC00Set 22th, 2017|r|cFFFFFF00)|r:\n\n|cFFFFFF00-|r Fixed overall dungeon segments being added to overall data.\n\n|cFFFFFF00v7.3.0.4705.126 (|cFFFFCC00Set 19th, 2017|r|cFFFFFF00)|r:\n\n|cFFFFFF00-|r Fixed damage taken tooltip for Brewmaster Monk where sometimes the tooltip didn't open.\n\n|cFFFFFF00-|r Fixed overall data on mythic dungeon not adding trash segments even with the option enabled on the options panel.\n\n|cFFFFFF00-|r Fixed the guild selection dropdown reseting everytime the Guild Rank window is opened.\n\n|cFFFFFF00v7.3.0.4677.126 (|cFFFFCC00Set 10th, 2017|r|cFFFFFF00)|r:\n\n|cFFFFFF00-|r During mythic dungeons, the trash segments will be merged into a new segment at the end of the boss encounter (instead of merging on the fly while cleaning up).\n\n|cFFFFFF00v7.3.0.4615.125 (|cFFFFCC00Set 09th, 2017|r|cFFFFFF00)|r:\n\n|cFFFFFF00-|r Setting up the dungeon stuff as opt-in for early adopters while we continue to make improvements on the system.\n\n|cFFFFFF00v7.3.0.4586.125 (|cFFFFCC00Set 08th, 2017|r|cFFFFFF00)|r:\n\n|cFFFFFF00-|r Formating mythic+ dungeon segments, each segment should count the boss trash + boss fight.\n\n|cFFFFFF00-|r At the end of the mythic+ dungeon, it should create a new segment adding up all segments described above.\n\n|cFFFFFF00v7.3.0.4499.124 (|cFFFFCC00Set 05th, 2017|r|cFFFFFF00)|r:\n\n|cFFFFFF00-|r Added an option to always show all players when using the standard mode. Option under PvP/PvE bracket on the options panel.\n\n|cFFFFFF00-|r Added a setting to exclude healing done lines from the death log below a certain healing amount. This options is also under PvP/PvE bracket.\n\n|cFFFFFF00-|r Fixed the guild selection on the ranking panel."
+	local news = {
+		{"v11.0.7.13388.161", "January 19th, 2025"},
+		"Check Details! Damage Meter github page for update notes.",
+	}
+
+	local newsString = "|cFFF1F1F1"
+
+	for i = 1, #news do
+		local line = news[i]
+		if (type(line) == "table")  then
+			local version = line[1]
+			local date = line[2]
+			newsString = newsString .. "|cFFFFFF00" .. version .. " (|cFFFF8800" .. date .. "|r):|r\n\n"
+		else
+			if (line ~= "") then
+				newsString = newsString .. "|cFFFFFF00-|r " .. line .. "\n\n"
+			else
+				newsString = newsString .. " \n"
+			end
+		end
+	end
+
+	Loc["STRING_VERSION_LOG"] = newsString
 
 	Loc ["STRING_DETAILS1"] = "|cffffaeaeDetails!:|r "
 
-	--> startup
+	--startup
+		_detalhes.max_windowline_columns = 11
 		_detalhes.initializing = true
 		_detalhes.enabled = true
 		_detalhes.__index = _detalhes
@@ -42,13 +888,21 @@ do
 		_detalhes.debug_chr = false
 		_detalhes.opened_windows = 0
 		_detalhes.last_combat_time = 0
+		_detalhes.last_zone_type = "INIT"
+		_detalhes.last_zone_id = -1
 
-	--> containers
-		--> armazenas as fun��es do parser - All parse functions
+		--store functions to create options frame
+		Details.optionsSection = {}
+
+		Details.ilevel = {}
+
+	--containers
+		--armazenas as fun��es do parser - All parse functions
 			_detalhes.parser = {}
 			_detalhes.parser_functions = {}
-			_detalhes.parser_frame = CreateFrame ("Frame")
-			_detalhes.parser_frame:Hide()
+			Details222.parser_frame = CreateFrame("Frame")
+			Details222.parser_frame:Hide()
+			_detalhes.pvp_parser_frame = CreateFrame("Frame")
 
 			_detalhes.MacroList = {
 				{Name = "Click on Your Own Bar", Desc = "To open the player details window on your character, like if you click on your bar in the damage window. The number '1' is the window number where it'll click.", MacroText = "/script Details:OpenPlayerDetails(1)"},
@@ -58,208 +912,106 @@ do
 				{Name = "Change What the Window Shows", Desc = "Make a window show different data. SetDisplay uses (segment, displayGroup, displayID), the menu from the sword icon is in order (damage = group 1, overheal is: displayGroup 2 displayID 3.", MacroText = "/script Details:GetWindow(1):SetDisplay( DETAILS_SEGMENTID_CURRENT, 4, 5 )"},
 				{Name = "Toggle Window Height to Max Size", Desc = "Make a window be 450 pixel height, pressing the macro again toggle back to the original size. The number '1' if the window number. Hold a click in any window to show their number.", MacroText = "/script Details:GetWindow(1):ToggleMaxSize()"},
 			--	/script Details:OpenPlugin ('Advanced Death Logs'); local a = Details_DeathGraphsModeEnduranceButton and Details_DeathGraphsModeEnduranceButton.MyObject:Click()
-
 				{Name = "Report What is Shown In the Window", Desc = "Report the current data shown in the window, the number 1 is the window number, replace it to report another window.", MacroText = "/script Details:FastReportWindow(1)"},
-
 			}
 
-		--> quais raides devem ser guardadas no hist�rico
-			_detalhes.InstancesToStoreData = { --> mapIDs
-				[867] = true, -- Zul'Aman
-				[863] = true, -- Serpentshrine Cavern
-				[866] = true, -- Magtheridon's Lair
-				[865] = true, -- Gruul's Lair
-				[868] = true, -- Karazhan
-				[862] = true, -- The Eye
-
-				[14] = true, -- Onyxia's Lair
-				[610] = true, -- The Ruby Sanctum
-				[605] = true, -- Icecrown Citadel
-				[544] = true, -- Trial of the Crusader
-				[536] = true, -- Naxxramas
-				[533] = true, -- Vault of Archavon
-				[532] = true, -- The Obsidian Sanctum
-				[528] = true, -- The Eye of Eternity
-				[530] = true, -- Ulduar
+		--current instances of the exp (need to maintain) - deprecated july 2024 - should do this automatically
+			Details.InstancesToStoreData = { --mapId
+				[2769] = true, --Liberation of Undermine v11.1 T2
+				[2657] = true, --Nerub-ar Palace v11 T1
+				[2294] = true, --Nerub-ar Palace v11 T1
 			}
 
-			--must fail in map and encounter id to not store data
-			_detalhes.EncountersToStoreData = { --> encounterIDs
-			-- Zul'Aman
-				[23574] = 1, -- Akilzon
-				[23576] = 2, -- Nalorakk
-				[23578] = 3, -- Janalai
-				[23577] = 4, -- Halazzi
-				[24239] = 5, -- Malacrass
-				[23863] = 6, -- ZulJin
-			-- Serpentshrine Cavern
-				[21216] = 1, -- Hydross the Unstable
-				[21217] = 2, -- The Lurker Below
-				[21215] = 3, -- Leotheras the Blind
-				[21214] = 4, -- Fathom-Lord Karathress
-				[21213] = 5, -- Morogrim Tidewalker
-				[21212] = 6, -- Lady Vashj
-			-- Magtheridon's Lair
-				[17257] = 1, -- Magtheridon
-			-- Gruul's Lair
-				[18831] = 1, -- High King Maulgar
-				[19044] = 2, -- Gruul the Dragonkiller
-			-- Karazhan
-				[34972] = 1, -- Attumen the Huntsman
-				[15687] = 2, -- Moroes
-				[16457] = 3, -- Maiden of Virtue
-				[1234567890] = 4,
-				[34437] = 5, -- The Curator
-				[15688] = 6, -- Terestian Illhoof
-				[16524] = 7, -- Shade of Aran
-				[15689] = 8, -- Netherspite
-				[17225] = 9, -- Nightbane
-				[15690] = 10, -- Prince Malchezaar
-			-- The Eye
-				[19514] = 1, -- Al'ar
-				[19516] = 2, -- Void Reaver
-				[18805] = 3, -- High Astromancer Solarian
-				[19622] = 4, -- Kael'thas Sunstrider
+		--store shield information for absorbs
+			_detalhes.ShieldCache = {}
 
-			-- Onyxia's Lair
-				[10184] = 1, -- Onyxia
-			-- The Ruby Sanctum
-				[39863] = 1, -- Halion
-			-- Icecrown Citadel
-				[36612] = 1, -- Lord Marrowgar
-				[36855] = 2, -- Lady Deathwhisper
-				[37540] = 3, -- Icecrown Gunship Battle
-				[37215] = 3, -- Icecrown Gunship Battle
-				[37813] = 4, -- Deathbringer Saurfang
-				[36626] = 5, -- Festergut
-				[36627] = 6, -- Rotface
-				[36678] = 7, -- Professor Putricide
-				[37970] = 8, -- Blood Prince Council
-				[37955] = 9, -- Blood-Queen Lana'thel
-				[36789] = 10, -- Valithria Dreamwalker
-				[36853] = 11, -- Sindragosa
-				[36597] = 12, -- The Lich King
-				[3392] = 13, -- Lady Jaina Proudmoore
-			-- Trial of the Crusader
-				[34797] = 1, -- The Beasts of Northrend
-				[34780] = 2, -- Lord Jaraxxus
-				[34467] = 3, -- Faction Champions
-				[34451] = 3, -- Faction Champions
-				[34497] = 4, -- The Twin Val'kyr
-				[34564] = 5, -- Anub'arak
-			-- Naxxramas
-				[15956] = 1, -- Anub'Rekhan
-				[15953] = 2, -- Grand Widow Faerlina
-				[15952] = 3, -- Maexxna
-				[15954] = 4, -- Noth the Plaguebringer
-				[15936] = 5, -- Heigan the Unclean
-				[16011] = 6, -- Loatheb
-				[16061] = 7, -- Instructor Razuvious
-				[16060] = 8, -- Gothik the Harvester
-				[30549] = 9, -- The Four Horsemen
-				[16028] = 10, -- Patchwerk
-				[15931] = 11, -- Grobbulus
-				[15932] = 12, -- Gluth
-				[15928] = 13, -- Thaddius
-				[15989] = 14, -- Sapphiron
-				[15990] = 15, -- Kel'Thuzad
-			-- Vault of Archavon
-				[31125] = 1, -- Archavon
-				[33993] = 2, -- Emalon
-				[35013] = 3, -- Koralon
-				[38433] = 4, -- Toravon
-			-- The Obsidian Sanctum
-				[28860] = 1, -- Sartharion
-			-- The Eye of Eternity
-				[28859] = 1, -- Malygos
-			-- Ulduar
-				[33113] = 1, -- Flame Leviathan
-				[33118] = 2, -- Ignis the Furnace Master
-				[33186] = 3, -- Razorscale
-				[33293] = 4, -- XT-002 Deconstructor
-				[32867] = 5, -- Assembly of Iron
-				[32930] = 6, -- Kologarn
-				[33515] = 7, -- Auriaya
-				[32845] = 8, -- Hodir
-				[32865] = 9, -- Thorim
-				[32906] = 10, -- Freya
-				[33350] = 11, -- Mimiron
-				[33271] = 12, -- General Vezax
-				[33288] = 13, -- Yogg-Saron
-				[32871] = 14, -- Algalon the Observer
-			}
-
-		--> armazena os escudos - Shields information for absorbs
-			_detalhes.escudos = {}
-		--> armazena as fun��es dos frames - Frames functions
+		--armazena as fun��es dos frames - Frames functions
 			_detalhes.gump = _G ["DetailsFramework"]
 			function _detalhes:GetFramework()
 				return self.gump
 			end
 			GameCooltip = GameCooltip2
-		--> anima��es dos icones
+		--anima��es dos icones
 			_detalhes.icon_animations = {
 				load = {
 					in_use = {},
 					available = {},
 				},
 			}
-		--> armazena as fun��es para inicializa��o dos dados - Metatable functions
+
+		--make a color namespace
+		Details.Colors = {}
+		function Details.Colors.GetMenuTextColor()
+			return "orange"
+		end
+
+		function Details:GetTextureAtlasTable()
+			return Details.TextureAtlas
+		end
+
+		--armazena as fun��es para inicializa��o dos dados - Metatable functions
 			_detalhes.refresh = {}
-		--> armazena as fun��es para limpar e guardas os dados - Metatable functions
+		--armazena as fun��es para limpar e guardas os dados - Metatable functions
 			_detalhes.clear = {}
-		--> armazena a config do painel de fast switch
+		--armazena a config do painel de fast switch
 			_detalhes.switch = {}
-		--> armazena os estilos salvos
+		--armazena os estilos salvos
 			_detalhes.savedStyles = {}
-		--> armazena quais atributos possue janela de atributos - contain attributes and sub attributos wich have a detailed window (left click on a row)
+		--armazena quais atributos possue janela de atributos - contain attributes and sub attributos wich have a detailed window (left click on a row)
 			_detalhes.row_singleclick_overwrite = {}
-		--> report
+		--report
 			_detalhes.ReportOptions = {}
-		--> armazena os buffs registrados - store buffs ids and functions
-			_detalhes.Buffs = {} --> initialize buff table
-		-->  cache dead npc
-			_detalhes.cache_dead_npc = {}
-		-->  cache de grupo
+		--armazena os buffs registrados - store buffs ids and functions
+			_detalhes.Buffs = {} --initialize buff table
+		-- cache de grupo
 			_detalhes.cache_damage_group = {}
 			_detalhes.cache_healing_group = {}
 			_detalhes.cache_npc_ids = {}
-		--> cache de specs
+		--cache de specs
 			_detalhes.cached_specs = {}
 			_detalhes.cached_talents = {}
-		--> ignored pets
+		--ignored pets
 			_detalhes.pets_ignored = {}
 			_detalhes.pets_no_owner = {}
-			_detalhes.pets_players = {}
-		--> dual candidates
+		--dual candidates
 			_detalhes.duel_candidates = {}
-		--> armazena as skins dispon�veis para as janelas
+		--armazena as skins dispon�veis para as janelas
 			_detalhes.skins = {}
-		--> armazena os hooks das fun��es do parser
+		--armazena os hooks das fun��es do parser
+			---@type table<detailshook, function[]>
 			_detalhes.hooks = {}
-		--> informa��es sobre a luta do boss atual
+		--informa��es sobre a luta do boss atual
 			_detalhes.encounter_end_table = {}
 			_detalhes.encounter_table = {}
 			_detalhes.encounter_counter = {}
 			_detalhes.encounter_dungeons = {}
-		--> reliable char data sources
-		--> actors that are using details! and sent character data, we don't need query inspect on these actors
+		--unitId dos inimigos dentro de uma arena
+			_detalhes.arena_enemies = {}
+		--reliable char data sources
+		--actors that are using details! and sent character data, we don't need query inspect on these actors
 			_detalhes.trusted_characters = {}
-		--> informa��es sobre a arena atual
+		--informa��es sobre a arena atual
 			_detalhes.arena_table = {}
 			_detalhes.arena_info = {
-				--> need to get the new mapID for 8.0.1
+				--need to get the new mapID for 8.0.1
 				[562] = {file = "LoadScreenBladesEdgeArena", coords = {0, 1, 0.29296875, 0.9375}}, -- Circle of Blood Arena
 				[617] = {file = "LoadScreenDalaranSewersArena", coords = {0, 1, 0.29296875, 0.857421875}}, --Dalaran Arena
 				[559] = {file = "LoadScreenNagrandArenaBattlegrounds", coords = {0, 1, 0.341796875, 1}}, --Ring of Trials
 				[980] = {file = "LoadScreenTolvirArena", coords = {0, 1, 0.29296875, 0.857421875}}, --Tol'Viron Arena
 				[572] = {file = "LoadScreenRuinsofLordaeronBattlegrounds", coords = {0, 1, 0.341796875, 1}}, --Ruins of Lordaeron
 				[1134] = {file = "LoadingScreen_Shadowpan_bg", coords = {0, 1, 0.29296875, 0.857421875}}, -- Tiger's Peak
-				--> legion, thanks @pas06 on curse forge for the mapIds
+				--legion, thanks @pas06 on curse forge for the mapIds
 				[1552] = {file = "LoadingScreen_ArenaValSharah_wide", coords = {0, 1, 0.29296875, 0.857421875}}, -- Ashmane's Fall
 				[1504] = {file = "LoadingScreen_BlackrookHoldArena_wide", coords = {0, 1, 0.29296875, 0.857421875}}, --Black Rook Hold
 
 				--"LoadScreenOrgrimmarArena", --Ring of Valor
+			}
+
+			Details.IgnoredEnemyNpcsTable = {
+				[31216] = true, --mirror image
+				[53006] = true, --spirit link totem
+				[63508] = true, --xuen
+				[73967] = true, --xuen
 			}
 
 			function _detalhes:GetArenaInfo (mapid)
@@ -269,8 +1021,7 @@ do
 				end
 			end
 			_detalhes.battleground_info = {
-				--> need to get the nwee mapID for 8.0.1
-				[611] = {file = "LoadScreenWarsongGulch", coords = {0, 1, 121/512, 484/512}}, --warsong gulch
+				--need to get the nwee mapID for 8.0.1
 				[489] = {file = "LoadScreenWarsongGulch", coords = {0, 1, 121/512, 484/512}}, --warsong gulch
 				[727] = {file = "LoadScreenSilvershardMines", coords = {0, 1, 251/1024, 840/1024}}, --silvershard mines
 				[529] = {file = "LoadscreenArathiBasin", coords = {0, 1, 126/512, 430/512}}, --arathi basin
@@ -284,14 +1035,14 @@ do
 				[628] = {file = "LOADSCREENISLEOFCONQUEST", coords = {0, 1, 297/1024, 878/1024}}, --isle of conquest
 				--[] = {file = "", coords = {0, 1, 0, 0}}, --
 			}
-			function _detalhes:GetBattlegroundInfo (mapid)
-				local t = _detalhes.battleground_info [mapid]
-				if (t) then
-					return t.file, t.coords
+			function _detalhes:GetBattlegroundInfo(mapid)
+				local battlegroundInfo = _detalhes.battleground_info[mapid]
+				if (battlegroundInfo) then
+					return battlegroundInfo.file, battlegroundInfo.coords
 				end
 			end
 
-		--> tokenid
+		--tokenid
 			_detalhes.TokenID = {
 				["SPELL_PERIODIC_DAMAGE"] = 1,
 				["SPELL_EXTRA_ATTACKS"] = 2,
@@ -310,35 +1061,55 @@ do
 				["ENVIRONMENTAL_DAMAGE"] = 15,
 				["SPELL_HEAL"] = 16,
 				["SPELL_PERIODIC_HEAL"] = 17,
-				["SPELL_AURA_APPLIED"] = 18,
-				["SPELL_AURA_REMOVED"] = 19,
-				["SPELL_AURA_REFRESH"] = 20,
-				["SPELL_AURA_APPLIED_DOSE"] = 21,
-				["SPELL_ENERGIZE"] = 22,
-				["SPELL_PERIODIC_ENERGIZE"] = 23,
-				["SPELL_CAST_START"] = 24,
-				["SPELL_CAST_SUCCESS"] = 25,
-				["SPELL_DISPEL"] = 26,
-				["SPELL_STOLEN"] = 27,
+				["SPELL_HEAL_ABSORBED"] = 18,
+				["SPELL_ABSORBED"] = 19,
+				["SPELL_AURA_APPLIED"] = 20,
+				["SPELL_AURA_REMOVED"] = 21,
+				["SPELL_AURA_REFRESH"] = 22,
+				["SPELL_AURA_APPLIED_DOSE"] = 23,
+				["SPELL_ENERGIZE"] = 24,
+				["SPELL_PERIODIC_ENERGIZE"] = 25,
+				["SPELL_CAST_SUCCESS"] = 26,
+				["SPELL_DISPEL"] = 27,
+				["SPELL_STOLEN"] = 28,
 				["SPELL_AURA_BROKEN"] = 29,
-				["SPELL_AURA_BROKEN_SPELL"] = 29,
-				["SPELL_RESURRECT"] = 30,
-				["SPELL_INTERRUPT"] = 31,
-				["UNIT_DIED"] = 32,
-				["UNIT_DESTROYED"] = 33,
+				["SPELL_AURA_BROKEN_SPELL"] = 30,
+				["SPELL_RESURRECT"] = 31,
+				["SPELL_INTERRUPT"] = 32,
+				["UNIT_DIED"] = 33,
+				["UNIT_DESTROYED"] = 34,
 			}
 
-		--> armazena instancias inativas
+		---@type table<npcid, textureid>
+		local npcIdToIcon = {
+			[98035] = 1378282, --dreadstalker
+			[17252] = 136216, --felguard
+			[136404] = 132182, --bilescourge
+			[136398] = 626007, --illidari satyr
+			[136403] = 1100177, --void terror
+			[136402] = 1581747, --ur'zyk
+			[136399] = 1709931, --visious hellhound
+			[136406] = 615148, --shivarra
+			[136407] = 615025, --wrathguard
+			[136408] = 1709932, --darkhound
+
+		}
+		_detalhes.NpcIdToIcon = npcIdToIcon
+
+		--armazena instancias inativas
 			_detalhes.unused_instances = {}
-			--_detalhes.default_skin_to_use = "Minimalistic"
 			_detalhes.default_skin_to_use = "Minimalistic"
 			_detalhes.instance_title_text_timer = {}
-		--> player detail skin
+		--player detail skin
 			_detalhes.playerdetailwindow_skins = {}
 
-		_detalhes.BitfieldSwapDebuffsIDs = {265646, 272407, 269691, 273401, 269131, 260900, 260926, 284995, 292826, 311367, 310567, 308996, 307832}
+		_detalhes.BitfieldSwapDebuffsIDs = {265646, 272407, 269691, 273401, 269131, 260900, 260926, 284995, 292826, 311367, 310567, 308996, 307832, 327414, 337253,
+											36797, 37122, 362397}
+		_detalhes.BitfieldSwapDebuffsSpellIDs = {
+			[360418] = true
+		}
 
-		--> auto run code
+		--auto run code
 		_detalhes.RunCodeTypes = {
 			{Name = "On Initialization", Desc = "Run code when Details! initialize or when a profile is changed.", Value = 1, ProfileKey = "on_init"},
 			{Name = "On Zone Changed", Desc = "Run code when the zone where the player is in has changed (e.g. entered in a raid).", Value = 2, ProfileKey = "on_zonechanged"},
@@ -348,7 +1119,19 @@ do
 			{Name = "On Enter/Leave Group", Desc = "Run code when the player has entered or left a party or raid group.", Value = 6, ProfileKey = "on_groupchange"},
 		}
 
-		--> tooltip
+		--run a function without stopping the execution in case of an error
+		function Details.SafeRun(func, executionName, ...)
+			local runToCompletion, errorText = pcall(func, ...)
+			if (not runToCompletion) then
+				if (Details.debug) then
+					Details:Msg("Safe run failed:", executionName, errorText)
+				end
+				return false
+			end
+			return true
+		end
+
+		--tooltip
 			_detalhes.tooltip_backdrop = {
 				bgFile = [[Interface\DialogFrame\UI-DialogBox-Background-Dark]],
 				edgeFile = [[Interface\Tooltips\UI-Tooltip-Border]],
@@ -361,23 +1144,24 @@ do
 			_detalhes.tooltip_spell_icon = {file = [[Interface\CHARACTERFRAME\UI-StateIcon]], coords = {36/64, 58/64, 7/64, 26/64}}
 			_detalhes.tooltip_target_icon = {file = [[Interface\Addons\Details\images\icons]], coords = {0, 0.03125, 0.126953125, 0.15625}}
 
-		--> icons
+		--icons
 			_detalhes.attribute_icons = [[Interface\AddOns\Details\images\atributos_icones]]
 			function _detalhes:GetAttributeIcon (attribute)
 				return _detalhes.attribute_icons, 0.125 * (attribute - 1), 0.125 * attribute, 0, 1
 			end
 
-		--> colors
+		--colors
 			_detalhes.default_backdropcolor = {.094117, .094117, .094117, .8}
 			_detalhes.default_backdropbordercolor = {0, 0, 0, 1}
 
-	--> Plugins
+	--Plugins
 
-		--> plugin templates
+		--plugin templates
 
-		_detalhes.gump:NewColor ("DETAILS_PLUGIN_BUTTONTEXT_COLOR", 0.9999, 0.8196, 0, 1)
+		DetailsFramework:NewColor("DETAILS_PLUGIN_BUTTONTEXT_COLOR", 0.9999, 0.8196, 0, 1)
+		DetailsFramework:NewColor("DETAILS_HEADER_YELLOW", 227/255, 186/255, 4/255)
 
-		_detalhes.gump:InstallTemplate ("button", "DETAILS_PLUGINPANEL_BUTTON_TEMPLATE",
+		DetailsFramework:InstallTemplate("button", "DETAILS_PLUGINPANEL_BUTTON_TEMPLATE",
 			{
 				backdrop = {edgeFile = [[Interface\Buttons\WHITE8X8]], edgeSize = 1, bgFile = [[Interface\Tooltips\UI-Tooltip-Background]], tileSize = 64, tile = true},
 				backdropcolor = {0, 0, 0, .5},
@@ -385,7 +1169,7 @@ do
 				onentercolor = {0.3, 0.3, 0.3, .5},
 			}
 		)
-		_detalhes.gump:InstallTemplate ("button", "DETAILS_PLUGINPANEL_BUTTONSELECTED_TEMPLATE",
+		DetailsFramework:InstallTemplate("button", "DETAILS_PLUGINPANEL_BUTTONSELECTED_TEMPLATE",
 			{
 				backdrop = {edgeFile = [[Interface\Buttons\WHITE8X8]], edgeSize = 1, bgFile = [[Interface\Tooltips\UI-Tooltip-Background]], tileSize = 64, tile = true},
 				backdropcolor = {0, 0, 0, .5},
@@ -394,7 +1178,7 @@ do
 			}
 		)
 
-		_detalhes.gump:InstallTemplate ("button", "DETAILS_PLUGIN_BUTTON_TEMPLATE",
+		DetailsFramework:InstallTemplate("button", "DETAILS_PLUGIN_BUTTON_TEMPLATE",
 			{
 				backdrop = {edgeFile = [[Interface\Buttons\WHITE8X8]], edgeSize = 1, bgFile = [[Interface\Tooltips\UI-Tooltip-Background]], tileSize = 64, tile = true},
 				backdropcolor = {1, 1, 1, .5},
@@ -406,7 +1190,7 @@ do
 				height = 20,
 			}
 		)
-		_detalhes.gump:InstallTemplate ("button", "DETAILS_PLUGIN_BUTTONSELECTED_TEMPLATE",
+		DetailsFramework:InstallTemplate("button", "DETAILS_PLUGIN_BUTTONSELECTED_TEMPLATE",
 			{
 				backdrop = {edgeFile = [[Interface\Buttons\WHITE8X8]], edgeSize = 1, bgFile = [[Interface\Tooltips\UI-Tooltip-Background]], tileSize = 64, tile = true},
 				backdropcolor = {1, 1, 1, .5},
@@ -419,14 +1203,14 @@ do
 			}
 		)
 
-		_detalhes.gump:InstallTemplate ("button", "DETAILS_TAB_BUTTON_TEMPLATE",
+		DetailsFramework:InstallTemplate("button", "DETAILS_TAB_BUTTON_TEMPLATE",
 			{
 				width = 100,
 				height = 20,
 			},
 			"DETAILS_PLUGIN_BUTTON_TEMPLATE"
 		)
-		_detalhes.gump:InstallTemplate ("button","DETAILS_TAB_BUTTONSELECTED_TEMPLATE",
+		DetailsFramework:InstallTemplate("button","DETAILS_TAB_BUTTONSELECTED_TEMPLATE",
 			{
 				width = 100,
 				height = 20,
@@ -434,107 +1218,152 @@ do
 			"DETAILS_PLUGIN_BUTTONSELECTED_TEMPLATE"
 		)
 
-		_detalhes.PluginsGlobalNames = {}
-		_detalhes.PluginsLocalizedNames = {}
+		Details.PluginsGlobalNames = {}
+		Details.PluginsLocalizedNames = {}
 
-		--> raid -------------------------------------------------------------------
-			--> general function for raid mode plugins
-				_detalhes.RaidTables = {}
-			--> menu for raid modes
-				_detalhes.RaidTables.Menu = {}
-			--> plugin objects for raid mode
-				_detalhes.RaidTables.Plugins = {}
-			--> name to plugin object
-				_detalhes.RaidTables.NameTable = {}
-			--> using by
-				_detalhes.RaidTables.InstancesInUse = {}
-				_detalhes.RaidTables.PluginsInUse = {}
+		--raid -------------------------------------------------------------------
+			--general function for raid mode plugins
+				Details.RaidTables = {}
+			--menu for raid modes
+				Details.RaidTables.Menu = {}
+			--plugin objects for raid mode
+				Details.RaidTables.Plugins = {}
+			--name to plugin object
+				Details.RaidTables.NameTable = {}
+			--using by
+				Details.RaidTables.InstancesInUse = {}
+				Details.RaidTables.PluginsInUse = {}
 
-		--> solo -------------------------------------------------------------------
-			--> general functions for solo mode plugins
-				_detalhes.SoloTables = {}
-			--> maintain plugin menu
-				_detalhes.SoloTables.Menu = {}
-			--> plugins objects for solo mode
-				_detalhes.SoloTables.Plugins = {}
-			--> name to plugin object
-				_detalhes.SoloTables.NameTable = {}
+		--solo -------------------------------------------------------------------
+			--general functions for solo mode plugins
+				Details.SoloTables = {}
+			--maintain plugin menu
+				Details.SoloTables.Menu = {}
+			--plugins objects for solo mode
+				Details.SoloTables.Plugins = {}
+			--name to plugin object
+				Details.SoloTables.NameTable = {}
 
-		--> toolbar -------------------------------------------------------------------
-			--> plugins container
-				_detalhes.ToolBar = {}
-			--> current showing icons
-				_detalhes.ToolBar.Shown = {}
-				_detalhes.ToolBar.AllButtons = {}
-			--> plugin objects
-				_detalhes.ToolBar.Plugins = {}
-			--> name to plugin object
-				_detalhes.ToolBar.NameTable = {}
-				_detalhes.ToolBar.Menu = {}
+		--toolbar -------------------------------------------------------------------
+			--plugins container
+				Details.ToolBar = {}
+			--current showing icons
+				Details.ToolBar.Shown = {}
+				Details.ToolBar.AllButtons = {}
+			--plugin objects
+				Details.ToolBar.Plugins = {}
+			--name to plugin object
+				Details.ToolBar.NameTable = {}
+				Details.ToolBar.Menu = {}
 
-		--> statusbar -------------------------------------------------------------------
-			--> plugins container
-				_detalhes.StatusBar = {}
-			--> maintain plugin menu
-				_detalhes.StatusBar.Menu = {}
-			--> plugins object
-				_detalhes.StatusBar.Plugins = {}
-			--> name to plugin object
-				_detalhes.StatusBar.NameTable = {}
+		--statusbar -------------------------------------------------------------------
+			--plugins container
+				Details.StatusBar = {}
+			--maintain plugin menu
+				Details.StatusBar.Menu = {}
+			--plugins object
+				Details.StatusBar.Plugins = {}
+			--name to plugin object
+				Details.StatusBar.NameTable = {}
 
-	--> constants
-		--[[global]] DETAILS_HEALTH_POTION_LIST = {
-			[250870] = true, --Coastal Healing Potion
-			[250872] = true, --Coastal Rejuvenation Potion
-			[6262] = true, --Warlock's Healthstone
+		--constants
+
+		if (DetailsFramework.IsWotLKWow()) then
+			--[[global]] DETAILS_HEALTH_POTION1_ID = 33447 -- Runic Healing Potion
+			--[[global]] DETAILS_HEALTH_POTION2_ID = 41166 -- Runic Healing Injector
+			--[[global]] DETAILS_REJU_POTION_ID = 40087 -- Powerful Rejuvenation Potion
+			--[[global]] DETAILS_REJU_POTION2_ID = 40077 -- Crazy Alchemist's Potion
+			--[[global]] DETAILS_MANA_POTION_ID = 33448 -- Runic Mana Potion
+			--[[global]] DETAILS_MANA_POTION2_ID = 42545 -- Runic Mana Injector
+			--[[global]] DETAILS_FOCUS_POTION_ID = 307161
+			--[[global]] DETAILS_HEALTHSTONE_ID = 47875 --Warlock's Healthstone
+			--[[global]] DETAILS_HEALTHSTONE2_ID = 47876 --Warlock's Healthstone (1/2 Talent)
+			--[[global]] DETAILS_HEALTHSTONE3_ID = 47877 --Warlock's Healthstone (2/2 Talent)
+
+			--[[global]] DETAILS_INT_POTION_ID = 40212 --Potion of Wild Magic
+			--[[global]] DETAILS_AGI_POTION_ID = 40211 --Potion of Speed
+			--[[global]] DETAILS_STR_POTION_ID = 307164
+			--[[global]] DETAILS_STAMINA_POTION_ID = 40093 --Indestructible Potion
+			--[[global]] DETAILS_HEALTH_POTION_LIST = {
+					[DETAILS_HEALTH_POTION1_ID] = true, -- Runic Healing Potion
+					[DETAILS_HEALTH_POTION2_ID] = true, -- Runic Healing Injector
+					[DETAILS_HEALTHSTONE_ID] = true, --Warlock's Healthstone
+					[DETAILS_HEALTHSTONE2_ID] = true, --Warlock's Healthstone (1/2 Talent)
+					[DETAILS_HEALTHSTONE3_ID] = true, --Warlock's Healthstone (2/2 Talent)
+					[DETAILS_REJU_POTION_ID] = true, -- Powerful Rejuvenation Potion
+					[DETAILS_REJU_POTION2_ID] = true, -- Crazy Alchemist's Potion
+					[DETAILS_MANA_POTION_ID] = true, -- Runic Mana Potion
+					[DETAILS_MANA_POTION2_ID] = true, -- Runic Mana Injector
+				}
+
+		else
+			--[[global]] DETAILS_HEALTH_POTION1_ID = 307192 -- spiritual healing potion
+			--[[global]] DETAILS_HEALTH_POTION2_ID = 1234768 --cosmic healing potion
+			--[[global]] DETAILS_HEALTH_POTION3_ID = 1262857 --Potent Healing Potion
+
+			--[[global]] DETAILS_REJU_POTION_ID = 307194
+			--[[global]] DETAILS_MANA_POTION_ID = 307193
+			--[[global]] DETAILS_FOCUS_POTION_ID = 307161
+			--[[global]] DETAILS_HEALTHSTONE_ID = 6262
+
+			--[[global]] DETAILS_INT_POTION_ID = 307162
+			--[[global]] DETAILS_AGI_POTION_ID = 307159
+			--[[global]] DETAILS_STR_POTION_ID = 307164
+			--[[global]] DETAILS_STAMINA_POTION_ID = 307163
+			--[[global]] DETAILS_HEALTH_POTION_LIST = {
+					[DETAILS_HEALTH_POTION1_ID] = true, --Healing Potion
+					[DETAILS_HEALTHSTONE_ID] = true, --Warlock's Healthstone
+					[DETAILS_REJU_POTION_ID] = true, --Rejuvenation Potion
+					[DETAILS_MANA_POTION_ID] = true, --Mana Potion
+					[323436] = true, --Phial of Serenity (from Kyrians)
+					[DETAILS_HEALTH_POTION2_ID] = true,
+				}
+		end
+
+		Details.HealingPotions = {
+			[1262857] = true
 		}
-		--[[global]] DETAILS_HEALTH_POTION_ID = 250870
-		--[[global]] DETAILS_REJU_POTION_ID = 250872
-		--[[global]] DETAILS_MANA_POTION_ID = 250871
-		--[[global]] DETAILS_FOCUS_POTION_ID = 252753
 
-		--[[global]] DETAILS_INT_POTION_ID = 279151
-		--[[global]] DETAILS_AGI_POTION_ID = 279152
-		--[[global]] DETAILS_STR_POTION_ID = 279153
-		--[[global]] DETAILS_STAMINA_POTION_ID = 279154
+		--[[global]] DETAILS_MODE_GROUP = 2
+		--[[global]] DETAILS_MODE_ALL = 3
 
-		_detalhes._detalhes_props = {
-			DATA_TYPE_START = 1,	--> Something on start
-			DATA_TYPE_END = 2,	--> Something on end
+		Details._detalhes_props = {
+			DATA_TYPE_START = 1,	--Something on start
+			DATA_TYPE_END = 2,	--Something on end
 
-			MODO_ALONE = 1,	--> Solo
-			MODO_GROUP = 2,	--> Group
-			MODO_ALL = 3,		--> Everything
-			MODO_RAID = 4,	--> Raid
+			MODO_ALONE = 1,	--Solo
+			MODO_GROUP = 2,	--Group
+			MODO_ALL = 3,		--Everything
+			MODO_RAID = 4,	--Raid
 		}
-		_detalhes.modos = {
-			alone = 1, --> Solo
-			group = 2,	--> Group
-			all = 3,	--> Everything
-			raid = 4	--> Raid
+		Details.modos = {
+			alone = 1, --Solo
+			group = 2,	--Group
+			all = 3,	--Everything
+			raid = 4	--Raid
 		}
 
-		_detalhes.divisores = {
-			abre = "(",	--> open
-			fecha = ")",	--> close
-			colocacao = ". " --> dot
+		Details.divisores = {
+			abre = "(",	--open
+			fecha = ")",	--close
+			colocacao = ". " --dot
 		}
 
-		_detalhes.role_texcoord = {
+		Details.role_texcoord = {
 			DAMAGER = "72:130:69:127",
 			HEALER = "72:130:2:60",
 			TANK = "5:63:69:127",
 			NONE = "139:196:69:127",
 		}
 
-		_detalhes.role_texcoord_normalized = {
+		Details.role_texcoord_normalized = {
 			DAMAGER = {72/256, 130/256, 69/256, 127/256},
 			HEALER = {72/256, 130/256, 2/256, 60/256},
 			TANK = {5/256, 63/256, 69/256, 127/256},
 			NONE = {139/256, 196/256, 69/256, 127/256},
 		}
 
-		_detalhes.player_class = {
+		Details.player_class = {
 			["HUNTER"] = true,
 			["WARRIOR"] = true,
 			["PALADIN"] = true,
@@ -544,9 +1373,11 @@ do
 			["PRIEST"] = true,
 			["WARLOCK"] = true,
 			["DRUID"] = true,
+			["MONK"] = true,
 			["DEATHKNIGHT"] = true,
+			["DEMONHUNTER"] = true,
 		}
-		_detalhes.classstring_to_classid = {
+		Details.classstring_to_classid = {
 			["WARRIOR"] = 1,
 			["PALADIN"] = 2,
 			["HUNTER"] = 3,
@@ -556,9 +1387,11 @@ do
 			["SHAMAN"] = 7,
 			["MAGE"] = 8,
 			["WARLOCK"] = 9,
-			["DRUID"] = 10,
+			["MONK"] = 10,
+			["DRUID"] = 11,
+			["DEMONHUNTER"] = 12,
 		}
-		_detalhes.classid_to_classstring = {
+		Details.classid_to_classstring = {
 			[1] = "WARRIOR",
 			[2] = "PALADIN",
 			[3] = "HUNTER",
@@ -568,10 +1401,14 @@ do
 			[7] = "SHAMAN",
 			[8] = "MAGE",
 			[9] = "WARLOCK",
-			[10] = "DRUID",
+			[10] = "MONK",
+			[11] = "DRUID",
+			[12] = "DEMONHUNTER",
 		}
 
-		_detalhes.segmentos = {
+		local Loc = LibStub("AceLocale-3.0"):GetLocale ("Details")
+
+		Details.segmentos = {
 			label = Loc ["STRING_SEGMENT"]..": ",
 			overall = Loc ["STRING_TOTAL"],
 			overall_standard = Loc ["STRING_OVERALL"],
@@ -580,7 +1417,24 @@ do
 			past = Loc ["STRING_FIGHTNUMBER"]
 		}
 
-		_detalhes._detalhes_props["modo_nome"] = {
+		if DetailsFramework.IsAddonApocalypseWow() then
+			Details.ApocalypseAttributeNames = {
+				[Enum.DamageMeterType.DamageDone] = DAMAGE_METER_TYPE_DAMAGE_DONE,
+				[Enum.DamageMeterType.Dps] = DAMAGE_METER_TYPE_DPS,
+				[Enum.DamageMeterType.HealingDone] = DAMAGE_METER_TYPE_HEALING_DONE,
+				[Enum.DamageMeterType.Hps] = DAMAGE_METER_TYPE_HPS,
+				[Enum.DamageMeterType.Absorbs] = DAMAGE_METER_TYPE_ABSORBS,
+				[Enum.DamageMeterType.Interrupts] = DAMAGE_METER_TYPE_INTERRUPTS,
+				[Enum.DamageMeterType.Dispels] = DAMAGE_METER_TYPE_DISPELS,
+				[Enum.DamageMeterType.DamageTaken] = DAMAGE_METER_TYPE_DAMAGE_TAKEN,
+				[Enum.DamageMeterType.AvoidableDamageTaken] = DAMAGE_METER_TYPE_AVOIDABLE_DAMAGE_TAKEN,
+				[Enum.DamageMeterType.Deaths] = DAMAGE_METER_TYPE_DEATHS,
+				[Enum.DamageMeterType.EnemyDamageTaken] = DAMAGE_METER_TYPE_ENEMY_DAMAGE_TAKEN,
+			};
+		end
+
+
+		Details._detalhes_props["modo_nome"] = {
 				[_detalhes._detalhes_props["MODO_ALONE"]] = Loc ["STRING_MODE_SELF"],
 				[_detalhes._detalhes_props["MODO_GROUP"]] = Loc ["STRING_MODE_GROUP"],
 				[_detalhes._detalhes_props["MODO_ALL"]] = Loc ["STRING_MODE_ALL"],
@@ -592,115 +1446,320 @@ do
 		--[[global]] DETAILS_MODE_GROUP = 2
 		--[[global]] DETAILS_MODE_ALL = 3
 
-		_detalhes.icones = {
-			--> report window
+		Details.icones = {
+			--report window
 			report = {
-					up = "Interface\\AddOns\\Details\\textures\\FriendsFrame\\UI-Toast-FriendOnlineIcon",
+					up = "Interface\\FriendsFrame\\UI-Toast-FriendOnlineIcon",
 					down = "Interface\\ItemAnimations\\MINIMAP\\TRACKING\\Profession",
 					disabled = "Interface\\ItemAnimations\\MINIMAP\\TRACKING\\Profession",
 					highlight = nil
 				}
 		}
 
-		_detalhes.missTypes = {"ABSORB", "BLOCK", "DEFLECT", "DODGE", "EVADE", "IMMUNE", "MISS", "PARRY", "REFLECT", "RESIST"} --> do not localize-me
+		Details.missTypes = {"ABSORB", "BLOCK", "DEFLECT", "DODGE", "EVADE", "IMMUNE", "MISS", "PARRY", "REFLECT", "RESIST"} --do not localize-me
+
+
+	function Details.SendHighFive()
+		Details.users = {{UnitName("player"), GetRealmName(), (Details.userversion or "") .. " (" .. Details.APIVersion .. ")"}}
+		Details.sent_highfive = GetTime()
+		if (IsInRaid()) then
+			Details:SendRaidData(Details.network.ids.HIGHFIVE_REQUEST)
+		else
+			Details:SendPartyData(Details.network.ids.HIGHFIVE_REQUEST)
+		end
+	end
 
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
---> frames
+--frames
 
-	local _CreateFrame = CreateFrame --api locals
-	local _UIParent = UIParent --api locals
+	local CreateFrame = CreateFrame --api locals
+	local UIParent = UIParent --api locals
 
-	--> Info Window
-		_detalhes.janela_info = _CreateFrame ("Frame", "DetailsPlayerDetailsWindow", _UIParent)
-		_detalhes.PlayerDetailsWindow = _detalhes.janela_info
+	--create the breakdown window frame
+	---@type breakdownwindow
+	Details.BreakdownWindowFrame = CreateFrame("Frame", "DetailsBreakdownWindow", UIParent, "DetailsBackdropTemplate")
+	Details.PlayerDetailsWindow = Details.BreakdownWindowFrame
+	Details.BreakdownWindow = Details.BreakdownWindowFrame
 
-	--> Event Frame
-		_detalhes.listener = _CreateFrame ("Frame", nil, _UIParent)
-		_detalhes.listener:RegisterEvent ("ADDON_LOADED")
-		_detalhes.listener:SetFrameStrata ("LOW")
-		_detalhes.listener:SetFrameLevel (9)
-		_detalhes.listener.FrameTime = 0
+	--Event Frame
+	Details.listener = CreateFrame("Frame", nil, UIParent)
+	Details.listener:RegisterEvent("ADDON_LOADED")
+	Details.listener:SetFrameStrata("LOW")
+	Details.listener:SetFrameLevel(9)
+	Details.listener.FrameTime = 0
 
-		_detalhes.overlay_frame = _CreateFrame ("Frame", nil, _UIParent)
-		_detalhes.overlay_frame:SetFrameStrata ("TOOLTIP")
+	Details.overlay_frame = CreateFrame("Frame", nil, UIParent)
+	Details.overlay_frame:SetFrameStrata("TOOLTIP")
 
-	--> Pet Owner Finder
-		_CreateFrame ("GameTooltip", "DetailsPetOwnerFinder", nil, "GameTooltipTemplate")
+	--Pet Owner Finder
+	CreateFrame("GameTooltip", "DetailsPetOwnerFinder", nil, "GameTooltipTemplate")
 
 
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
---> plugin defaults
-	--> backdrop
-	_detalhes.PluginDefaults = {}
+--plugin defaults
+	--backdrop
+	Details.PluginDefaults = {}
 
-	_detalhes.PluginDefaults.Backdrop = {bgFile = "Interface\\Tooltips\\UI-Tooltip-Background", tile = true, tileSize = 16,
+	Details.PluginDefaults.Backdrop = {bgFile = "Interface\\Tooltips\\UI-Tooltip-Background", tile = true, tileSize = 16,
 	edgeFile = [[Interface\Buttons\WHITE8X8]], edgeSize = 1,
 	insets = {left = 1, right = 1, top = 1, bottom = 1}}
-	_detalhes.PluginDefaults.BackdropColor = {0, 0, 0, .6}
-	_detalhes.PluginDefaults.BackdropBorderColor = {0, 0, 0, 1}
+	Details.PluginDefaults.BackdropColor = {0, 0, 0, .6}
+	Details.PluginDefaults.BackdropBorderColor = {0, 0, 0, 1}
 
-	function _detalhes.GetPluginDefaultBackdrop()
-		return _detalhes.PluginDefaults.Backdrop, _detalhes.PluginDefaults.BackdropColor, _detalhes.PluginDefaults.BackdropBorderColor
+	function Details.GetPluginDefaultBackdrop()
+		return Details.PluginDefaults.Backdrop, Details.PluginDefaults.BackdropColor, Details.PluginDefaults.BackdropBorderColor
 	end
 
 
+------------------------------------------------------------------------------------------
+-- welcome panel
+	function _detalhes:CreateWelcomePanel(name, parent, width, height, makeMovable)
+		local newWelcomePanel = CreateFrame("frame", name, parent or UIParent, "DetailsBackdropTemplate")
+
+		DetailsFramework:ApplyStandardBackdrop(newWelcomePanel)
+		newWelcomePanel:SetSize(width or 1, height or 1)
+
+		if (makeMovable) then
+			newWelcomePanel:SetScript("OnMouseDown", function(self, button)
+				if (self.isMoving) then
+					return
+				end
+				if (button == "RightButton") then
+					self:Hide()
+				else
+					self:StartMoving()
+					self.isMoving = true
+				end
+			end)
+
+			newWelcomePanel:SetScript("OnMouseUp", function(self, button)
+				if (self.isMoving and button == "LeftButton") then
+					self:StopMovingOrSizing()
+					self.isMoving = nil
+				end
+			end)
+			newWelcomePanel:SetToplevel(true)
+			newWelcomePanel:SetMovable(true)
+		end
+
+		return newWelcomePanel
+	end
+
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
---> functions
+--functions
 
 	_detalhes.empty_function = function() end
 	_detalhes.empty_table = {}
 
-	--> register textures and fonts for shared media
+	--register textures and fonts for shared media
+		---@type table
 		local SharedMedia = LibStub:GetLibrary ("LibSharedMedia-3.0")
 		--default bars
-		SharedMedia:Register ("statusbar", "Details D'ictum", [[Interface\AddOns\Details\images\bar4]])
-		SharedMedia:Register ("statusbar", "Details Vidro", [[Interface\AddOns\Details\images\bar4_vidro]])
-		SharedMedia:Register ("statusbar", "Details D'ictum (reverse)", [[Interface\AddOns\Details\images\bar4_reverse]])
+		SharedMedia:Register("statusbar", "Details Hyanda Reverse", [[Interface\AddOns\Details\images\bar_textures\bar_hyanda_reverse.tga]])
+		SharedMedia:Register("statusbar", "You Are the Best!", [[Interface\AddOns\Details\images\bar_textures\bar_best.tga]])
+		SharedMedia:Register("statusbar", "Details Hyanda", [[Interface\AddOns\Details\images\bar_hyanda]])
+
+		SharedMedia:Register("statusbar", "Details D'ictum", [[Interface\AddOns\Details\images\bar4]])
+		SharedMedia:Register("statusbar", "Details Vidro", [[Interface\AddOns\Details\images\bar4_vidro]])
+		SharedMedia:Register("statusbar", "Details D'ictum (reverse)", [[Interface\AddOns\Details\images\bar4_reverse]])
+
 		--flat bars
-		SharedMedia:Register ("statusbar", "Details Serenity", [[Interface\AddOns\Details\images\bar_serenity]])
-		SharedMedia:Register ("statusbar", "BantoBar", [[Interface\AddOns\Details\images\BantoBar]])
-		SharedMedia:Register ("statusbar", "Skyline", [[Interface\AddOns\Details\images\bar_skyline]])
-		SharedMedia:Register ("statusbar", "WorldState Score", [[Interface\WorldStateFrame\WORLDSTATEFINALSCORE-HIGHLIGHT]])
-		SharedMedia:Register ("statusbar", "DGround", [[Interface\AddOns\Details\images\bar_background]])
-		SharedMedia:Register ("statusbar", "Details Flat", [[Interface\AddOns\Details\images\bar_background]])
+		SharedMedia:Register("statusbar", "Skyline", [[Interface\AddOns\Details\images\bar_skyline]])
 
-		--window bg and bar border
-		SharedMedia:Register ("background", "Details Ground", [[Interface\AddOns\Details\images\background]])
-		SharedMedia:Register ("border", "Details BarBorder 1", [[Interface\AddOns\Details\images\border_1]])
-		SharedMedia:Register ("border", "Details BarBorder 2", [[Interface\AddOns\Details\images\border_2]])
-		SharedMedia:Register ("border", "Details BarBorder 3", [[Interface\AddOns\Details\images\border_3]])
-		SharedMedia:Register ("border", "1 Pixel", [[Interface\Buttons\WHITE8X8]])
+		SharedMedia:Register("statusbar", "Details Serenity", [[Interface\AddOns\Details\images\bar_serenity]])
+		SharedMedia:Register("statusbar", "BantoBar", [[Interface\AddOns\Details\images\BantoBar]])
+		SharedMedia:Register("statusbar", "Skyline Compact", [[Interface\AddOns\Details\images\bar_textures\bar_skyline_compact.tga]])
+		SharedMedia:Register("statusbar", "WorldState Score", [[Interface\WorldStateFrame\WORLDSTATEFINALSCORE-HIGHLIGHT]])
+		SharedMedia:Register("statusbar", "AlwaysWork", [[Interface\WorldStateFrame\WORLDSTATEFINALSCORE-HIGHLIGHT]])
+		SharedMedia:Register("statusbar", "DGround", [[Interface\AddOns\Details\images\bar_background]])
+		SharedMedia:Register("statusbar", "Details Flat", [[Interface\AddOns\Details\images\bar_background]])
+		SharedMedia:Register("statusbar", "Splitbar", [[Interface\AddOns\Details\images\bar_textures\split_bar]])
+		SharedMedia:Register("statusbar", "Details2020", [[Interface\AddOns\Details\images\bar_textures\texture2020]])
+		SharedMedia:Register("statusbar", "Left White Gradient", [[Interface\AddOns\Details\images\bar_textures\gradient_white_10percent_left]])
+		SharedMedia:Register("statusbar", "Details! Slash", [[Interface\AddOns\Details\images\bar_textures\bar_of_bars.tga]])
+
+		--window bg and bar order
+		SharedMedia:Register("background", "Details Ground", [[Interface\AddOns\Details\images\background]])
+		SharedMedia:Register("border", "Details BarBorder 1", [[Interface\AddOns\Details\images\border_1]])
+		SharedMedia:Register("border", "Details BarBorder 2", [[Interface\AddOns\Details\images\border_2]])
+		SharedMedia:Register("border", "Details BarBorder 3", [[Interface\AddOns\Details\images\border_3]])
+		SharedMedia:Register("border", "1 Pixel", [[Interface\Buttons\WHITE8X8]])
+
 		--misc fonts
-		SharedMedia:Register ("font", "Oswald", [[Interface\Addons\Details\fonts\Oswald-Regular.otf]])
-		SharedMedia:Register ("font", "Nueva Std Cond", [[Interface\Addons\Details\fonts\NuevaStd-Cond.otf]])
-		SharedMedia:Register ("font", "Accidental Presidency", [[Interface\Addons\Details\fonts\Accidental Presidency.ttf]])
-		SharedMedia:Register ("font", "TrashHand", [[Interface\Addons\Details\fonts\TrashHand.TTF]])
-		SharedMedia:Register ("font", "Harry P", [[Interface\Addons\Details\fonts\HARRYP__.TTF]])
-		SharedMedia:Register ("font", "FORCED SQUARE", [[Interface\Addons\Details\fonts\FORCED SQUARE.ttf]])
+		SharedMedia:Register("font", "Oswald", [[Interface\Addons\Details\fonts\Oswald-Regular.ttf]])
+		SharedMedia:Register("font", "Nueva Std Cond", [[Interface\Addons\Details\fonts\Nueva Std Cond.ttf]])
+		SharedMedia:Register("font", "Accidental Presidency", [[Interface\Addons\Details\fonts\Accidental Presidency.ttf]])
+		SharedMedia:Register("font", "TrashHand", [[Interface\Addons\Details\fonts\TrashHand.TTF]])
+		SharedMedia:Register("font", "Harry P", [[Interface\Addons\Details\fonts\HARRYP__.TTF]])
+		SharedMedia:Register("font", "FORCED SQUARE", [[Interface\Addons\Details\fonts\FORCED SQUARE.ttf]])
+		SharedMedia:Register("font", "Expressway", [[Interface\Addons\Details\fonts\Expressway.TTF]])
 
-		SharedMedia:Register ("sound", "d_gun1", [[Interface\Addons\Details\sounds\sound_gun2.ogg]])
-		SharedMedia:Register ("sound", "d_gun2", [[Interface\Addons\Details\sounds\sound_gun3.ogg]])
-		SharedMedia:Register ("sound", "d_jedi1", [[Interface\Addons\Details\sounds\sound_jedi1.ogg]])
-		SharedMedia:Register ("sound", "d_whip1", [[Interface\Addons\Details\sounds\sound_whip1.ogg]])
+		SharedMedia:Register("sound", "Details Gun1", [[Interface\Addons\Details\sounds\sound_gun2.ogg]])
+		SharedMedia:Register("sound", "Details Gun2", [[Interface\Addons\Details\sounds\sound_gun3.ogg]])
+		SharedMedia:Register("sound", "Details Jedi1", [[Interface\Addons\Details\sounds\sound_jedi1.ogg]])
+		SharedMedia:Register("sound", "Details Whip1", [[Interface\Addons\Details\sounds\sound_whip1.ogg]])
+		SharedMedia:Register("sound", "Details Horn", [[Interface\Addons\Details\sounds\Details Horn.ogg]])
 
-	--> global 'vardump' for dump table contents over chat panel
-		function vardump(t)
-			if type (t) ~= "table" then
+		SharedMedia:Register("sound", "Details Warning", [[Interface\Addons\Details\sounds\Details Warning 100.ogg]])
+		SharedMedia:Register("sound", "Details Truck", [[Interface\Addons\Details\sounds\Details Truck.ogg]])
+		SharedMedia:Register("sound", "Details Bass Drop", [[Interface\Addons\Details\sounds\bassdrop2.mp3]])
+
+	--dump table contents over chat panel
+		function Details.VarDump(t)
+			if (type(t) ~= "table") then
 				return
 			end
-			for a, b in pairs(t) do
-				print(a, b)
+			for a,b in pairs(t) do
+				print(a,b)
 			end
 		end
 
-	--> global 'table_deepcopy' copies a full table
-		function table_deepcopy(orig)
+		local bIsDump = false
+		local waitForSpellLoad = CreateFrame("frame")
+		if (C_EventUtils.IsEventValid("SPELL_TEXT_UPDATE")) then
+			waitForSpellLoad:RegisterEvent("SPELL_TEXT_UPDATE")
+			waitForSpellLoad:SetScript("OnEvent", function(self, event, spellId)
+				if (bIsDump) then
+					dumpt(spellId)
+				end
+			end)
+		end
+
+		function dumpt(value) --[[GLOBAL]]
+			--check if this is a spellId
+			local spellId = tonumber(value)
+			if (spellId) then
+				local spellInfo = {Details222.GetSpellInfo(spellId)}
+				if (type(spellInfo[1]) == "string") then
+					local desc = C_Spell.GetSpellDescription and C_Spell.GetSpellDescription(spellId) or GetSpellDescription(spellId)
+					if (not desc or desc == "") then
+						bIsDump = true
+						return
+					end
+
+					if (C_Spell.GetSpellInfo) then
+						Details:Dump({desc, C_Spell.GetSpellInfo(spellId)})
+						return
+					else
+						return Details:Dump({desc, spellInfo})
+					end
+
+					bIsDump = false
+				end
+			end
+
+			--check if is an atlas texture
+			local atlas
+			if (type(value) == "string") then
+				atlas = C_Texture.GetAtlasInfo(value)
+				if (atlas) then
+					return Details:Dump(atlas)
+				end
+			end
+
+			if (value == nil) then
+				local allTooltips = {"GameTooltip", "GameTooltipTooltip", "EventTraceTooltip", "FrameStackTooltip", "GarrisonMissionMechanicTooltip", "GarrisonMissionMechanicFollowerCounterTooltip", "ItemSocketingDescription", "NamePlateTooltip", "PrivateAurasTooltip", "RuneforgeFrameResultTooltip", "ItemRefTooltip", "QuickKeybindTooltip", "SettingsTooltip"}
+				for i = 1, #allTooltips do
+					local tooltipName = allTooltips[i]
+					local tooltip = _G[tooltipName]
+					if (tooltip and tooltip:IsVisible()) then
+                        if (tooltip.GetTooltipData) then
+                            local tooltipData = tooltip:GetTooltipData()
+                            if (tooltipData) then
+                                if (tooltip.ItemTooltip and tooltip.ItemTooltip:IsVisible()) then
+                                    local icon = tooltip.ItemTooltip.Icon
+                                    if (icon) then
+                                        local texture = icon:GetTexture()
+                                        local atlas = icon:GetAtlas()
+                                        if (texture or atlas) then
+                                            tooltipData.IconTexture = texture
+                                            tooltipData.IconAtlas = atlas
+                                        end
+                                    end
+                                end
+
+                                if (tooltipData.hyperlink) then
+                                    local itemName, itemLink, itemQuality, itemLevel, itemMinLevel, itemType, itemSubType,
+                                    itemStackCount, itemEquipLoc, itemTexture, sellPrice, classID, subclassID, bindType,
+                                    expacID, setID, isCraftingReagent = C_Item.GetItemInfo(tooltipData.hyperlink)
+
+                                    local itemInfo = {
+                                        itemName = itemName,
+                                        itemLink = itemLink,
+                                        itemQuality = itemQuality,
+                                        itemLevel = itemLevel,
+                                        itemMinLevel = itemMinLevel,
+                                        itemType = itemType,
+                                        itemSubType = itemSubType,
+                                        itemStackCount = itemStackCount,
+                                        itemEquipLoc = itemEquipLoc,
+                                        itemTexture = itemTexture,
+                                        sellPrice = sellPrice,
+                                        classID = classID,
+                                        subclassID = subclassID,
+                                        bindType = bindType,
+                                        expacID = expacID,
+                                        setID = setID,
+                                        isCraftingReagent = isCraftingReagent
+                                    }
+                                    DetailsFramework.table.deploy(tooltipData, itemInfo)
+                                end
+
+                                return Details:Dump(tooltipData)
+                            end
+                        else
+                            local outputTable = {}
+                            for lineNumber = 1, 10 do
+                                local leftText = _G[tooltipName..'TextLeft'..lineNumber]
+                                local rightText = _G[tooltipName..'TextRight'..lineNumber]
+                                if not (leftText and rightText) then
+                                    break
+                                end
+
+                                outputTable[#outputTable+1] = {left = leftText:GetText(), right = rightText:GetText()}
+                            end
+
+                            return Details:Dump(outputTable)
+                        end
+					end
+				end
+			end
+
+			return Details:Dump(value)
+		end
+
+		function FindSpellByName(spellName) --[[GLOBAL]]
+			if (spellName and type(spellName) == "string") then
+				local GSI = GetSpellInfo
+				local foundSpells = {}
+				spellName = spellName:lower()
+				for i = 1, 450000 do
+					local thisSpellName = GSI(i)
+					if (thisSpellName) then
+						thisSpellName = thisSpellName:lower()
+						if (spellName == thisSpellName) then
+							foundSpells[#foundSpells+1] = {GSI(i)}
+						end
+					end
+				end
+
+				if (#foundSpells > 0) then
+					dumpt(foundSpells)
+				else
+					Details:Msg("spell", spellName, "not found.")
+				end
+			end
+		end
+
+	--copies a full table
+		function Details.CopyTable(orig)
 			local orig_type = type(orig)
 			local copy
-			if orig_type == "table" then
+			if orig_type == 'table' then
 				copy = {}
 				for orig_key, orig_value in next, orig, nil do
-					copy[table_deepcopy(orig_key)] = table_deepcopy(orig_value)
+					--print(orig_key, orig_value)
+					copy[Details.CopyTable(orig_key)] = Details.CopyTable(orig_value)
 				end
 			else
 				copy = orig
@@ -708,54 +1767,53 @@ do
 			return copy
 		end
 
-	--> delay messages
-		function _detalhes:DelayMsg (msg)
+	--delay messages
+		function _detalhes:DelayMsg(msg)
 			_detalhes.delaymsgs = _detalhes.delaymsgs or {}
-			_detalhes.delaymsgs [#_detalhes.delaymsgs+1] = msg
+			_detalhes.delaymsgs[#_detalhes.delaymsgs+1] = msg
 		end
 		function _detalhes:ShowDelayMsg()
 			if (_detalhes.delaymsgs and #_detalhes.delaymsgs > 0) then
-				for _, msg in ipairs (_detalhes.delaymsgs) do
-					print (msg)
+				for _, msg in ipairs(_detalhes.delaymsgs) do
+					print(msg)
 				end
 			end
 			_detalhes.delaymsgs = {}
 		end
 
-	--> print messages
-		function _detalhes:Msg (_string, arg1, arg2, arg3, arg4)
+	--print messages
+		function _detalhes:Msg(str, arg1, arg2, arg3, arg4, arg5)
 			if (self.__name) then
-				--> yes, we have a name!
-				print ("|cffffaeae" .. self.__name .. "|r |cffcc7c7c(plugin)|r: " .. (_string or ""), arg1 or "", arg2 or "", arg3 or "", arg4 or "")
+				print("|cffffaeae" .. self.__name .. "|r |cffcc7c7c(plugin)|r: " .. (str or ""), arg1 or "", arg2 or "", arg3 or "", arg4 or "", arg5 or "")
 			else
-				print (Loc ["STRING_DETAILS1"] .. (_string or ""), arg1 or "", arg2 or "", arg3 or "", arg4 or "")
+				print(Loc ["STRING_DETAILS1"] .. (str or ""), arg1 or "", arg2 or "", arg3 or "", arg4 or "", arg5 or "")
 			end
 		end
 
-	--> welcome
+	--welcome
 		function _detalhes:WelcomeMsgLogon()
-
-			_detalhes:Msg ("you can always reset the addon running the command |cFFFFFF00'/details reinstall'|r if it does fail to load after being updated.")
+			_detalhes:Msg("you can always reset the addon running the command |cFFFFFF00'/details reinstall'|r if it does fail to load after being updated.")
 
 			function _detalhes:wipe_combat_after_failed_load()
-				_detalhes.tabela_historico = _detalhes.historico:NovoHistorico()
+				_detalhes.tabela_historico = _detalhes.historico:CreateNewSegmentDatabase()
 				_detalhes.tabela_overall = _detalhes.combate:NovaTabela()
-				_detalhes.tabela_vigente = _detalhes.combate:NovaTabela (nil, _detalhes.tabela_overall)
-				_detalhes.tabela_pets = _detalhes.container_pets:NovoContainer()
-				_detalhes:UpdateContainerCombatentes()
+				_detalhes.tabela_vigente = _detalhes.combate:NovaTabela (_, _detalhes.tabela_overall)
+				Details222.PetContainer.Reset()
 
 				_detalhes_database.tabela_overall = nil
 				_detalhes_database.tabela_historico = nil
 
-				_detalhes:Msg ("seems failed to load, please type /reload to try again.")
+				_detalhes:Msg("seems failed to load, please type /reload to try again.")
 			end
-			_detalhes:ScheduleTimer ("wipe_combat_after_failed_load", 5)
 
+			Details.Schedules.After(5, _detalhes.wipe_combat_after_failed_load)
 		end
-		_detalhes.failed_to_load = _detalhes:ScheduleTimer ("WelcomeMsgLogon", 20)
 
-	--> key binds
-		--> header
+		--Details.failed_to_load = C_Timer.NewTimer(1, function() Details.Schedules.NewTimer(20, _detalhes.WelcomeMsgLogon) end)
+
+	--key binds
+	--[=
+		--header
 			_G ["BINDING_HEADER_Details"] = "Details!"
 			_G ["BINDING_HEADER_DETAILS_KEYBIND_SEGMENTCONTROL"] = Loc ["STRING_KEYBIND_SEGMENTCONTROL"]
 			_G ["BINDING_HEADER_DETAILS_KEYBIND_SCROLLING"] = Loc ["STRING_KEYBIND_SCROLLING"]
@@ -763,7 +1821,7 @@ do
 			_G ["BINDING_HEADER_DETAILS_KEYBIND_BOOKMARK"] = Loc ["STRING_KEYBIND_BOOKMARK"]
 			_G ["BINDING_HEADER_DETAILS_KEYBIND_REPORT"] = Loc ["STRING_KEYBIND_WINDOW_REPORT_HEADER"]
 
-		--> keys
+		--keys
 
 			_G ["BINDING_NAME_DETAILS_TOGGLE_ALL"] = Loc ["STRING_KEYBIND_TOGGLE_WINDOWS"]
 
@@ -771,24 +1829,455 @@ do
 			_G ["BINDING_NAME_DETAILS_SCROLL_UP"] = Loc ["STRING_KEYBIND_SCROLL_UP"]
 			_G ["BINDING_NAME_DETAILS_SCROLL_DOWN"] = Loc ["STRING_KEYBIND_SCROLL_DOWN"]
 
-			_G ["BINDING_NAME_DETAILS_REPORT_WINDOW1"] = format (Loc ["STRING_KEYBIND_WINDOW_REPORT"], 1)
-			_G ["BINDING_NAME_DETAILS_REPORT_WINDOW2"] = format (Loc ["STRING_KEYBIND_WINDOW_REPORT"], 2)
+			_G ["BINDING_NAME_DETAILS_REPORT_WINDOW1"] = string.format(Loc ["STRING_KEYBIND_WINDOW_REPORT"], 1)
+			_G ["BINDING_NAME_DETAILS_REPORT_WINDOW2"] = string.format(Loc ["STRING_KEYBIND_WINDOW_REPORT"], 2)
 
-			_G ["BINDING_NAME_DETAILS_TOOGGLE_WINDOW1"] = format (Loc ["STRING_KEYBIND_TOGGLE_WINDOW"], 1)
-			_G ["BINDING_NAME_DETAILS_TOOGGLE_WINDOW2"] = format (Loc ["STRING_KEYBIND_TOGGLE_WINDOW"], 2)
-			_G ["BINDING_NAME_DETAILS_TOOGGLE_WINDOW3"] = format (Loc ["STRING_KEYBIND_TOGGLE_WINDOW"], 3)
-			_G ["BINDING_NAME_DETAILS_TOOGGLE_WINDOW4"] = format (Loc ["STRING_KEYBIND_TOGGLE_WINDOW"], 4)
-			_G ["BINDING_NAME_DETAILS_TOOGGLE_WINDOW5"] = format (Loc ["STRING_KEYBIND_TOGGLE_WINDOW"], 5)
+			_G ["BINDING_NAME_DETAILS_TOOGGLE_WINDOW1"] = string.format(Loc ["STRING_KEYBIND_TOGGLE_WINDOW"], 1)
+			_G ["BINDING_NAME_DETAILS_TOOGGLE_WINDOW2"] = string.format(Loc ["STRING_KEYBIND_TOGGLE_WINDOW"], 2)
+			_G ["BINDING_NAME_DETAILS_TOOGGLE_WINDOW3"] = string.format(Loc ["STRING_KEYBIND_TOGGLE_WINDOW"], 3)
+			_G ["BINDING_NAME_DETAILS_TOOGGLE_WINDOW4"] = string.format(Loc ["STRING_KEYBIND_TOGGLE_WINDOW"], 4)
+			_G ["BINDING_NAME_DETAILS_TOOGGLE_WINDOW5"] = string.format(Loc ["STRING_KEYBIND_TOGGLE_WINDOW"], 5)
 
-			_G ["BINDING_NAME_DETAILS_BOOKMARK1"] = format (Loc ["STRING_KEYBIND_BOOKMARK_NUMBER"], 1)
-			_G ["BINDING_NAME_DETAILS_BOOKMARK2"] = format (Loc ["STRING_KEYBIND_BOOKMARK_NUMBER"], 2)
-			_G ["BINDING_NAME_DETAILS_BOOKMARK3"] = format (Loc ["STRING_KEYBIND_BOOKMARK_NUMBER"], 3)
-			_G ["BINDING_NAME_DETAILS_BOOKMARK4"] = format (Loc ["STRING_KEYBIND_BOOKMARK_NUMBER"], 4)
-			_G ["BINDING_NAME_DETAILS_BOOKMARK5"] = format (Loc ["STRING_KEYBIND_BOOKMARK_NUMBER"], 5)
-			_G ["BINDING_NAME_DETAILS_BOOKMARK6"] = format (Loc ["STRING_KEYBIND_BOOKMARK_NUMBER"], 6)
-			_G ["BINDING_NAME_DETAILS_BOOKMARK7"] = format (Loc ["STRING_KEYBIND_BOOKMARK_NUMBER"], 7)
-			_G ["BINDING_NAME_DETAILS_BOOKMARK8"] = format (Loc ["STRING_KEYBIND_BOOKMARK_NUMBER"], 8)
-			_G ["BINDING_NAME_DETAILS_BOOKMARK9"] = format (Loc ["STRING_KEYBIND_BOOKMARK_NUMBER"], 9)
-			_G ["BINDING_NAME_DETAILS_BOOKMARK10"] = format (Loc ["STRING_KEYBIND_BOOKMARK_NUMBER"], 10)
+			_G ["BINDING_NAME_DETAILS_BOOKMARK1"] = string.format(Loc ["STRING_KEYBIND_BOOKMARK_NUMBER"], 1)
+			_G ["BINDING_NAME_DETAILS_BOOKMARK2"] = string.format(Loc ["STRING_KEYBIND_BOOKMARK_NUMBER"], 2)
+			_G ["BINDING_NAME_DETAILS_BOOKMARK3"] = string.format(Loc ["STRING_KEYBIND_BOOKMARK_NUMBER"], 3)
+			_G ["BINDING_NAME_DETAILS_BOOKMARK4"] = string.format(Loc ["STRING_KEYBIND_BOOKMARK_NUMBER"], 4)
+			_G ["BINDING_NAME_DETAILS_BOOKMARK5"] = string.format(Loc ["STRING_KEYBIND_BOOKMARK_NUMBER"], 5)
+			_G ["BINDING_NAME_DETAILS_BOOKMARK6"] = string.format(Loc ["STRING_KEYBIND_BOOKMARK_NUMBER"], 6)
+			_G ["BINDING_NAME_DETAILS_BOOKMARK7"] = string.format(Loc ["STRING_KEYBIND_BOOKMARK_NUMBER"], 7)
+			_G ["BINDING_NAME_DETAILS_BOOKMARK8"] = string.format(Loc ["STRING_KEYBIND_BOOKMARK_NUMBER"], 8)
+			_G ["BINDING_NAME_DETAILS_BOOKMARK9"] = string.format(Loc ["STRING_KEYBIND_BOOKMARK_NUMBER"], 9)
+			_G ["BINDING_NAME_DETAILS_BOOKMARK10"] = string.format(Loc ["STRING_KEYBIND_BOOKMARK_NUMBER"], 10)
+	--]=]
+end
 
+if (select(4, GetBuildInfo()) >= 100000) then
+	local f = CreateFrame("frame")
+	f:RegisterEvent("ADDON_ACTION_FORBIDDEN")
+	f:SetScript("OnEvent", function()
+		local text = StaticPopup1 and StaticPopup1.text and StaticPopup1.text:GetText()
+		if (text and text:find("Details")) then
+			--fix false-positive taints that are being attributed to random addons
+			StaticPopup1.button2:Click()
+		end
+	end)
+end
+
+local classCacheName = Details222.ClassCache.ByName
+local classCacheGUID = Details222.ClassCache.ByGUID
+
+function Details222.ClassCache.GetClassFromCache(value)
+	return classCacheName[value] or classCacheGUID[value]
+end
+
+function Details222.ClassCache.AddClassToCache(value, whichCache)
+	if (whichCache == "name") then
+		classCacheName[value] = true
+	elseif (whichCache == "guid") then
+		classCacheGUID[value] = true
+	end
+end
+
+function Details222.ClassCache.GetClass(value)
+	local className = Details222.ClassCache.ByName[value] or Details222.ClassCache.ByGUID[value]
+	if (className) then
+		return className
+	end
+
+	local _, unitClass = UnitClass(value)
+	return unitClass
+end
+
+function Details222.ClassCache.MakeCache()
+	--iterage among all segments in the container history, get the damage container and get the actor list, check if the actor is a player and if it is, get the class and store it in the cache
+	local segmentsTable = Details:GetCombatSegments()
+	for _, combatObject in ipairs(segmentsTable) do
+		for _, actorObject in combatObject:GetContainer(DETAILS_ATTRIBUTE_DAMAGE):ListActors() do
+			if (actorObject:IsPlayer()) then
+				local actorName = actorObject.nome
+				local actorClass = actorObject.classe
+				local actorGUID = actorObject.serial
+				Details222.ClassCache.ByName[actorName] = actorClass
+				Details222.ClassCache.ByGUID[actorGUID] = actorClass
+			end
+		end
+	end
+end
+
+Details222.UnitIdCache.Party = {"player"}
+Details222.UnitIdCache.PartyPet = {"playerpet"}
+for i = 1, 4 do
+	table.insert(Details222.UnitIdCache.Party, "party" .. i)
+	table.insert(Details222.UnitIdCache.PartyPet, "partypet" .. i)
+end
+
+Details.PartyUnits = Details222.UnitIdCache.Party
+Details.PartyPetUnits = Details222.UnitIdCache.PartyPet
+
+Details222.UnitIdCache.Raid = {}
+Details222.UnitIdCache.RaidPet = {}
+Details222.UnitIdCache.RaidTargets = {}
+for i = 1, 40 do
+	Details222.UnitIdCache.Raid[i] = "raid" .. i
+	Details222.UnitIdCache.RaidPet[i] = "raidpet" .. i
+	Details222.UnitIdCache.RaidTargets[i] = "raidtarget" .. i
+end
+
+Details.RaidUnits = Details222.UnitIdCache.Raid
+Details.RaidPetUnits = Details222.UnitIdCache.RaidPet
+Details.RaidTargetUnits = Details222.UnitIdCache.RaidTargets
+
+Details222.UnitIdCache.Boss = {}
+for i = 1, 9 do
+	Details222.UnitIdCache.Boss[i] = "boss" .. i
+end
+
+Details.BossUnits = Details222.UnitIdCache.Boss
+
+Details222.UnitIdCache.Nameplate = {}
+for i = 1, 40 do
+	Details222.UnitIdCache.Nameplate[i] = "nameplate" .. i
+end
+
+Details.NameplateUnits = Details222.UnitIdCache.Nameplate
+
+Details222.UnitIdCache.Arena = {}
+for i = 1, 5 do
+	Details222.UnitIdCache.Arena[i] = "arena" .. i
+end
+
+Details.ArenaUnits = Details222.UnitIdCache.Arena
+
+
+function Details222.Tables.MakeWeakTable(mode)
+	local newTable = {}
+	setmetatable(newTable, {__mode = mode or "v"})
+	return newTable
+end
+
+--STRING_CUSTOM_POT_DEFAULT
+
+---add a statistic, log, or any other data to the player stat table
+---@param statName string
+---@param value number
+function Details222.PlayerStats:AddStat(statName, value)
+	Details.player_stats[statName] = (Details.player_stats[statName] or 0) + value
+end
+
+---get the value of a saved stat
+---@param statName string
+---@return any
+function Details222.PlayerStats:GetStat(statName)
+	return Details.player_stats[statName]
+end
+
+---same thing as above but set the value instead of adding
+---@param statName string
+---@param value number
+function Details222.PlayerStats:SetStat(statName, value)
+	Details.player_stats[statName] = value
+end
+
+local profileStartFunc = function(functionName)
+	local profile = Details222.ProfilingCache[functionName]
+
+	if (not profile) then
+		Details222.ProfilingCache[functionName] = {elapsed = 0, startTime = 0, runs = 0}
+		profile = Details222.ProfilingCache[functionName]
+	end
+
+	profile.startTime = debugprofilestop()
+	profile.runs = profile.runs + 1
+end
+
+local profileStopFunc = function(functionName)
+	local profile = Details222.ProfilingCache[functionName]
+	if (profile) then
+		profile.elapsed = profile.elapsed + debugprofilestop() - profile.startTime
+	end
+end
+
+function Details222.Profiling.ProfileStart()end
+function Details222.Profiling.ProfileStop()end
+
+function Details222.Profiling.EnableProfiler()
+	Details222.Profiling.ProfileStart = profileStartFunc
+	Details222.Profiling.ProfileStop = profileStopFunc
+end
+
+function Details222.Profiling.DisableProfiler()
+	Details222.Profiling.ProfileStart = function()end
+	Details222.Profiling.ProfileStop = function()end
+end
+
+function Details222.Profiling.ResetProfiler()
+	table.wipe(Details222.ProfilingCache)
+end
+
+if (select(4, GetBuildInfo()) >= 100000) then
+	Details222.Profiling.EnableProfiler()
+end
+
+function Details:ProfilerResult()
+	local resultTable = {}
+	local total = 0
+
+	for functionName, profile in pairs(Details222.ProfilingCache) do
+		local runTime = string.format("%.3f", profile.elapsed / 1000)
+		resultTable[functionName] = runTime .. " ms | runs: " .. profile.runs
+		total = total + profile.elapsed
+	end
+
+	resultTable["Total"] = string.format("%.3f", total / 1000) .. " ms"
+	dumpt(resultTable)
+end
+function Details:ResetProfilerResult()
+
+end
+
+---destroy a table and remove it from the object, if the key isn't passed, the object itself is destroyed
+---@param object any
+---@param key string|nil
+function Details:Destroy(object, key)
+	if (key) then
+		if (getmetatable(object[key])) then
+			setmetatable(object[key], nil)
+		end
+		object[key].__index = nil
+		table.wipe(object[key])
+		object[key] = nil
+	else
+		if (getmetatable(object)) then
+			setmetatable(object, nil)
+		end
+		object.__index = nil
+		table.wipe(object)
+	end
+end
+
+function Details:DestroyCombat(combatObject)
+	--destroy each individual actor, hence more cleanups are done
+	for i = 1, DETAILS_COMBAT_AMOUNT_CONTAINERS do
+		local actorContainer = combatObject:GetContainer(i)
+		for index, actorObject in actorContainer:ListActors() do
+			Details:DestroyActor(actorObject, actorContainer, combatObject, 3)
+		end
+	end
+
+	setmetatable(combatObject, nil)
+	combatObject.__index = nil
+	combatObject.__newindex = nil
+	combatObject.__call = nil
+	Details:Destroy(combatObject)
+	--leave a trace that the actor has been deleted
+	combatObject.__destroyed = true
+	combatObject.__destroyedBy = debugstack(2, 1, 0)
+end
+
+---destroy the actor, also calls container:RemoveActor(actor)
+---@param self details
+---@param actorObject actor
+---@param actorContainer actorcontainer
+---@param combatObject combat
+function Details:DestroyActor(actorObject, actorContainer, combatObject, callStackDepth)
+	local containerType = actorContainer:GetType()
+	local combatTotalsTable = combatObject.totals[containerType] --without group
+	local combatTotalsTableInGroup = combatObject.totals_grupo[containerType] --with group
+
+	--remove the actor from the parser cache
+	local c1, c2, c3, c4 = Details222.Cache.GetParserCacheTables()
+	c1[actorObject.serial or "a"] = nil
+	c2[actorObject.serial or "a"] = nil
+	c3[actorObject.serial or "a"] = nil
+	c4[actorObject.serial or "a"] = nil
+
+	if (not actorObject.ownerName) then --not a pet
+		if (containerType == 1 or containerType == 2) then --damage|healing done
+			combatTotalsTable = combatTotalsTable - actorObject.total
+			if (actorObject.grupo) then
+				combatTotalsTableInGroup = combatTotalsTableInGroup - actorObject.total
+			end
+
+		elseif (containerType == 3) then
+			---@cast actorObject actorresource
+			if (actorObject.total and actorObject.total > 0) then
+				if (actorObject.powertype) then
+					combatTotalsTable[actorObject.powertype] = combatTotalsTable[actorObject.powertype] - actorObject.total
+					combatTotalsTableInGroup[actorObject.powertype] = combatTotalsTableInGroup[actorObject.powertype] - actorObject.total
+				end
+			end
+			if (actorObject.alternatepower and actorObject.alternatepower > 0) then
+				combatTotalsTable.alternatepower = combatTotalsTable.alternatepower - actorObject.alternatepower
+				combatTotalsTableInGroup.alternatepower = combatTotalsTableInGroup.alternatepower - actorObject.alternatepower
+			end
+
+		elseif (containerType == 4) then
+			---@cast actorObject actorutility
+			--decrease the amount of CC break from the combat totals
+			if (actorObject.cc_break and actorObject.cc_break > 0) then
+				if (combatTotalsTable.cc_break) then
+					combatTotalsTable.cc_break = combatTotalsTable.cc_break - actorObject.cc_break
+				end
+				if (combatTotalsTableInGroup.cc_break) then
+					combatTotalsTableInGroup.cc_break = combatTotalsTableInGroup.cc_break - actorObject.cc_break
+				end
+			end
+
+			--decrease the amount of dispell from the combat totals
+			if (actorObject.dispell and actorObject.dispell > 0) then
+				if (combatTotalsTable.dispell) then
+					combatTotalsTable.dispell = combatTotalsTable.dispell - actorObject.dispell
+				end
+				if (combatTotalsTableInGroup.dispell) then
+					combatTotalsTableInGroup.dispell = combatTotalsTableInGroup.dispell - actorObject.dispell
+				end
+			end
+
+			--decrease the amount of interrupt from the combat totals
+			if (actorObject.interrupt and actorObject.interrupt > 0) then
+				if (combatTotalsTable.interrupt) then
+					combatTotalsTable.interrupt = combatTotalsTable.interrupt - actorObject.interrupt
+				end
+				if (combatTotalsTableInGroup.interrupt) then
+					combatTotalsTableInGroup.interrupt = combatTotalsTableInGroup.interrupt - actorObject.interrupt
+				end
+			end
+
+			--decrease the amount of ress from the combat totals
+			if (actorObject.ress and actorObject.ress > 0) then
+				if (combatTotalsTable.ress) then
+					combatTotalsTable.ress = combatTotalsTable.ress - actorObject.ress
+				end
+				if (combatTotalsTableInGroup.ress) then
+					combatTotalsTableInGroup.ress = combatTotalsTableInGroup.ress - actorObject.ress
+				end
+			end
+
+			--decrease the amount of dead from the combat totals
+			if (actorObject.dead and actorObject.dead > 0) then
+				if (combatTotalsTable.dead) then
+					combatTotalsTable.dead = combatTotalsTable.dead - actorObject.dead
+				end
+				if (combatTotalsTableInGroup.dead) then
+					combatTotalsTableInGroup.dead = combatTotalsTableInGroup.dead - actorObject.dead
+				end
+			end
+
+			--decreate the amount of cooldowns used from the combat totals
+			if (actorObject.cooldowns_defensive and actorObject.cooldowns_defensive > 0) then
+				if (combatTotalsTable.cooldowns_defensive) then
+					combatTotalsTable.cooldowns_defensive = combatTotalsTable.cooldowns_defensive - actorObject.cooldowns_defensive
+				end
+				if (combatTotalsTableInGroup.cooldowns_defensive) then
+					combatTotalsTableInGroup.cooldowns_defensive = combatTotalsTableInGroup.cooldowns_defensive - actorObject.cooldowns_defensive
+				end
+			end
+
+			--decrease the amount of buff uptime from the combat totals
+			if (actorObject.buff_uptime and actorObject.buff_uptime > 0) then
+				if (combatTotalsTable.buff_uptime) then
+					combatTotalsTable.buff_uptime = combatTotalsTable.buff_uptime - actorObject.buff_uptime
+				end
+				if (combatTotalsTableInGroup.buff_uptime) then
+					combatTotalsTableInGroup.buff_uptime = combatTotalsTableInGroup.buff_uptime - actorObject.buff_uptime
+				end
+			end
+
+			--decrease the amount of debuff uptime from the combat totals
+			if (actorObject.debuff_uptime and actorObject.debuff_uptime > 0) then
+				if (combatTotalsTable.debuff_uptime) then
+					combatTotalsTable.debuff_uptime = combatTotalsTable.debuff_uptime - actorObject.debuff_uptime
+				end
+				if (combatTotalsTableInGroup.debuff_uptime) then
+					combatTotalsTableInGroup.debuff_uptime = combatTotalsTableInGroup.debuff_uptime - actorObject.debuff_uptime
+				end
+			end
+		end
+	end
+
+	Details222.TimeMachine.RemoveActor(actorObject)
+
+	if (not actorObject.Name) then
+		print("error: actorObject.Name is nil", actorObject.tipo, actorObject.serial, actorObject.nome)
+	end
+
+	local actorName = actorObject:Name()
+	combatObject:RemoveActorFromSpellCastTable(actorName)
+
+	setmetatable(actorObject, nil)
+	actorObject.__index = nil
+	actorObject.__newindex = nil
+	Details:Destroy(actorObject)
+
+	--leave a trace that the actor has been deleted
+	actorObject.__destroyed = true
+	actorObject.__destroyedBy = debugstack(callStackDepth or 2, 1, 0)
+end
+
+C_Timer.After(5, function()
+--TutorialPointerFrame_1:HookScript("OnShow", function(self) self:Hide() end) --remove on v11 launch
+end)
+
+-- Support for wago addon packs
+DetailsAPI = DetailsAPI or {}
+---@param profileKey string --the name of the profile to be exported
+---@return string --the encoded profile string that can be imported by other users
+function DetailsAPI:ExportProfile(profileKey)
+    local profileString = Details:ExportCurrentProfile(profileKey)
+	return profileString
+end
+
+---@param profileString string --the encoded profile string to be imported
+---@param profileKey string --the name of the profile to be imported
+function DetailsAPI:ImportProfile(profileString, profileKey)
+	local bImportAutoRunCode = false
+	local bIsFromImportPrompt = false
+	local overwriteExisting = true
+	Details:ImportProfile(profileString, profileKey, bImportAutoRunCode, bIsFromImportPrompt, overwriteExisting)
+end
+
+---@param profileString string --the profile string to decode
+---@return table --the decoded profile data as a table
+function DetailsAPI:DecodeProfileString(profileString)
+    local profileTable = Details:DecompressData(profileString, "print")
+	return profileTable
+end
+
+---@param profileName string -- profileKey of an existing profile
+function DetailsAPI:SetProfile(profileName)
+	Details:ApplyProfile(profileName)
+end
+
+---@return table<string, boolean>  -- a table of all available profile keys in the format [profileKey] = true
+function DetailsAPI:GetProfileKeys()
+    local profileList = Details:GetProfileList()
+    local profileKeys = {}
+    for index, key in ipairs(profileList) do
+        profileKeys[key] = true
+    end
+    return profileKeys
+end
+
+---@return string --the profileKey of the currently active profile
+function DetailsAPI:GetCurrentProfileKey()
+    local currentProfileName = Details:GetCurrentProfileName()
+	return currentProfileName
+end
+
+function DetailsAPI:OpenConfig()
+    Details_OpenDefaultOptionsWindow()
+end
+
+function DetailsAPI:CloseConfig()
+    if (DetailsPluginContainerWindow and DetailsPluginContainerWindow:IsShown()) then
+        DetailsPluginContainerWindow:Hide()
+    end
+end
+
+---return a ready only table with which profile is assigned to other characters of the account.
+---@param self details
+---@return table<charname, profilekey> --a table in the format [charName] = profileKey
+function DetailsAPI:GetProfileAssignments()
+	local result = DetailsFramework.table.copy({}, _detalhes_global.__char_profiles)
+	return result
 end

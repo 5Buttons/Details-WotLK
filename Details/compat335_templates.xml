@@ -1,0 +1,400 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/ ..\FrameXML\UI.xsd">
+	<Script file="compat335_templates.lua"/>
+
+	<Texture name="DetailsHelpPlateArrow" file="Interface\AddOns\Details\images\retail\talentframe\talentframe-parts" virtual="true" >
+		<Size x="53" y="21"/>	
+		<TexCoords left="0.78515625" right="0.99218750" top="0.54687500" bottom="0.58789063"/>	
+	</Texture>
+
+	<Texture name="DetailsHelpPlateArrow-Glow" file="Interface\AddOns\Details\images\retail\talentframe\talentframe-parts" virtual="true" >
+		<Size x="65" y="28"/>	
+		<TexCoords left="0.40625000" right="0.66015625" top="0.77343750" bottom="0.82812500"/>	
+	</Texture>
+
+	<Texture name="DetailsHelpPlateBox-Glow-TopLeft" file="Interface\AddOns\Details\images\retail\talentframe\talentframe-parts" virtual="true" >
+		<Size x="11" y="11"/>	
+		<TexCoords left="0.91796875" right="0.96093750" top="0.65625000" bottom="0.67773438"/>	
+	</Texture>
+
+	<Texture name="DetailsHelpPlateBox-Glow-TopRight" file="Interface\AddOns\Details\images\retail\talentframe\talentframe-parts" virtual="true" >
+		<Size x="11" y="11"/>	
+		<TexCoords left="0.12890625" right="0.17187500" top="0.96679688" bottom="0.98828125"/>	
+	</Texture>
+
+	<Texture name="DetailsHelpPlateBox-Glow-BottomLeft" file="Interface\AddOns\Details\images\retail\talentframe\talentframe-parts" virtual="true" >
+		<Size x="11" y="11"/>	
+		<TexCoords left="0.30859375" right="0.35156250" top="0.96679688" bottom="0.98828125"/>	
+	</Texture>
+
+	<Texture name="DetailsHelpPlateBox-Glow-BottomRight" file="Interface\AddOns\Details\images\retail\talentframe\talentframe-parts" virtual="true" >
+		<Size x="11" y="11"/>	
+		<TexCoords left="0.94921875" right="0.99218750" top="0.32226563" bottom="0.34375000"/>	
+	</Texture>
+
+	<Texture name="Details_HelpPlateBox-Glow-Top" file="Interface\AddOns\Details\images\retail\talentframe\talentframe-horizontal2" virtual="true" >
+		<Size x="32" y="11"/>	
+		<TexCoords left="0.00000000" right="1.00000000" top="0.29687500" bottom="0.33984375"/>	
+	</Texture>
+
+	<Texture name="Details_HelpPlateBox-Glow-Bottom" file="Interface\AddOns\Details\images\retail\talentframe\talentframe-horizontal2" virtual="true" >
+		<Size x="32" y="11"/>	
+		<TexCoords left="0.00000000" right="1.00000000" top="0.24609375" bottom="0.28906250"/>	
+	</Texture>
+
+	<Texture name="Details!HelpPlateBox-Glow-Left" file="Interface\AddOns\Details\images\retail\talentframe\talentframe-vertical2" virtual="true" >
+		<Size x="11" y="32"/>	
+		<TexCoords left="0.25781250" right="0.30078125" top="0.00000000" bottom="1.00000000"/>	
+	</Texture>
+
+	<Texture name="Details!HelpPlateBox-Glow-Right" file="Interface\AddOns\Details\images\retail\talentframe\talentframe-vertical2" virtual="true" >
+		<Size x="11" y="32"/>	
+		<TexCoords left="0.20703125" right="0.25000000" top="0.00000000" bottom="1.00000000"/>	
+	</Texture>
+
+	<Frame name="DetailsGlowBoxTemplate" virtual="true">
+		<Layers>
+			<Layer level="ARTWORK">
+				<Texture name="$parentBg">
+					<Anchors>
+						<Anchor point="TOPLEFT" x="1" y="-1"/>
+						<Anchor point="BOTTOMRIGHT" x="-1" y="1"/>
+					</Anchors>
+					<Color r="1" g="1" b="1"/>
+					<Gradient orientation="VERTICAL">
+						<MinColor r="0.23" g="0.19" b="0"/>
+						<MaxColor r="0" g="0" b="0"/>
+					</Gradient>
+				</Texture>
+			</Layer>
+			<Layer level="BORDER">
+				<Texture name="$parentGlowTopLeft" inherits="DetailsHelpPlateBox-Glow-TopLeft" parentKey="GlowTopLeft" alphaMode="ADD">
+					<Anchors>
+						<Anchor point="TOPLEFT" x="-6" y="6"/>
+					</Anchors>
+				</Texture>
+				<Texture name="$parentGlowTopRight" inherits="DetailsHelpPlateBox-Glow-TopRight" parentKey="GlowTopRight" alphaMode="ADD">
+					<Anchors>
+						<Anchor point="TOPRIGHT" x="6" y="6"/>
+					</Anchors>
+				</Texture>
+				
+				<Texture name="$parentGlowBottomLeft" inherits="DetailsHelpPlateBox-Glow-BottomLeft" parentKey="GlowBottomLeft" alphaMode="ADD">
+					<Anchors>
+						<Anchor point="BOTTOMLEFT" x="-6" y="-6"/>
+					</Anchors>
+				</Texture>
+				
+				<Texture name="$parentGlowBottomRight" inherits="DetailsHelpPlateBox-Glow-BottomRight" parentKey="GlowBottomRight" alphaMode="ADD">
+					<Anchors>
+						<Anchor point="BOTTOMRIGHT" x="6" y="-6"/>
+					</Anchors>
+				</Texture>
+
+				<Texture name="$parentGlowTop" inherits="Details_HelpPlateBox-Glow-Top" parentKey="GlowTop" alphaMode="ADD">
+					<Anchors>
+						<Anchor point="TOPLEFT" relativeTo="$parentGlowTopLeft" relativePoint="TOPRIGHT"/>
+						<Anchor point="TOPRIGHT" relativeTo="$parentGlowTopRight" relativePoint="TOPLEFT"/>
+					</Anchors>
+				</Texture>
+				<Texture name="$parentGlowBottom" inherits="Details_HelpPlateBox-Glow-Bottom" parentKey="GlowBottom" alphaMode="ADD">
+					<Anchors>
+						<Anchor point="BOTTOMLEFT" relativeTo="$parentGlowBottomLeft" relativePoint="BOTTOMRIGHT"/>
+						<Anchor point="BOTTOMRIGHT" relativeTo="$parentGlowBottomRight" relativePoint="BOTTOMLEFT"/>
+					</Anchors>
+				</Texture>
+				<Texture name="$parentGlowLeft" inherits="Details!HelpPlateBox-Glow-Left" parentKey="GlowLeft" alphaMode="ADD">
+					<Anchors>
+						<Anchor point="TOPLEFT" relativeTo="$parentGlowTopLeft" relativePoint="BOTTOMLEFT"/>
+						<Anchor point="BOTTOMLEFT" relativeTo="$parentGlowBottomLeft" relativePoint="TOPLEFT"/>
+					</Anchors>
+				</Texture>
+				<Texture name="$parentGlowRight" inherits="Details!HelpPlateBox-Glow-Right" parentKey="GlowRight" alphaMode="ADD">
+					<Anchors>
+						<Anchor point="TOPRIGHT" relativeTo="$parentGlowTopRight" relativePoint="BOTTOMRIGHT"/>
+						<Anchor point="BOTTOMRIGHT" relativeTo="$parentGlowBottomRight" relativePoint="TOPRIGHT"/>
+					</Anchors>
+				</Texture>	
+			</Layer>
+			<Layer level="BACKGROUND">
+				<Texture name="$parentShadowTopLeft" inherits="HelpPlateBox-Shadow-TopLeft" parentKey="ShadowTopLeft" >
+					<Anchors>
+						<Anchor point="TOPLEFT" x="-16" y="16"/>
+					</Anchors>
+				</Texture>
+				<Texture name="$parentShadowTopRight" inherits="HelpPlateBox-Shadow-TopRight" parentKey="ShadowTopRight" >
+					<Anchors>
+						<Anchor point="TOPRIGHT" x="16" y="16"/>
+					</Anchors>
+				</Texture>
+				
+				<Texture name="$parentShadowBottomLeft" inherits="HelpPlateBox-Shadow-BottomLeft" parentKey="ShadowBottomLeft" >
+					<Anchors>
+						<Anchor point="BOTTOMLEFT" x="-16" y="-16"/>
+					</Anchors>
+				</Texture>
+				
+				<Texture name="$parentShadowBottomRight" inherits="HelpPlateBox-Shadow-BottomRight" parentKey="ShadowBottomRight" >
+					<Anchors>
+						<Anchor point="BOTTOMRIGHT" x="16" y="-16"/>
+					</Anchors>
+				</Texture>
+
+				<Texture name="$parentShadowTop" inherits="_HelpPlateBox-Shadow-Top" parentKey="ShadowTop" >
+					<Anchors>
+						<Anchor point="TOPLEFT" relativeTo="$parentShadowTopLeft" relativePoint="TOPRIGHT"/>
+						<Anchor point="TOPRIGHT" relativeTo="$parentShadowTopRight" relativePoint="TOPLEFT"/>
+					</Anchors>
+				</Texture>
+				<Texture name="$parentShadowBottom" inherits="_HelpPlateBox-Shadow-Bottom" parentKey="ShadowBottom" >
+					<Anchors>
+						<Anchor point="BOTTOMLEFT" relativeTo="$parentShadowBottomLeft" relativePoint="BOTTOMRIGHT"/>
+						<Anchor point="BOTTOMRIGHT" relativeTo="$parentShadowBottomRight" relativePoint="BOTTOMLEFT"/>
+					</Anchors>
+				</Texture>
+				<Texture name="$parentShadowLeft" inherits="!HelpPlateBox-Shadow-Left" parentKey="ShadowLeft" >
+					<Anchors>
+						<Anchor point="TOPLEFT" relativeTo="$parentShadowTopLeft" relativePoint="BOTTOMLEFT"/>
+						<Anchor point="BOTTOMLEFT" relativeTo="$parentShadowBottomLeft" relativePoint="TOPLEFT"/>
+					</Anchors>
+				</Texture>
+				<Texture name="$parentShadowRight" inherits="!HelpPlateBox-Shadow-Right" parentKey="ShadowRight" >
+					<Anchors>
+						<Anchor point="TOPRIGHT" relativeTo="$parentShadowTopRight" relativePoint="BOTTOMRIGHT"/>
+						<Anchor point="BOTTOMRIGHT" relativeTo="$parentShadowBottomRight" relativePoint="TOPRIGHT"/>
+					</Anchors>
+				</Texture>	
+			</Layer>
+		</Layers>
+	</Frame>
+
+	<Frame name="DetailsGlowBoxArrowTemplate" virtual="true">
+		<Size x="53" y="21"/>
+		
+		<Layers>
+			<Layer level="ARTWORK">
+				<Texture name="$parentArrow" inherits="DetailsHelpPlateArrow">
+					<Anchors>
+						<Anchor point="TOPLEFT"/>
+					</Anchors>
+				</Texture>
+			</Layer>
+			<Layer level="BORDER">
+				<Texture name="$parentGlow" inherits="DetailsHelpPlateArrow-Glow" alphaMode="ADD" alpha="0.5">
+					<Anchors>
+						<Anchor point="TOP"/>
+					</Anchors>
+				</Texture>
+			</Layer>
+		</Layers>
+	</Frame>
+
+	<Frame name="DetailsSpellActivationAlert" virtual="true">
+    <Layers>
+      <Layer level="BACKGROUND">
+        <Texture name="$parentSpark" parentKey="spark" file="Interface\AddOns\Details\images\retail\spellactivationoverlay\iconalert" alpha="0" setAllPoints="true">
+          <Anchors>
+            <Anchor point="CENTER"/>
+          </Anchors>
+          <TexCoords left="0.00781250" right="0.61718750" top="0.00390625" bottom="0.26953125"/>
+          <Animations>
+            <AnimationGroup parentKey="animIn">
+              <Alpha duration="0" change="0.3" order="1"/>
+              <Scale duration="0.2" scaleX="1.5" scaleY="1.5" order="1"/>
+              <Alpha duration="0.2" change="1" order="1"/>
+              <Scale startDelay="0.2" duration="0.2" scaleX="0.666666" scaleY="0.666666" order="1"/>
+              <Alpha startDelay="0.2" duration="0.2" change="-1" order="1"/>
+            </AnimationGroup>
+          </Animations>
+        </Texture>
+      </Layer>
+      <Layer level="ARTWORK">
+        <Texture name="$parentInnerGlow" parentKey="innerGlow" file="Interface\AddOns\Details\images\retail\spellactivationoverlay\iconalert" alpha="0" setAllPoints="true">
+          <Anchors>
+            <Anchor point="CENTER"/>
+          </Anchors>
+          <TexCoords left="0.00781250" right="0.50781250" top="0.27734375" bottom="0.52734375"/>
+          <Animations>
+            <AnimationGroup parentKey="animIn">
+              <Alpha duration="0" change="1" order="1"/>
+              <Scale duration="0.3" scaleX="2" scaleY="2" order="1"/>
+              <Alpha startDelay="0.3" duration="0.2" change="-1" order="1"/>
+            </AnimationGroup>
+          </Animations>
+        </Texture>
+        <Texture name="$parentInnerGlowOver" parentKey="innerGlowOver" file="Interface\AddOns\Details\images\retail\spellactivationoverlay\iconalert" alpha="0">
+          <Anchors>
+            <Anchor point="TOPLEFT" relativeTo="$parentInnerGlow" relativePoint="TOPLEFT"/>
+            <Anchor point="BOTTOMRIGHT" relativeTo="$parentInnerGlow" relativePoint="BOTTOMRIGHT"/>
+          </Anchors>
+          <TexCoords left="0.00781250" right="0.50781250" top="0.53515625" bottom="0.78515625"/>
+          <Animations>
+            <AnimationGroup parentKey="animIn">
+              <Alpha duration="0" change="1" order="1"/>
+              <Scale duration="0.3" scaleX="2" scaleY="2" order="1"/>
+              <Alpha duration="0.3" change="-1" order="1"/>
+            </AnimationGroup>
+          </Animations>
+        </Texture>
+        <Texture name="$parentOuterGlow" parentKey="outerGlow" file="Interface\AddOns\Details\images\retail\spellactivationoverlay\iconalert" hidden="true" setAllPoints="true">
+          <Anchors>
+            <Anchor point="CENTER"/>
+          </Anchors>
+          <TexCoords left="0.00781250" right="0.50781250" top="0.27734375" bottom="0.52734375"/>
+          <Animations>
+            <AnimationGroup parentKey="animIn">
+              <Scale duration="0.3" endDelay="0.3" scaleX="0.5" scaleY="0.5" order="1"/>
+            </AnimationGroup>
+            <AnimationGroup parentKey="animOut">
+              <Alpha duration="0.2" startDelay="0.2" change="-1" order="1"/>
+            </AnimationGroup>
+          </Animations>
+        </Texture>
+        <Texture name="$parentOuterGlowOver" parentKey="outerGlowOver" file="Interface\AddOns\Details\images\retail\spellactivationoverlay\iconalert" alpha="0">
+          <Anchors>
+            <Anchor point="TOPLEFT" relativeTo="$parentOuterGlow" relativePoint="TOPLEFT"/>
+            <Anchor point="BOTTOMRIGHT" relativeTo="$parentOuterGlow" relativePoint="BOTTOMRIGHT"/>
+          </Anchors>
+          <TexCoords left="0.00781250" right="0.50781250" top="0.53515625" bottom="0.78515625"/>
+          <Animations>
+            <AnimationGroup parentKey="animIn">
+              <Alpha duration="0" change="1" order="1"/>
+              <Scale duration="0.3" scaleX="0.5" scaleY="0.5" order="1"/>
+              <Alpha duration="0.3" change="-1" order="1"/>
+            </AnimationGroup>
+            <AnimationGroup parentKey="animOut">
+              <Alpha duration="0.2" change="1" order="1"/>
+              <Alpha duration="0.2" change="-1" order="2"/>
+            </AnimationGroup>
+          </Animations>
+        </Texture>
+      </Layer>
+      <Layer level="OVERLAY">
+        <Texture name="$parentAnts" parentKey="ants" file="Interface\AddOns\Details\images\retail\spellactivationoverlay\iconalertants" hidden="true" setAllPoints="true">
+          <Anchors>
+            <Anchor point="CENTER"/>
+          </Anchors>
+          <Animations>
+            <AnimationGroup parentKey="animIn">
+              <Alpha duration="0" change="-1" order="1"/>
+              <Alpha startDelay="0.3" duration="0.2" change="1" order="1"/>
+            </AnimationGroup>
+            <AnimationGroup parentKey="animOut">
+              <Alpha duration="0.2" endDelay="0.2" change="-1" order="1"/>
+            </AnimationGroup>
+          </Animations>
+        </Texture>
+      </Layer>
+    </Layers>
+    <Animations>
+      <AnimationGroup parentKey="animIn">
+        <Animation duration="0.6"/>
+        <Scripts>
+          <OnPlay>
+            local frame = self:GetParent()
+            local frameWidth, frameHeight = frame:GetSize()
+            frame.spark:SetSize(frameWidth, frameHeight)
+            frame.innerGlow:SetSize(frameWidth / 2, frameHeight / 2)
+            frame.outerGlow:SetSize(frameWidth * 2, frameHeight * 2)
+            frame.outerGlow:Show()
+            frame.ants:SetSize(frameWidth * 0.85, frameHeight * 0.85)
+            frame.ants:Show()
+            frame:Show()
+
+            frame.spark.animIn:Play()
+            frame.innerGlow.animIn:Play()
+            frame.innerGlowOver.animIn:Play()
+            frame.outerGlow.animIn:Play()
+            frame.outerGlowOver.animIn:Play()
+            frame.ants.animIn:Play()
+          </OnPlay>
+          <OnStop function="DetailsCompat335_OverlayGlowAnimInFinished"/>
+          <OnFinished function="DetailsCompat335_OverlayGlowAnimInFinished"/>
+        </Scripts>
+      </AnimationGroup>
+      <AnimationGroup parentKey="animOut">
+        <Animation duration="0.4"/>
+        <Scripts>
+          <OnPlay>
+            self.Playing = true
+            local frame = self:GetParent()
+            frame.outerGlowOver.animOut:Play()
+            frame.outerGlow.animOut:Play()
+            frame.ants.animOut:Play()
+          </OnPlay>
+          <OnStop>
+            self.Playing = nil
+            local frame = self:GetParent()
+            frame.outerGlowOver.animOut:Stop()
+            frame.outerGlow.animOut:Stop()
+            frame.ants.animOut:Stop()
+          </OnStop>
+          <OnFinished>
+            self.Playing = nil
+            DetailsCompat335_OverlayGlowAnimOutFinished(self)
+          </OnFinished>
+        </Scripts>
+      </AnimationGroup>
+    </Animations>
+    <Scripts>
+      <OnUpdate function="DetailsCompat335_OverlayGlowOnUpdate"/>
+      <OnHide>
+        if ( self.animOut.Playing ) then
+          self.animOut:Stop()
+          DetailsCompat335_OverlayGlowAnimOutFinished(self.animOut)
+        end
+      </OnHide>
+    </Scripts>
+  </Frame>
+
+	<Texture name="DetailsHelpPlateArrowDOWN" inherits="DetailsHelpPlateArrow" virtual="true"/>
+	<Texture name="DetailsHelpPlateArrowUP" file="Interface\AddOns\Details\images\retail\talentframe\talentframe-parts" virtual="true">
+		<Size x="53" y="21"/>
+		<TexCoords left="0.78515625" right="0.99218750" top="0.58789063" bottom="0.54687500"/>
+	</Texture>
+	<Texture name="DetailsHelpPlateArrow-GlowDOWN" inherits="DetailsHelpPlateArrow-Glow" virtual="true"/>
+	<Texture name="DetailsHelpPlateArrow-GlowUP" file="Interface\AddOns\Details\images\retail\talentframe\talentframe-parts" virtual="true">
+		<Size x="65" y="28"/>
+		<TexCoords left="0.40625000" right="0.66015625" top="0.82812500" bottom="0.77343750"/>
+	</Texture>
+
+	<Frame name="DetailsBackdropTemplate" virtual="true"/>
+
+	<Frame name="DetailsButtonFrameTemplate" toplevel="true" enableMouse="true" virtual="true">
+		<Size x="338" y="424"/>
+		<Backdrop bgFile="Interface\DialogFrame\UI-DialogBox-Background-Dark" edgeFile="Interface\DialogFrame\UI-DialogBox-Border" tile="true">
+			<EdgeSize val="32"/>
+			<TileSize val="32"/>
+			<BackgroundInsets left="11" right="12" top="12" bottom="11"/>
+		</Backdrop>
+		<Layers>
+			<Layer level="OVERLAY">
+				<Texture name="$parentPortrait" parentKey="portrait" hidden="true">
+					<Size x="60" y="60"/>
+					<Anchors>
+						<Anchor point="TOPLEFT" x="-6" y="7"/>
+					</Anchors>
+				</Texture>
+				<FontString name="$parentTitleText" parentKey="TitleText" inherits="GameFontNormal" text="">
+					<Anchors>
+						<Anchor point="TOP" x="0" y="-16"/>
+						<Anchor point="LEFT" x="60"/>
+						<Anchor point="RIGHT" x="-60"/>
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+		<Frames>
+			<Button name="$parentCloseButton" parentKey="CloseButton" inherits="UIPanelCloseButton">
+				<Anchors>
+					<Anchor point="TOPRIGHT" x="-4" y="-4"/>
+				</Anchors>
+			</Button>
+			<Frame name="$parentInset" parentKey="Inset">
+				<Anchors>
+					<Anchor point="TOPLEFT" x="12" y="-40"/>
+					<Anchor point="BOTTOMRIGHT" x="-12" y="12"/>
+				</Anchors>
+			</Frame>
+		</Frames>
+	</Frame>
+</Ui>

@@ -6,20 +6,23 @@ local sunderCount = {
 	spellid = false,
 	target = false,
 	author = "Matz",
-	desc = "Shows who uses Sunder Armor.",
-	script_version = 2,
+	desc = "Shows who uses Sunder Armor (Devastate applies a Sunder Armor stack and is counted too).",
+	script_version = 3,
 	script = [[
 		local combat, container, instance = ...
 		local total, top, amount = 0, 0, 0
 
-		local sunderName = GetSpellInfo(11597)
-		local actors = combat:GetActorList(DETAILS_ATTRIBUTE_MISC)
-		for i, actor in ipairs(actors) do
-			if actor:IsPlayer() and actor.spell_cast then
-				for spellName, count in pairs(actor.spell_cast) do
-					if spellName == sunderName then
-						container:AddValue(actor, count)
-					end
+		--spell names of every rank are the same, so match by name: works for all ranks and every client language
+		local sunderName = GetSpellInfo(7386) --Sunder Armor
+		local devastateName = GetSpellInfo(20243) --Devastate (applies a Sunder Armor stack)
+
+		--casts are counted per player and spell name in combat.amountCasts
+		for playerName, casts in pairs(combat.amountCasts or {}) do
+			local sunders = (casts[sunderName] or 0) + (casts[devastateName] or 0)
+			if (sunders > 0) then
+				local actor = combat:GetActor(DETAILS_ATTRIBUTE_MISC, playerName)
+				if (actor and actor:IsPlayer()) then
+					container:AddValue(actor, sunders)
 				end
 			end
 		end

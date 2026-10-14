@@ -1,5 +1,5 @@
-local L = LibStub("AceLocale-3.0"):NewLocale("Details", "ruRU")
-if not L then return end
+local L = LibStub("AceLocale-3.0"):NewLocale("Details", "ruRU") 
+if not L then return end 
 
 L["ABILITY_ID"] = "id способности"
 L["STRING_"] = "_"
@@ -11,10 +11,10 @@ L["STRING_ACTORFRAME_REPORTTARGETS"] = "отчёт для целей из"
 L["STRING_ACTORFRAME_REPORTTO"] = "отчёт для"
 L["STRING_ACTORFRAME_SPELLDETAILS"] = "Подробнее о заклинании"
 L["STRING_ACTORFRAME_SPELLSOF"] = "Заклинания"
-L["STRING_ACTORFRAME_SPELLUSED"] = "Все произнесенные заклинания"
+L["STRING_ACTORFRAME_SPELLUSED"] = "Все использованные заклинания"
 L["STRING_AGAINST"] = "против"
 L["STRING_ALIVE"] = "Живой"
-L["STRING_ALPHA"] = "Альфа"
+L["STRING_ALPHA"] = "Прозрачность"
 L["STRING_ANCHOR_BOTTOM"] = "Снизу"
 L["STRING_ANCHOR_BOTTOMLEFT"] = "Снизу слева"
 L["STRING_ANCHOR_BOTTOMRIGHT"] = "Снизу справа"
@@ -29,7 +29,7 @@ L["STRING_ATTRIBUTE_CUSTOM"] = "Пользовательское"
 L["STRING_ATTRIBUTE_DAMAGE"] = "Урон"
 L["STRING_ATTRIBUTE_DAMAGE_BYSPELL"] = "Урон, полученный от заклинаний"
 L["STRING_ATTRIBUTE_DAMAGE_DEBUFFS"] = "Ауры и войдзоны"
-L["STRING_ATTRIBUTE_DAMAGE_DEBUFFS_REPORT"] = "Урон дебаффа и время"
+L["STRING_ATTRIBUTE_DAMAGE_DEBUFFS_REPORT"] = "Урон от дебаффов и время их действия"
 L["STRING_ATTRIBUTE_DAMAGE_DONE"] = "Нанесённый урон"
 L["STRING_ATTRIBUTE_DAMAGE_DPS"] = "УВС"
 L["STRING_ATTRIBUTE_DAMAGE_ENEMIES"] = "Получено урона врагом"
@@ -46,7 +46,7 @@ L["STRING_ATTRIBUTE_ENERGY_RESOURCES"] = "Прочие ресурсы"
 L["STRING_ATTRIBUTE_ENERGY_RUNEPOWER"] = "Получено: Сила рун"
 L["STRING_ATTRIBUTE_HEAL"] = "Исцеление"
 L["STRING_ATTRIBUTE_HEAL_ABSORBED"] = "Исцеления поглощено"
-L["STRING_ATTRIBUTE_HEAL_DONE"] = "Исцеление"
+L["STRING_ATTRIBUTE_HEAL_DONE"] = "Совершённое исцеление"
 L["STRING_ATTRIBUTE_HEAL_ENEMY"] = "Произведено исцеления врагом"
 L["STRING_ATTRIBUTE_HEAL_HPS"] = "ИВС"
 L["STRING_ATTRIBUTE_HEAL_OVERHEAL"] = "Избыточное исцеление"
@@ -76,14 +76,15 @@ L["STRING_CHANGED_TO_CURRENT"] = "Сегмент изменен: |cFFFFFF00Те�
 L["STRING_CHANNEL_PRINT"] = "Наблюдатель"
 L["STRING_CHANNEL_RAID"] = "Рeйд"
 L["STRING_CHANNEL_SAY"] = "Сказать"
-L["STRING_CHANNEL_WHISPER"] = "Шепот"
-L["STRING_CHANNEL_WHISPER_TARGET_COOLDOWN"] = "Шепнуть цели кулдаун"
+L["STRING_CHANNEL_WHISPER"] = "Шёпот"
+L["STRING_CHANNEL_WHISPER_TARGET_COOLDOWN"] = "Время восстановления шёпота цели"
 L["STRING_CHANNEL_YELL"] = "Крикнуть"
 L["STRING_CLICK_REPORT_LINE1"] = "|cFFFFCC22Щелчок|r: |cFFFFEE00отчет|r"
-L["STRING_CLICK_REPORT_LINE2"] = "|cFFFFCC22Shift+Щелчок|r: |cFFFFEE00режим окна|r"
-L["STRING_CLOSEALL"] = "Все окна закрыты, вы можете ввести '/details show', чтобы снова открыть."
+L["STRING_CLICK_REPORT_LINE2"] = "|cFFFFCC22Shift+ЛКМ|r: |cFFFFEE00режим окна|r"
+L["STRING_CLOSEALL"] = "Все окна закрыты, Вы можете ввести '/details show', чтобы снова открыть."
 L["STRING_COLOR"] = "Цвет"
 L["STRING_COMMAND_LIST"] = "список кoманд"
+L["STRING_CONTEXT"] = "Контекст"
 L["STRING_COOLTIP_NOOPTIONS"] = "нет параметров"
 L["STRING_CREATEAURA"] = "Создать ауру"
 L["STRING_CRITICAL_HITS"] = "Критические попадания"
@@ -93,40 +94,40 @@ L["STRING_CURRENTFIGHT"] = "Текущий сегмент"
 L["STRING_CUSTOM_ACTIVITY_ALL"] = "Активный режим"
 L["STRING_CUSTOM_ACTIVITY_ALL_DESC"] = "Показывает результаты активности для каждого игрока в рейдовой группе."
 L["STRING_CUSTOM_ACTIVITY_DPS"] = "Урон (активность)"
-L["STRING_CUSTOM_ACTIVITY_DPS_DESC"] = "Сообщает, сколько времени каждый персонаж провел на нанесение урона."
+L["STRING_CUSTOM_ACTIVITY_DPS_DESC"] = "Сообщает, сколько времени каждый персонаж потратил на нанесение урона."
 L["STRING_CUSTOM_ACTIVITY_HPS"] = "Исцеление (активность)"
-L["STRING_CUSTOM_ACTIVITY_HPS_DESC"] = "Сообщает, сколько времени каждый персонаж провел, делая исцеление."
+L["STRING_CUSTOM_ACTIVITY_HPS_DESC"] = "Сообщает, сколько времени каждый персонаж потратил на исцеление."
 L["STRING_CUSTOM_ATTRIBUTE_DAMAGE"] = "Урон"
 L["STRING_CUSTOM_ATTRIBUTE_HEAL"] = "Исцеление"
 L["STRING_CUSTOM_ATTRIBUTE_SCRIPT"] = "Свой скрипт"
 L["STRING_CUSTOM_AUTHOR"] = "Автор:"
 L["STRING_CUSTOM_AUTHOR_DESC"] = "Кто создал этот дисплей."
 L["STRING_CUSTOM_CANCEL"] = "Oтменить"
-L["STRING_CUSTOM_CC_DONE"] = "Контроль толпы сделано"
-L["STRING_CUSTOM_CC_RECEIVED"] = "Контроль толпы получено"
+L["STRING_CUSTOM_CC_DONE"] = "Наложенный контроль"
+L["STRING_CUSTOM_CC_RECEIVED"] = "Полученный контроль"
 L["STRING_CUSTOM_CREATE"] = "Создать"
 L["STRING_CUSTOM_CREATED"] = "Новый дисплей был создан."
 L["STRING_CUSTOM_DAMAGEONANYMARKEDTARGET"] = "Наносимый урон на другие помеченные метки"
 L["STRING_CUSTOM_DAMAGEONANYMARKEDTARGET_DESC"] = "Показывает количество наносимого урона по целям, отмеченным любой другой меткой."
 L["STRING_CUSTOM_DAMAGEONSHIELDS"] = "Наносимый урон по щитам"
-L["STRING_CUSTOM_DAMAGEONSKULL"] = "Наносимый урон по метки с черепом"
-L["STRING_CUSTOM_DAMAGEONSKULL_DESC"] = "Показывает количество наносимого урона по целям, меткой с черепом."
+L["STRING_CUSTOM_DAMAGEONSKULL"] = "Урон по целям с меткой черепа"
+L["STRING_CUSTOM_DAMAGEONSKULL_DESC"] = "Показывать количество урона, нанесённого по целям, отмеченным черепом."
 L["STRING_CUSTOM_DESCRIPTION"] = "Описaние:"
 L["STRING_CUSTOM_DESCRIPTION_DESC"] = "Описание того, что делает этот дисплей."
 L["STRING_CUSTOM_DONE"] = "Готoво"
 L["STRING_CUSTOM_DTBS"] = "Урон, полученный от заклинаний"
-L["STRING_CUSTOM_DTBS_DESC"] = "Показать урон от вражеских заклинаний, полученный вашей группой "
+L["STRING_CUSTOM_DTBS_DESC"] = "Показывать урон вражеских заклинаний по Вашей группе."
 L["STRING_CUSTOM_DYNAMICOVERAL"] = "Динамический общий урон"
 L["STRING_CUSTOM_EDIT"] = "Редактировать"
 L["STRING_CUSTOM_EDIT_SEARCH_CODE"] = "Изменить поиск кода"
 L["STRING_CUSTOM_EDIT_TOOLTIP_CODE"] = "Изменить код подсказки"
 L["STRING_CUSTOM_EDITCODE_DESC"] = "Это дополнительная функция, где пользователь может создать свой собственный код дисплея."
-L["STRING_CUSTOM_EDITTOOLTIP_DESC"] = "Это код подсказки, выполняется, когда пользователь наводит указатель мыши на полосу."
+L["STRING_CUSTOM_EDITTOOLTIP_DESC"] = "Это код подсказки, выполняется, когда пользователь наводит курсор на полосу."
 L["STRING_CUSTOM_ENEMY_DT"] = "Пoлучено урона"
 L["STRING_CUSTOM_EXPORT"] = "Экспорт"
 L["STRING_CUSTOM_FUNC_INVALID"] = "Пользовательский скрипт недопустим и не может обновить окно."
-L["STRING_CUSTOM_HEALTHSTONE_DEFAULT"] = "Лечебное зелье и камень"
-L["STRING_CUSTOM_HEALTHSTONE_DEFAULT_DESC"] = "Показать, кто в вашей рейдовой группе использовал камень здоровья или целебное зелье."
+L["STRING_CUSTOM_HEALTHSTONE_DEFAULT"] = "Лечебное зелье и камень здоровья"
+L["STRING_CUSTOM_HEALTHSTONE_DEFAULT_DESC"] = "Показать, кто в Вашей рейдовой группе использовал камень здоровья или лечебное зелье."
 L["STRING_CUSTOM_ICON"] = "Икoнка:"
 L["STRING_CUSTOM_IMPORT"] = "Импорт"
 L["STRING_CUSTOM_IMPORT_ALERT"] = "Дисплей загружен, нажмите для подтверждения импорта."
@@ -141,47 +142,49 @@ L["STRING_CUSTOM_NAME_DESC"] = "Введите имя нового пользо�
 L["STRING_CUSTOM_NEW"] = "Управление настраиваемыми дисплеями"
 L["STRING_CUSTOM_PASTE"] = "Вставить сюда:"
 L["STRING_CUSTOM_POT_DEFAULT"] = "Использовано зелий"
-L["STRING_CUSTOM_POT_DEFAULT_DESC"] = "Показать, кто в вашем рейде использовал зелье во время сражения."
+L["STRING_CUSTOM_POT_DEFAULT_DESC"] = "Показать, кто в Вашем рейде использовал зелье во время сражения."
 L["STRING_CUSTOM_REMOVE"] = "Удалить"
 L["STRING_CUSTOM_REPORT"] = "(своё)"
 L["STRING_CUSTOM_SAVE"] = "Сохранить изменения"
 L["STRING_CUSTOM_SAVED"] = "Дисплей сохранен."
 L["STRING_CUSTOM_SHORTNAME"] = "Имя должно содержать не менее 5 символов."
-L["STRING_CUSTOM_SKIN_TEXTURE"] = "Файл вашего скина"
+L["STRING_CUSTOM_SKIN_TEXTURE"] = "Файл Вашего скина"
 L["STRING_CUSTOM_SKIN_TEXTURE_DESC"] = [=[Расширение файла .tga
 
 Файл должен быть размещен в папке:
 
 |cFFFFFF00WoW/Interface/|r
 
-|cFFFFFF00Важно:|r перед созданием файла закройте свой игровой клиент. После этого, напишите /reload далее будет принятие изменений, сохраненные в файле текстуры.]=]
+|cFFFFFF00Важно:|r перед созданием файла закройте игровой клиент. После этого напишите '/reload', далее будет принятие изменений, сохранённые в файле текстуры.]=]
 L["STRING_CUSTOM_SOURCE"] = "Источник:"
 L["STRING_CUSTOM_SOURCE_DESC"] = [=[Кто вызывал эффект.
 
-Кнопка справа показывает список нипов из сражения в рейде.]=]
-L["STRING_CUSTOM_SPELLID"] = "Id Заклинание:"
-L["STRING_CUSTOM_SPELLID_DESC"] = [=[Необязательно, что используемое заклинание, используется источником для применения эффекта к цели.
+Кнопка справа показывает список НИПов из сражения в рейде.]=]
+L["STRING_CUSTOM_SPELLID"] = "Id заклинания:"
+L["STRING_CUSTOM_SPELLID_DESC"] = [=[Необязательно, заклинание используется источником для наложения эффекта на цель.
 
 Кнопка справа показывает список заклинаний из рейдовых сражений.]=]
 L["STRING_CUSTOM_TARGET"] = "Цель:"
-L["STRING_CUSTOM_TARGET_DESC"] = [=[Эта цель источник.
+L["STRING_CUSTOM_TARGET_DESC"] = [=[Это цель источника.
 
-Кнопка справа показывает список нипов из сражений в рейде.]=]
+Кнопка справа показывает список НИПов из сражений в рейде.]=]
 L["STRING_CUSTOM_TEMPORARILY"] = "(|cFFFFC000временно|r)"
+L["STRING_CUSTOM_TEXTURE_GUIDE"] = "Чтобы использовать пользовательский файл для иконок: - Файл должен быть в формате .TGA. - Размер файла должен быть 512x512 пикселей. - Для специализаций имя файла должно содержать 'spec_'. - Поместите текстуру в папку /Папка установки WoW /_retail_/Interface/"
 L["STRING_DAMAGE"] = "Урон"
-L["STRING_DAMAGE_DPS_IN"] = "Урон, полученный от "
+L["STRING_DAMAGE_DPS_IN"] = "Урон, полученный от"
 L["STRING_DAMAGE_FROM"] = "Получил урон от"
 L["STRING_DAMAGE_TAKEN_FROM"] = "Урон, полученный от"
-L["STRING_DAMAGE_TAKEN_FROM2"] = "принятый урон с"
+L["STRING_DAMAGE_TAKEN_FROM2"] = "нанесённый урон с "
 L["STRING_DEFENSES"] = "Защита"
 L["STRING_DESCENDING"] = "По убыванию"
 L["STRING_DETACH_DESC"] = "Разделить группу окон"
 L["STRING_DISCARD"] = "Отказаться"
-L["STRING_DISPELLED"] = "Баффы/Дебафы удалены"
+L["STRING_DISPELLED"] = "Снятые баффы/дебаффы"
 L["STRING_DODGE"] = "Уклонение"
 L["STRING_DOT"] = "(ДоТ)"
 L["STRING_DPS"] = "УВС"
 L["STRING_EMPTY_SEGMENT"] = "Пустой сегмент"
+L["STRING_ENABLE_DO_NOT_DISTURB"] = "Включить режим 'Не беспокоить'"
 L["STRING_ENABLED"] = "Включить"
 L["STRING_ENVIRONMENTAL_DROWNING"] = "Мир (утопление)"
 L["STRING_ENVIRONMENTAL_FALLING"] = "Мир (падение)"
@@ -189,7 +192,6 @@ L["STRING_ENVIRONMENTAL_FATIGUE"] = "Мир (усталость)"
 L["STRING_ENVIRONMENTAL_FIRE"] = "Мир (огонь)"
 L["STRING_ENVIRONMENTAL_LAVA"] = "Мир (лава)"
 L["STRING_ENVIRONMENTAL_SLIME"] = "Мир (слизь)"
-L["STRING_EQUILIZING"] = "Обмен данными при сражении"
 L["STRING_ERASE"] = "удалить"
 L["STRING_ERASE_DATA"] = "Сброс всех данных"
 L["STRING_ERASE_DATA_OVERALL"] = "Полный сброс данных"
@@ -198,20 +200,20 @@ L["STRING_EXAMPLE"] = "Пример"
 L["STRING_EXPLOSION"] = "взрыв"
 L["STRING_FAIL_ATTACKS"] = "Неудачные атаки"
 L["STRING_FEEDBACK_CURSE_DESC"] = "Откройте тикет или оставьте сообщение на странице Details!."
-L["STRING_FEEDBACK_MMOC_DESC"] = "Напишите в нашей теме на форуме mmo-champion."
-L["STRING_FEEDBACK_PREFERED_SITE"] = "Выберите предпочитаемый сайт сообщества (англ):"
+L["STRING_FEEDBACK_MMOC_DESC"] = "Оставьте сообщение в нашей теме на форуме mmo-champion."
+L["STRING_FEEDBACK_PREFERED_SITE"] = "Выберите предпочитаемый сайт сообщества:"
 L["STRING_FEEDBACK_SEND_FEEDBACK"] = "Отправить отзыв"
-L["STRING_FEEDBACK_WOWI_DESC"] = "Оставить комментарий на странице проекта Details! "
+L["STRING_FEEDBACK_WOWI_DESC"] = "Оставить комментарий на странице проекта Details!"
 L["STRING_FIGHTNUMBER"] = "Бой #"
 L["STRING_FORGE_BUTTON_ALLSPELLS"] = "Все заклинания"
 L["STRING_FORGE_BUTTON_ALLSPELLS_DESC"] = "Список всех заклинаний от игроков и НИПов."
 L["STRING_FORGE_BUTTON_BWTIMERS"] = "Таймеры BigWigs"
 L["STRING_FORGE_BUTTON_BWTIMERS_DESC"] = "Список таймеров из BigWigs"
 L["STRING_FORGE_BUTTON_DBMTIMERS"] = "Таймеры DBM"
-L["STRING_FORGE_BUTTON_DBMTIMERS_DESC"] = "Список таймеров из Deadly Boss Mods"
+L["STRING_FORGE_BUTTON_DBMTIMERS_DESC"] = "Список таймеров из DBM"
 L["STRING_FORGE_BUTTON_ENCOUNTERSPELLS"] = "Заклинания босса"
-L["STRING_FORGE_BUTTON_ENCOUNTERSPELLS_DESC"] = "Список заклинаний из рейда и подземелий с сражений."
-L["STRING_FORGE_BUTTON_ENEMIES"] = "Враги"
+L["STRING_FORGE_BUTTON_ENCOUNTERSPELLS_DESC"] = "Показывать только заклинания из рейдовых и подземельных сражений."
+L["STRING_FORGE_BUTTON_ENEMIES"] = "Противники"
 L["STRING_FORGE_BUTTON_ENEMIES_DESC"] = "Список врагов из текущего боя."
 L["STRING_FORGE_BUTTON_PETS"] = "Питомцы"
 L["STRING_FORGE_BUTTON_PETS_DESC"] = "Список питомцев из текущего боя."
@@ -254,7 +256,7 @@ L["STRING_FROM"] = "От"
 L["STRING_GERAL"] = "Общие"
 L["STRING_GLANCING"] = "Вскользь"
 L["STRING_GUILDDAMAGERANK_BOSS"] = "Босс"
-L["STRING_GUILDDAMAGERANK_DATABASEERROR"] = [=[Не удается открыть '|cFFFFFF00Details! хранение|r', может аддон
+L["STRING_GUILDDAMAGERANK_DATABASEERROR"] = [=[Не удается открыть '|cFFFFFF00Details! хранение|r', может аддон 
 отключен?]=]
 L["STRING_GUILDDAMAGERANK_DIFF"] = "Сложность"
 L["STRING_GUILDDAMAGERANK_GUILD"] = "Гильдия"
@@ -264,22 +266,22 @@ L["STRING_GUILDDAMAGERANK_PLAYERBASE_PLAYER"] = "Игрок"
 L["STRING_GUILDDAMAGERANK_PLAYERBASE_RAID"] = "Все игроки"
 L["STRING_GUILDDAMAGERANK_RAID"] = "Рейд"
 L["STRING_GUILDDAMAGERANK_ROLE"] = "Роль"
-L["STRING_GUILDDAMAGERANK_SHOWHISTORY"] = "Показать историю"
-L["STRING_GUILDDAMAGERANK_SHOWRANK"] = "Показать ранг гильдии"
+L["STRING_GUILDDAMAGERANK_SHOWHISTORY"] = "Хронология"
+L["STRING_GUILDDAMAGERANK_SHOWRANK"] = "Ранг гильдии"
 L["STRING_GUILDDAMAGERANK_SYNCBUTTONTEXT"] = "Синхронизация с гильдией"
-L["STRING_GUILDDAMAGERANK_TUTORIAL_DESC"] = [=[Details! хранит урон и исцеление с каждого босса, с которым сражалась ваша гильдия.
+L["STRING_GUILDDAMAGERANK_TUTORIAL_DESC"] = [=[Details! хранит урон и исцеление с каждого босса, с которым сражалась Ваша гильдия.
 
-Чтобы посмотреть историю, установите флажок на '|cFFFFFF00Показать историю|r' будут показаны результаты всех боев.
+Чтобы посмотреть историю, установите флажок на '|cFFFFFF00Показать историю|r', будут показаны результаты всех боев.
 Путем выбора '|cFFFFFF00Показать ранг гильдии|r' будут показаны высшие очки для выбранного босса.
 
-Если вы используете данный инструмент в первый раз или, вы пропустили день рейда, нажмите на кнопку '|cFFFFFF00Синхронизация с гильдией|r'.]=]
+Если Вы используете данный инструмент в первый раз или если Вы пропустили день рейда, нажмите на кнопку '|cFFFFFF00Синхронизация с гильдией|r'.]=]
 L["STRING_GUILDDAMAGERANK_WINDOWALERT"] = "Босс побежден! показать рейтинг"
 L["STRING_HEAL"] = "Исцеление"
 L["STRING_HEAL_ABSORBED"] = "Исцелeния поглощено"
 L["STRING_HEAL_CRIT"] = "Критическое исцеление"
 L["STRING_HEALING_FROM"] = "Исцеление, полученное от"
 L["STRING_HEALING_HPS_FROM"] = "ИВС, полученное от"
-L["STRING_HITS"] = "Попадания "
+L["STRING_HITS"] = "Попадания"
 L["STRING_HPS"] = "ИВС"
 L["STRING_IMAGEEDIT_ALPHA"] = "Прозрачность"
 L["STRING_IMAGEEDIT_CROPBOTTOM"] = "Обрезать снизу"
@@ -296,6 +298,7 @@ L["STRING_INFO_TUTORIAL_COMPARISON1"] = "Щелкните на вкладку |c
 L["STRING_INSTANCE_CHAT"] = "Рейд, группа, лфр"
 L["STRING_INSTANCE_LIMIT"] = "максимальное количество окон было достигнуто, это ограничение можно изменить на панели параметры. Также можно открыть закрытые окна из меню окна (#)."
 L["STRING_INTERFACE_OPENOPTIONS"] = "Открыть панель параметров"
+L["STRING_INVERT_RULE"] = "Правило инвертирования"
 L["STRING_ISA_PET"] = "Этот субъект является питомцем"
 L["STRING_KEYBIND_BOOKMARK"] = "Закладка"
 L["STRING_KEYBIND_BOOKMARK_NUMBER"] = "Закладка #%s"
@@ -309,18 +312,25 @@ L["STRING_KEYBIND_TOGGLE_WINDOWS"] = "Переключить всё"
 L["STRING_KEYBIND_WINDOW_CONTROL"] = "Окна"
 L["STRING_KEYBIND_WINDOW_REPORT"] = "Отчёт данных, отображаемых в окне #%s."
 L["STRING_KEYBIND_WINDOW_REPORT_HEADER"] = "Отчет данных"
+L["STRING_KEYSTONE_ADD_TO_FRIENDS_TOOLTIP"] = "Добавить в список друзей как персонажа (не запрос на дружбу в Battlenet)."
+L["STRING_KEYSTONE_CLICK_TO_VIEW_SCOREBOARD"] = "Нажмите, чтобы просмотреть табло."
+L["STRING_KEYSTONE_DND_TOOLTIP"] = "Ваш ключ не будет отправлен Вашей гильдии или друзьям. Пока Вы состоите в группе, он всё равно будет отправлен."
+L["STRING_KEYSTONE_LIFETIME_LIKES_YOU_GAVE"] = "Лайки, которые Вы поставили этому игроку через кнопку 'GG' в аддоне |cFFFFFF00Details! Damage Meter Mythic+|r. Чтобы просмотреть детали прохождения, выберите прохождение M+, которое Вы прошли с этим игроком."
+L["STRING_KEYSTONE_NO_MYTHICPLUS_ADDON"] = "Аддон 'Details!: Расширение М+' не найден."
+L["STRING_KEYSTONE_REQUEST_FROM_GUILD"] = "Запрос от гильдии"
 L["STRING_KILLED"] = "Убитый"
 L["STRING_LAST_COOLDOWN"] = "последние использованные кулдауны"
 L["STRING_LEFT"] = "слева"
-L["STRING_LEFT_CLICK_SHARE"] = "Левый щелчок для отчета."
-L["STRING_LEFT_TO_RIGHT"] = "Слева направо "
+L["STRING_LEFT_CLICK_SHARE"] = "ЛКМ для отчета."
+L["STRING_LEFT_TO_RIGHT"] = "Слева направо"
+L["STRING_LIKES_YOU_GAVE"] = "Лайки, которые Вы поставили"
 L["STRING_LOCK_DESC"] = "Заблокировать или разблокировать окно"
 L["STRING_LOCK_WINDOW"] = "заблокировать"
-L["STRING_MASTERY"] = "Искусность "
+L["STRING_MASTERY"] = "Искусность"
 L["STRING_MAXIMUM"] = "Максимальное"
-L["STRING_MAXIMUM_SHORT"] = "Макс"
+L["STRING_MAXIMUM_SHORT"] = "Макс."
 L["STRING_MEDIA"] = "Медиа"
-L["STRING_MELEE"] = "Атака ближнего боя"
+L["STRING_MELEE"] = "Ближний бой"
 L["STRING_MEMORY_ALERT_BUTTON"] = "Я понял"
 L["STRING_MEMORY_ALERT_TEXT1"] = "Details! использует много памяти, но, |cFFFF8800вопреки распространенному мнению|r, использование памяти аддонами |cFFFF8800не влияет|r на производительности игры или на ваш FPS."
 L["STRING_MEMORY_ALERT_TEXT2"] = [=[Итак, если вы видите что Details! использует много памяти, не паникуйте :D
@@ -342,7 +352,7 @@ L["STRING_MINIMAPMENU_NEWWINDOW"] = "Создать новое окно"
 L["STRING_MINIMAPMENU_REOPENALL"] = "Открыть всё"
 L["STRING_MINIMAPMENU_UNLOCK"] = "Разблокировать"
 L["STRING_MINIMUM"] = "Минимальное"
-L["STRING_MINIMUM_SHORT"] = "Мин"
+L["STRING_MINIMUM_SHORT"] = "Мин."
 L["STRING_MINITUTORIAL_BOOKMARK1"] = "Правый щелчок в любой точке окна, чтобы открыть закладки!"
 L["STRING_MINITUTORIAL_BOOKMARK2"] = "Закладки дают быстрый доступ к избранным дисплеям."
 L["STRING_MINITUTORIAL_BOOKMARK3"] = "Правый щелчок, чтобы закрыть панель закладок."
@@ -353,10 +363,10 @@ L["STRING_MINITUTORIAL_OPTIONS_PANEL1"] = "Окно, которое будет �
 L["STRING_MINITUTORIAL_OPTIONS_PANEL2"] = "При проверке все окна в группе также изменяются."
 L["STRING_MINITUTORIAL_OPTIONS_PANEL3"] = [=[Чтобы создать группу, перетащите окно #2 рядом с окном #1.
 
-А чтобы, разорвать группу, нажмите на кнопку |cFFFFFF00разгруппировать|r.]=]
+А чтобы разорвать группу, нажмите на кнопку |cFFFFFF00разгруппировать|r.]=]
 L["STRING_MINITUTORIAL_OPTIONS_PANEL4"] = "Протестируйте конфигурацию путем создания полос тестирования."
-L["STRING_MINITUTORIAL_OPTIONS_PANEL5"] = "При включенном, редактирование групп, все окна в группе изменяются."
-L["STRING_MINITUTORIAL_OPTIONS_PANEL6"] = "Выберите здесь, какое окно вы хотите изменить для внешнего вида."
+L["STRING_MINITUTORIAL_OPTIONS_PANEL5"] = "Когда 'Редактирование группы' включено, все окна в группе изменяются."
+L["STRING_MINITUTORIAL_OPTIONS_PANEL6"] = "Выберите здесь, какое окно Вы хотите изменить для внешнего вида."
 L["STRING_MINITUTORIAL_WINDOWS1"] = [=[Вы только что создали группу окон.
 
 Чтобы разорвать их, щелкните по значку с замком.]=]
@@ -365,26 +375,26 @@ L["STRING_MINITUTORIAL_WINDOWS2"] = [=[Окно заблокировано.
 Нажмите на строку полос и перетащите его вверх, чтобы растянуть.]=]
 L["STRING_MIRROR_IMAGE"] = "Зеркальное изображение"
 L["STRING_MISS"] = "Промах"
-L["STRING_MODE_ALL"] = "Всё и вся"
+L["STRING_MODE_ALL"] = "Все"
 L["STRING_MODE_GROUP"] = "Стандартный"
 L["STRING_MODE_OPENFORGE"] = "Список заклинаний"
 L["STRING_MODE_PLUGINS"] = "плагины"
-L["STRING_MODE_RAID"] = "Плагины: Рейд "
+L["STRING_MODE_RAID"] = "Плагины: Рейд"
 L["STRING_MODE_SELF"] = "Плагины: Одиночная игра"
 L["STRING_MORE_INFO"] = "Смотрите на право для доп. информации."
 L["STRING_MULTISTRIKE"] = "Многократная атака"
 L["STRING_MULTISTRIKE_HITS"] = "Многократные попадания"
-L["STRING_MUSIC_DETAILS_ROBERTOCARLOS"] = [=[Нет никакой, попытки забыть
-Долгое время, в вашей жизни, я буду жить
-Как Details'a слишком - мало для нас]=]
+L["STRING_MUSIC_DETAILS_ROBERTOCARLOS"] = "Нет смысла пытаться забыть. В твоей жизни я ещё долго буду жить. Подробности такие же незначительные, как и мы."
 L["STRING_NEWROW"] = "ожидание обновления..."
 L["STRING_NEWS_REINSTALL"] = "Обнаружили проблемы после обновления? Попробуйте команду '/details reinstall'."
 L["STRING_NEWS_TITLE"] = "Что нового в этой версии"
 L["STRING_NO"] = "Нет"
 L["STRING_NO_DATA"] = "данные уже очищены"
+L["STRING_NO_MYTHIC_PLUS_ADDON"] = "Чтобы отслеживать свои прохождения M+, включая добычу, очки, урон, исцеление и игроков, с которыми Вы играли, установите дополнение |cFFFFAA00Details! Damage Meter Mythic+|r на |cFFfff1c1Wago AddOns|r или |cFFfff1c1CurseForge|r."
 L["STRING_NO_SPELL"] = "способности не были использованы"
 L["STRING_NO_TARGET"] = "Не найдена цель."
 L["STRING_NO_TARGET_BOX"] = "Нет доступных целей"
+L["STRING_NO_TELEPORTER"] = "У тебя нет этого телепорта"
 L["STRING_NOCLOSED_INSTANCES"] = [=[Закрытых окон нет,
 щелкните, чтобы открыть новое.]=]
 L["STRING_NOLAST_COOLDOWN"] = "кулдауны не использованы"
@@ -412,7 +422,14 @@ L["STRING_OPTIONS_3D_UANCHOR"] = "Верхняя 3D модель:"
 L["STRING_OPTIONS_3D_UENABLED_DESC"] = "Включено или отключено, использование 3D модели рамки над полосами."
 L["STRING_OPTIONS_3D_USELECT_DESC"] = "Выберите модель, которая будет использоваться на верхней панели полос."
 L["STRING_OPTIONS_ADVANCED"] = "Дополнительно"
-L["STRING_OPTIONS_ALPHAMOD_ANCHOR"] = "Авто-скрытие:"
+L["STRING_OPTIONS_ALIGNED_TEXT_COLUMNS"] = "Выровненные текстовые столбцы"
+L["STRING_OPTIONS_ALIGNED_TEXT_COLUMNS_AUTOALIGN"] = "Автоматическое выравнивание"
+L["STRING_OPTIONS_ALIGNED_TEXT_COLUMNS_AUTOALIGN_DESC"] = "Выравнивание выполняется автоматически в зависимости от длины каждого текста."
+L["STRING_OPTIONS_ALIGNED_TEXT_COLUMNS_DESC"] = "Отключить скобки и разделители и выровнять тексты полос в вертикальных столбцах"
+L["STRING_OPTIONS_ALIGNED_TEXT_COLUMNS_OFFSET"] = "Смещение текста %d"
+L["STRING_OPTIONS_ALIGNED_TEXT_COLUMNS_OFFSET_DESC"] = "Смещение от правой границы"
+L["STRING_OPTIONS_ALIGNED_TEXT_COLUMNS_WARNING"] = "включен, разделители и скобки не используются"
+L["STRING_OPTIONS_ALPHAMOD_ANCHOR"] = "Автоскрытие:"
 L["STRING_OPTIONS_ALWAYS_USE"] = "Использовать на всех персонажах"
 L["STRING_OPTIONS_ALWAYS_USE_DESC"] = "Один и тот же профиль используется для всех персонажей. Вы можете переопределить это для любого персонажа, просто выбрав другой существующий профиль."
 L["STRING_OPTIONS_ALWAYSSHOWPLAYERS"] = "Показать разгруппированных игроков"
@@ -423,8 +440,10 @@ L["STRING_OPTIONS_ANIMATEBARS_DESC"] = "Включить анимацию для
 L["STRING_OPTIONS_ANIMATESCROLL"] = "Анимация полос прокрутки"
 L["STRING_OPTIONS_ANIMATESCROLL_DESC"] = "При включении полосы прокрутки, при отображении или скрытии используется анимация."
 L["STRING_OPTIONS_APPEARANCE"] = "Внешний вид"
-L["STRING_OPTIONS_ATTRIBUTE_TEXT"] = "Настройки текста заголовка "
+L["STRING_OPTIONS_ATTRIBUTE_TEXT"] = "Настройки текста заголовка"
 L["STRING_OPTIONS_ATTRIBUTE_TEXT_DESC"] = "Эти параметры управляют заголовочным текстом окна."
+L["STRING_OPTIONS_AUTO_COMBATLOG"] = "Автоматический запуск журнала боя"
+L["STRING_OPTIONS_AUTO_COMBATLOG_DESC"] = "Автоматически запускать и останавливать запись данных о боевых действиях в файл combatlog.txt при входе в рейд или подземелье и выходе из них."
 L["STRING_OPTIONS_AUTO_SWITCH"] = "Все роли |cFFFFAA00(в бою)|r"
 L["STRING_OPTIONS_AUTO_SWITCH_COMBAT"] = "|cFFFFAA00(в бою)|r"
 L["STRING_OPTIONS_AUTO_SWITCH_DAMAGER_DESC"] = "Когда в специализации боец, это окно показывает выбранный атрибут или плагин."
@@ -443,7 +462,7 @@ L["STRING_OPTIONS_BAR_BACKDROP_COLOR_DESC"] = "Изменить цвет гра�
 L["STRING_OPTIONS_BAR_BACKDROP_ENABLED_DESC"] = "Включение или отключение границ строк."
 L["STRING_OPTIONS_BAR_BACKDROP_SIZE_DESC"] = "Отрегулировать размер границы."
 L["STRING_OPTIONS_BAR_BACKDROP_TEXTURE_DESC"] = "Изменить внешний вид границы."
-L["STRING_OPTIONS_BAR_BCOLOR"] = "Фоновый цвет"
+L["STRING_OPTIONS_BAR_BCOLOR"] = "Цвет фона"
 L["STRING_OPTIONS_BAR_BTEXTURE_DESC"] = "Эта текстура находится ниже верхней текстуры и ее размер всегда такой же, как ширина окна."
 L["STRING_OPTIONS_BAR_COLOR_DESC"] = [=[Цвет и прозрачность этой текстуры.
 
@@ -455,7 +474,7 @@ L["STRING_OPTIONS_BAR_FOLLOWING_ANCHOR"] = "Полоса игрока:"
 L["STRING_OPTIONS_BAR_FOLLOWING_DESC"] = "Когда включено, полоса будет всегда отображаться, даже если Вы не один из лучших игроков в рейтинге."
 L["STRING_OPTIONS_BAR_GROW"] = "Направление роста полос"
 L["STRING_OPTIONS_BAR_GROW_DESC"] = "Полосы растут сверху или снизу окна."
-L["STRING_OPTIONS_BAR_HEIGHT"] = "Высота"
+L["STRING_OPTIONS_BAR_HEIGHT"] = "Высота полосы"
 L["STRING_OPTIONS_BAR_HEIGHT_DESC"] = "Увеличить или уменьшить высоту полос."
 L["STRING_OPTIONS_BAR_ICONFILE"] = "Файл значка"
 L["STRING_OPTIONS_BAR_ICONFILE_DESC"] = [=[Путь к пользовательскому файлу значка.
@@ -480,11 +499,11 @@ L["STRING_OPTIONS_BARLEFTTEXTCUSTOM2_DESC"] = [=[|cFFFFFF00{data1}|r: обычн
 
 |cFFFFFF00{data3}|r: в некоторых случаях это значение представляет фракцию игрока или значок роли.
 
-|cFFFFFF00{func}|r: выполняет индивидуальные функции lua добавив ее возвращаемое значение в тексте.
+|cFFFFFF00{func}|r: выполняет индивидуальные функции lua, добавив ее возвращаемое значение в тексте.
 Пример:
 {func return 'привет Азерот'}
 
-|cFFFFFF00Escape Sequences|r: используется для изменения цвета или добавления текстур. Для получения более подробной информации в поисковике напишите 'UI escape sequences'.]=]
+|cFFFFFF00Escape Sequences|r: используется для изменения цвета или добавления текстур. Для получения более подробной информации напишите в поисковике 'UI escape sequences'.]=]
 L["STRING_OPTIONS_BARORIENTATION"] = "Направление полос"
 L["STRING_OPTIONS_BARORIENTATION_DESC"] = "Направление, в котором заполнены полосы."
 L["STRING_OPTIONS_BARRIGHTTEXTCUSTOM"] = "Пользовательский текст включен"
@@ -496,26 +515,23 @@ L["STRING_OPTIONS_BARRIGHTTEXTCUSTOM2_DESC"] = [=[|cFFFFFF00{data1}|r: это п
 
 |cFFFFFF00{data3}|r: третье число пройдено, как правило, это процент.
 
-|cFFFFFF00{func}|r: выполняет индивидуальные функции lua добавив ее возвращаемое значение в тексте.
+|cFFFFFF00{func}|r: выполняет индивидуальные функции lua, добавив ее возвращаемое значение в тексте.
 Пример:
 {func return 'привет Азерот'}
 
-|cFFFFFF00Escape Sequences|r: используется для изменения цвета или добавления текстур. Для получения более подробной информации в поисковике напишите 'UI escape sequences'.]=]
+|cFFFFFF00Escape Sequences|r: используется для изменения цвета или добавления текстур. Для получения более подробной информации напишите в поисковике 'UI escape sequences'.]=]
 L["STRING_OPTIONS_BARS"] = "Основные настройки полос"
-L["STRING_OPTIONS_BARS_CUSTOM_TEXTURE"] = "Файл вашей текстуры"
-L["STRING_OPTIONS_BARS_CUSTOM_TEXTURE_DESC"] = [=[
-
-|cFFFFFF00Важно|r: изображение должно быть на 256x32 пикселей.]=]
+L["STRING_OPTIONS_BARS_CUSTOM_TEXTURE"] = "Файл Вашей текстуры"
 L["STRING_OPTIONS_BARS_DESC"] = "Эти параметры управляют внешним видом полос."
-L["STRING_OPTIONS_BARSORT"] = "Сортировка полос по месту"
+L["STRING_OPTIONS_BARSORT"] = "Порядок сортировки полос по рангу"
 L["STRING_OPTIONS_BARSORT_DESC"] = "Сортировка полос по убыванию или возрастанию."
 L["STRING_OPTIONS_BARSTART"] = "Начало полосы, после значка"
-L["STRING_OPTIONS_BARSTART_DESC"] = [=[Когда отключено верхняя текстура начинается со значка слева, а не справа
+L["STRING_OPTIONS_BARSTART_DESC"] = [=[Когда отключено, верхняя текстура начинается со значка слева, а не справа
 
 Это полезно при использовании пакета значков с прозрачными областями.]=]
 L["STRING_OPTIONS_BARUR_ANCHOR"] = "Быстрое обновление"
 L["STRING_OPTIONS_BARUR_DESC"] = "Когда включено, то значения, УВС и ИВС обновляются немного быстрее, чем обычно."
-L["STRING_OPTIONS_BG_ALL_ALLY"] = "Показать всё"
+L["STRING_OPTIONS_BG_ALL_ALLY"] = "Поле битвы: Показать врагов"
 L["STRING_OPTIONS_BG_ALL_ALLY_DESC"] = [=[Когда включено, вражеские игроки также отображаются, когда окно находится в режиме группы.
 
 |cFFFFFF00Важно|r: изменения применяются последующего вступления в бой.]=]
@@ -556,7 +572,7 @@ L["STRING_OPTIONS_CHART_ADDNAME"] = "Название:"
 L["STRING_OPTIONS_CHART_ADDVERSION"] = "Версия:"
 L["STRING_OPTIONS_CHART_AUTHOR"] = "Автор"
 L["STRING_OPTIONS_CHART_AUTHORERROR"] = "Недопустимое имя автора."
-L["STRING_OPTIONS_CHART_CANCEL"] = "Отменить"
+L["STRING_OPTIONS_CHART_CANCEL"] = "Отмена"
 L["STRING_OPTIONS_CHART_CLOSE"] = "Закрыть"
 L["STRING_OPTIONS_CHART_CODELOADED"] = "Код уже загружен и не может быть отображен."
 L["STRING_OPTIONS_CHART_EDIT"] = "Редактировать код"
@@ -603,29 +619,30 @@ L["STRING_OPTIONS_CMISC_DESC"] = [=[Включить захват:
 L["STRING_OPTIONS_COLORANDALPHA"] = "Цвет и альфа"
 L["STRING_OPTIONS_COLORFIXED"] = "Фиксированный цвет"
 L["STRING_OPTIONS_COMBAT_ALPHA"] = "Когда"
-L["STRING_OPTIONS_COMBAT_ALPHA_1"] = "Никогда"
 L["STRING_OPTIONS_COMBAT_ALPHA_2"] = "В бою"
 L["STRING_OPTIONS_COMBAT_ALPHA_3"] = "Не в бою"
 L["STRING_OPTIONS_COMBAT_ALPHA_4"] = "Не в группе"
 L["STRING_OPTIONS_COMBAT_ALPHA_5"] = "Не внутри подземелья"
 L["STRING_OPTIONS_COMBAT_ALPHA_6"] = "Внутри подземелья"
 L["STRING_OPTIONS_COMBAT_ALPHA_7"] = "Рейдовый отладчик"
+L["STRING_OPTIONS_COMBAT_ALPHA_8"] = "В поле боя"
+L["STRING_OPTIONS_COMBAT_ALPHA_9"] = "В М+"
 L["STRING_OPTIONS_COMBAT_ALPHA_DESC"] = [=[Выберите, как бой влияет на прозрачность окна.
 
 |cFFFFFF00Никаких изменений|r: Не изменять альфу.
 
-|cFFFFFF00В бою|r: Когда ваш персонаж вступает в бой, выбранная альфа применяется к окну.
+|cFFFFFF00В бою|r: Когда Ваш персонаж вступает в бой, выбранная альфа применяется к окну.
 
-|cFFFFFF00Вне боя|r: Альфа применяется всякий раз, когда ваш персонаж не находится в бою.
+|cFFFFFF00Вне боя|r: Альфа применяется всякий раз, когда Ваш персонаж не находится в бою.
 
-|cFFFFFF00Не в группе|r: Когда вы не находитесь в группе или рейде, окно предполагает выбранную альфу.
+|cFFFFFF00Не в группе|r: Когда Вы не находитесь в группе или рейде, окно предполагает выбранную альфу.
 
 |cFFFFFF00Важно|r: Этот параметр перезаписывает альфу, определенную функцией автоматической прозрачности.]=]
 L["STRING_OPTIONS_COMBATTWEEKS"] = "Боевые настройки"
 L["STRING_OPTIONS_COMBATTWEEKS_DESC"] = "Предустановки на то, как Details! работает некоторыми боевыми аспектами."
 L["STRING_OPTIONS_CONFIRM_ERASE"] = "Вы хотите стереть данные?"
 L["STRING_OPTIONS_CUSTOMSPELL_ADD"] = "Добавить заклинание"
-L["STRING_OPTIONS_CUSTOMSPELLTITLE"] = "Редактор по настройки заклинаний"
+L["STRING_OPTIONS_CUSTOMSPELLTITLE"] = "Изменить настройки заклинания"
 L["STRING_OPTIONS_CUSTOMSPELLTITLE_DESC"] = "Эта панель позволяет изменять название и значок заклинаний."
 L["STRING_OPTIONS_DATABROKER"] = "Брокер данных:"
 L["STRING_OPTIONS_DATABROKER_TEXT"] = "Текст"
@@ -644,7 +661,7 @@ L["STRING_OPTIONS_DATABROKER_TEXT1_DESC"] = [=[|cFFFFFF00{dmg}|r: нанесён
 
 |cFFFFFF00{dpos}|r: позиция между участниками рейда или группы по нанесенному урону.
 
-|cFFFFFF00{ddiff}|r: разница в нанесённом уроне между вами и первым местом.
+|cFFFFFF00{ddiff}|r: разница в нанесённом уроне между Вами и первым местом.
 
 |cFFFFFF00{heal}|r: исцеление игрока.
 
@@ -652,11 +669,11 @@ L["STRING_OPTIONS_DATABROKER_TEXT1_DESC"] = [=[|cFFFFFF00{dmg}|r: нанесён
 
 |cFFFFFF00{hpos}|r: позиция между участниками рейда или группы по исцелению.
 
-|cFFFFFF00{hdiff}|r: разница в исцелении между вами и первым местом.
+|cFFFFFF00{hdiff}|r: разница в исцелении между Вами и первым местом.
 
 |cFFFFFF00{time}|r: прошедшее время боя.]=]
 L["STRING_OPTIONS_DATACHARTTITLE"] = "Создание временных данных для диаграмм"
-L["STRING_OPTIONS_DATACHARTTITLE_DESC"] = "Эта панель позволяет создавать настраиваемые данные для создания диаграмм."
+L["STRING_OPTIONS_DATACHARTTITLE_DESC"] = "Эта панель позволяет создавать индивидуальные настройки сбора данных для создания диаграмм."
 L["STRING_OPTIONS_DATACOLLECT_ANCHOR"] = "Тип данных:"
 L["STRING_OPTIONS_DEATHLIMIT"] = "Счетчик смертей"
 L["STRING_OPTIONS_DEATHLIMIT_DESC"] = [=[Установите количество событий, отображаемых на дисплее смерти.
@@ -668,6 +685,73 @@ L["STRING_OPTIONS_DEATHLOG_MINHEALING_DESC"] = [=[Журнал смерти не
 |cFFFFFF00Совет|r: правый щелчок, чтобы вручную ввести значение.]=]
 L["STRING_OPTIONS_DESATURATE_MENU"] = "Ненасыщенный"
 L["STRING_OPTIONS_DESATURATE_MENU_DESC"] = "При включении этого параметра, все значки меню на панели инструментов становятся черно-белыми."
+L["STRING_OPTIONS_DESIGNER_ALIGN_COLUMNS"] = "Выравнивать столбцы значений"
+L["STRING_OPTIONS_DESIGNER_ALIGN_COLUMNS_DESC"] = "Отображает столбцы значений в фиксированных столбцах вместо объединения их в одну форматированную строку. Это не настройка окна - меняет все окна сразу."
+L["STRING_OPTIONS_DESIGNER_ARENA_ROLE_ICON_SIZE_OFFSET"] = "Смещение размера значка роли на арене"
+L["STRING_OPTIONS_DESIGNER_ARENA_TEAM_COLOR"] = "Цвет команды Арены"
+L["STRING_OPTIONS_DESIGNER_BACKGROUND_BY_CLASS"] = "Фон по классам"
+L["STRING_OPTIONS_DESIGNER_BAR_ALPHA"] = "Прозрачность"
+L["STRING_OPTIONS_DESIGNER_BAR_BORDER"] = "Показывать границу полосы"
+L["STRING_OPTIONS_DESIGNER_BAR_START_AFTER_ICON"] = "Полоса начинается после иконки"
+L["STRING_OPTIONS_DESIGNER_BORDER_COLOR"] = "Цвет границы"
+L["STRING_OPTIONS_DESIGNER_BORDER_THICKNESS"] = "Толщина границы"
+L["STRING_OPTIONS_DESIGNER_BUTTON_MODE"] = "Режим"
+L["STRING_OPTIONS_DESIGNER_COLOR_BY_CLASS"] = "Цвет по классам"
+L["STRING_OPTIONS_DESIGNER_DESATURATED_MENU"] = "Обесцвеченные кнопки"
+L["STRING_OPTIONS_DESIGNER_FACTION_ICON_SIZE_OFFSET"] = "Смещение размера значка фракции"
+L["STRING_OPTIONS_DESIGNER_HINT"] = "Нажмите на часть предпросмотра, чтобы отредактировать. Изменения применяются к окну, выбранному в правом верхнем углу."
+L["STRING_OPTIONS_DESIGNER_ICON_GRAYSCALE"] = "Иконки в оттенках серого"
+--[[Translation missing --]]
+L["STRING_OPTIONS_DESIGNER_ICON_SET"] = "Icon Set"
+L["STRING_OPTIONS_DESIGNER_ICON_SIZE_OFFSET"] = "Смещение размера иконки"
+L["STRING_OPTIONS_DESIGNER_MENU_ICON_SIZE"] = "Размер кнопки"
+L["STRING_OPTIONS_DESIGNER_MENU_ICON_SPACING"] = "Расстояние между кнопками"
+L["STRING_OPTIONS_DESIGNER_NAME_OFFSET"] = "Смещение имени"
+L["STRING_OPTIONS_DESIGNER_NAME_SIZE_OFFSET"] = "Смещение размера имени юнита"
+L["STRING_OPTIONS_DESIGNER_NAME_SIZE_OFFSET_DESC"] = "Даёт имени юнита больше или меньше места, прежде чем оно будет обрезано столбцами значений."
+L["STRING_OPTIONS_DESIGNER_NAME_TEXT"] = "Имя юнита"
+L["STRING_OPTIONS_DESIGNER_NAME_TEXT_COLOR_DESC"] = "Изменяет цвет текста имени юнита. Игнорируется, если включено |cFFFFFFFFцвет по классу|r."
+L["STRING_OPTIONS_DESIGNER_NO_BRACKET"] = "без скобки"
+L["STRING_OPTIONS_DESIGNER_NO_SEPARATOR"] = "без разделителя"
+L["STRING_OPTIONS_DESIGNER_OBJECT_BARICONS"] = "Иконки полосы"
+L["STRING_OPTIONS_DESIGNER_OBJECT_BARNAMETEXT"] = "Имя юнита на полосе"
+L["STRING_OPTIONS_DESIGNER_OBJECT_BARS"] = "Полосы"
+L["STRING_OPTIONS_DESIGNER_OBJECT_BARTEXTS"] = "Тексты полосы"
+L["STRING_OPTIONS_DESIGNER_OBJECT_BARVALUETEXT"] = "Значения полосы"
+L["STRING_OPTIONS_DESIGNER_OBJECT_STATUSBAR"] = "Строка состояния"
+L["STRING_OPTIONS_DESIGNER_OBJECT_TITLEBUTTONS"] = "Кнопки заголовка"
+L["STRING_OPTIONS_DESIGNER_OBJECT_TITLETEXT"] = "Текст заголовка"
+L["STRING_OPTIONS_DESIGNER_OBJECT_WINDOW"] = "Окно"
+L["STRING_OPTIONS_DESIGNER_OVERLAY"] = "Наложение"
+L["STRING_OPTIONS_DESIGNER_OVERLAY_TEXTURE_DESC"] = "Текстура, расположенная над полосой"
+L["STRING_OPTIONS_DESIGNER_PERCENT_OF_TOP"] = "Относительно лучшего игрока"
+L["STRING_OPTIONS_DESIGNER_PERCENT_OF_TOTAL"] = "Относительно общего"
+L["STRING_OPTIONS_DESIGNER_PERCENT_TYPE"] = "Тип процента"
+L["STRING_OPTIONS_DESIGNER_PREVIEW"] = "Предпросмотр"
+L["STRING_OPTIONS_DESIGNER_PREVIEW_MISSING"] = "Не удалось создать окно предпросмотра, поэтому здесь нечего редактировать."
+L["STRING_OPTIONS_DESIGNER_REMOVE_CUSTOM_TEXTURE"] = "Удалить пользовательскую текстуру"
+L["STRING_OPTIONS_DESIGNER_ROUNDED_CORNERS"] = "Закруглённые углы"
+L["STRING_OPTIONS_DESIGNER_ROW_AREA_ALPHA"] = "Прозрачность области строки"
+L["STRING_OPTIONS_DESIGNER_SHADOW_OFFSET_X"] = "Смещение тени по оси X"
+L["STRING_OPTIONS_DESIGNER_SHADOW_OFFSET_Y"] = "Смещение тени по оси Y"
+L["STRING_OPTIONS_DESIGNER_SHOW_ARENA_ROLE_ICON"] = "Показывать иконку роли на Арене"
+L["STRING_OPTIONS_DESIGNER_SHOW_ENCOUNTER_TIMER"] = "Показывать таймер сражения"
+L["STRING_OPTIONS_DESIGNER_SHOW_FACTION_ICON"] = "Показать значок фракции"
+L["STRING_OPTIONS_DESIGNER_SHOW_FACTION_ICON_DESC"] = "При отображении игрока из противоположной фракции показывать значок фракции."
+L["STRING_OPTIONS_DESIGNER_SHOW_PERCENT_DESC"] = "Показывает столбец процентов рядом со столбцами значений. Действует, пока столбцы значений выровнены; при простом текстовом формате столбцы определяются этим форматом вместо этого."
+L["STRING_OPTIONS_DESIGNER_SHOW_RANK_NUMBER"] = "Показывать номер ранга"
+L["STRING_OPTIONS_DESIGNER_SHOW_STATUSBAR"] = "Показывать строку состояния"
+L["STRING_OPTIONS_DESIGNER_SHOW_WINDOW_BORDER"] = "Показать границу"
+L["STRING_OPTIONS_DESIGNER_TEXT_OUTLINE"] = "Контур"
+L["STRING_OPTIONS_DESIGNER_TEXT_X_OFFSET"] = "Горизонтальное смещение"
+L["STRING_OPTIONS_DESIGNER_TEXT_Y_OFFSET"] = "Вертикальное смещение"
+L["STRING_OPTIONS_DESIGNER_TITLE_TEXT_ENABLED"] = "Показать текст заголовка"
+L["STRING_OPTIONS_DESIGNER_TITLEBAR_ENABLED"] = "Пользовательская строка заголовка"
+L["STRING_OPTIONS_DESIGNER_TITLEBAR_ENABLED_DESC"] = "Использовать альтернативную строку заголовка вместо встроенной в файл скина. |cFFFFFF00Важно|r: чтобы отключить строку заголовка из файла скина, перейдите в 'Окно' и сделайте «цвет скина» полностью прозрачным."
+L["STRING_OPTIONS_DESIGNER_TITLEBAR_HEIGHT"] = "Высота"
+L["STRING_OPTIONS_DESIGNER_VALUE_TEXT"] = "Столбцы значений"
+L["STRING_OPTIONS_DESIGNER_VALUE_TEXT_COLOR_DESC"] = "Изменяет цвет текста столбцов значений. Игнорируется, если включено |cFFFFFFFFцвет по классу|r."
+L["STRING_OPTIONS_DESIGNER_WHICH_BUTTONS"] = "Отображаемые кнопки"
 L["STRING_OPTIONS_DISABLE_ALLDISPLAYSWINDOW"] = "Отключить меню 'Все дисплеи'"
 L["STRING_OPTIONS_DISABLE_ALLDISPLAYSWINDOW_DESC"] = "Если включено, при щелчке правой кнопкой на полосе заголовка появится закладка."
 L["STRING_OPTIONS_DISABLE_BARHIGHLIGHT"] = "Отключение подсветки полосы"
@@ -682,38 +766,41 @@ L["STRING_OPTIONS_DISABLE_STRETCH_BUTTON"] = "Отключить кнопку р
 L["STRING_OPTIONS_DISABLE_STRETCH_BUTTON_DESC"] = "Кнопка растянуть не отображается при включении этого параметра."
 L["STRING_OPTIONS_DISABLED_RESET"] = "Сброс через эту кнопку в данный момент отключен, выберите ее в меню подсказки."
 L["STRING_OPTIONS_DTAKEN_EVERYTHING"] = "Расширенный полученный урон"
-L["STRING_OPTIONS_DTAKEN_EVERYTHING_DESC"] = "Полученный урон отображается в режиме 'Всё и вся'."
+L["STRING_OPTIONS_DTAKEN_EVERYTHING_DESC"] = "Полученный урон отображается в режиме 'Все'."
 L["STRING_OPTIONS_ED"] = "Стирание данных"
 L["STRING_OPTIONS_ED_DESC"] = [=[|cFFFFFF00Вручную|r: пользователю нужно нажать на кнопку сброса.
 
-|cFFFFFF00Уточнять|r: спрашивать о сбросе, при входе в новое подземелье.
+|cFFFFFF00Уточнять|r: спрашивать о сбросе при входе в новое подземелье.
 
 |cFFFFFF00Авто|r: очистка данных после входа в новое подземелье.]=]
 L["STRING_OPTIONS_ED1"] = "Вручную"
-L["STRING_OPTIONS_ED2"] = "Уточнять"
+L["STRING_OPTIONS_ED2"] = "Подсказка"
 L["STRING_OPTIONS_ED3"] = "Авто"
+L["STRING_OPTIONS_EDIT_CUSTOM_TEXT"] = "Редактировать пользовательский текст"
 L["STRING_OPTIONS_EDITIMAGE"] = "Редактировать изображение"
 L["STRING_OPTIONS_EDITINSTANCE"] = "Редактирование окна:"
 L["STRING_OPTIONS_ERASECHARTDATA"] = "Стереть диаграммы"
 L["STRING_OPTIONS_ERASECHARTDATA_DESC"] = "Во время выхода, все данные боя, собранные для создания графиков, стираются."
+L["STRING_OPTIONS_EXPORT_PROFILE"] = "Экспорт профиля"
 L["STRING_OPTIONS_EXTERNALS_TITLE"] = "Внешние виджеты"
-L["STRING_OPTIONS_EXTERNALS_TITLE2"] = "Эти параметры управляют поведением многих внешних виджетов."
+L["STRING_OPTIONS_EXTERNALS_TITLE2"] = "Эти параметры управляют режимом многих сторонних виджетов."
 L["STRING_OPTIONS_GENERAL"] = "Общие настройки"
 L["STRING_OPTIONS_GENERAL_ANCHOR"] = "Общее:"
+L["STRING_OPTIONS_GROUPING_HORIZONTAL_GAP"] = "\"Пространство между окнами\""
 L["STRING_OPTIONS_HIDE_ICON"] = "Скрыть значок"
-L["STRING_OPTIONS_HIDE_ICON_DESC"] = [=[Когда включено значок, представляющий выбранного дисплея, не отображается.
+L["STRING_OPTIONS_HIDE_ICON_DESC"] = [=[Когда включено, значок, представляющий выбранного дисплея, не отображается.
 
 |cFFFFFF00Важно|r: после включения значка рекомендуется настроить размещение текста заголовка.]=]
-L["STRING_OPTIONS_HIDECOMBATALPHA_DESC"] = [=[Изменяет прозрачность на это значение, когда ваш персонаж соответствует выбранному правилу.
+L["STRING_OPTIONS_HIDECOMBATALPHA_DESC"] = [=[Изменяет прозрачность на это значение, когда Ваш персонаж соответствует выбранному правилу.
 
 |cFFFFFF00Ноль|r: полностью скрыто, невозможно взаимодействовать в пределах окна.
 
-|cFFFFFF001 - 100|r: не скрыто, изменяется только прозрачность, вы можете взаимодействовать с окном.]=]
+|cFFFFFF001 - 100|r: не скрыто, изменяется только прозрачность, Вы можете взаимодействовать с окном.]=]
 L["STRING_OPTIONS_HOTCORNER"] = "Показать кнопку"
 L["STRING_OPTIONS_HOTCORNER_ACTION"] = "По щелчку"
 L["STRING_OPTIONS_HOTCORNER_ACTION_DESC"] = "Выберите, что делать, когда кнопка на полосе Hotcorner нажата левой кнопкой мыши."
-L["STRING_OPTIONS_HOTCORNER_ANCHOR"] = "Hotcorner:"
-L["STRING_OPTIONS_HOTCORNER_DESC"] = "Показать или скрыть кнопку на панели Hotcorner."
+L["STRING_OPTIONS_HOTCORNER_ANCHOR"] = "Угловая зона:"
+L["STRING_OPTIONS_HOTCORNER_DESC"] = "Показывать или скрывать кнопку на панели угловой зоны."
 L["STRING_OPTIONS_HOTCORNER_QUICK_CLICK"] = "Включить быстрый щелчок"
 L["STRING_OPTIONS_HOTCORNER_QUICK_CLICK_DESC"] = [=[Включить или отключить функцию быстрого щелчка для Hotcorners.
 
@@ -727,19 +814,13 @@ L["STRING_OPTIONS_ILVL_TRACKER_DESC"] = [=[Когда включено, и вы�
 
 Если отключено, он по-прежнему считывает уровень предметов из запросов других аддонов или когда вы вручную проверяете другого игрока.]=]
 L["STRING_OPTIONS_ILVL_TRACKER_TEXT"] = "Включить"
-L["STRING_OPTIONS_INSTANCE_ALPHA2"] = "Фоновый цвет"
-L["STRING_OPTIONS_INSTANCE_ALPHA2_DESC"] = "Этот параметр позволяет изменить цвет фона окна."
+L["STRING_OPTIONS_IMPORT_PROFILE"] = "Импорт профиля"
+L["STRING_OPTIONS_IMPORT_PROFILE_NAME"] = "Введите название для нового профиля"
+L["STRING_OPTIONS_IMPORT_PROFILE_PASTE"] = "Details! Импортировать профиль (вставить строку)"
 L["STRING_OPTIONS_INSTANCE_BACKDROP"] = "Фоновая текстура"
 L["STRING_OPTIONS_INSTANCE_BACKDROP_DESC"] = [=[Выберите фоновую текстуру, используемую этим окном.
 
 |cFFFFFF00По умолчанию|r: Details Background.]=]
-L["STRING_OPTIONS_INSTANCE_COLOR"] = "Цвет окна"
-L["STRING_OPTIONS_INSTANCE_COLOR_DESC"] = [=[Изменение цвета и альфа-окна.
-
-|cFFFFFF00Важно|r: альфа, выбранная здесь, перезаписывается
-|cFFFFFF00Авто прозрачность|r значение при включении.
-
-|cFFFFFF00Важно|r: Выбор цвета окна перезаписывает любые настройки цвета на панели состояния.]=]
 L["STRING_OPTIONS_INSTANCE_CURRENT"] = "Авто переход к текущему"
 L["STRING_OPTIONS_INSTANCE_CURRENT_DESC"] = "Всякий раз, когда начинается бой, это окно автоматически переключается на текущий сегмент."
 L["STRING_OPTIONS_INSTANCE_DELETE"] = "Удалить"
@@ -747,33 +828,32 @@ L["STRING_OPTIONS_INSTANCE_DELETE_DESC"] = [=[Удалить окно навсе
 Ваш игровой экран может перезагрузиться во время процесса стирания.]=]
 L["STRING_OPTIONS_INSTANCE_SKIN"] = "Скин"
 L["STRING_OPTIONS_INSTANCE_SKIN_DESC"] = "Изменение внешнего вида окна на основе темы оформления."
-L["STRING_OPTIONS_INSTANCE_STATUSBAR_ANCHOR"] = "Строка состояния:"
-L["STRING_OPTIONS_INSTANCE_STATUSBARCOLOR"] = "Цвет и прозрачность "
+L["STRING_OPTIONS_INSTANCE_STATUSBAR_ANCHOR"] = "Строка состояния"
+L["STRING_OPTIONS_INSTANCE_STATUSBARCOLOR"] = "Цвет и прозрачность"
 L["STRING_OPTIONS_INSTANCE_STATUSBARCOLOR_DESC"] = [=[Выберите цвет, используемый строкой состояния.
 
 |cFFFFFF00Важно|r: этот параметр перезаписывает цвет и прозрачность, выбранные над окном цвета.]=]
 L["STRING_OPTIONS_INSTANCE_STRATA"] = "Слой слоев"
 L["STRING_OPTIONS_INSTANCE_STRATA_DESC"] = [=[Выбор высоты слоя, на которым будет помещена рамка.
 
-Низкий слой, по умолчанию делает окно, позади большинства других интерфейсных панелей.
+Низкий слой по умолчанию делает окно позади большинства других интерфейсных панелей.
 
 Используя высокий слой, окно может оставаться перед другими основными панелями.
 
 При изменении высоты слоя могут возникнуть конфликты с перекрывающимися друг с другом панелями.]=]
 L["STRING_OPTIONS_INSTANCES"] = "Окна:"
 L["STRING_OPTIONS_INTERFACEDIT"] = "Режим редактирования интерфейса"
-L["STRING_OPTIONS_LEFT_MENU_ANCHOR"] = "Настройки меню:"
 L["STRING_OPTIONS_LOCKSEGMENTS"] = "Заблокировать сегменты"
 L["STRING_OPTIONS_LOCKSEGMENTS_DESC"] = "Когда включено, изменение сегмента делает все остальные окна также переключенными на выбранный раздел."
 L["STRING_OPTIONS_MANAGE_BOOKMARKS"] = "Управление закладками"
-L["STRING_OPTIONS_MAXINSTANCES"] = "Количество окон"
+L["STRING_OPTIONS_MAXINSTANCES"] = "Кол-во окон"
 L["STRING_OPTIONS_MAXINSTANCES_DESC"] = [=[Ограничить количество окон, которые могут быть созданы.
 
 Вы можете управлять окнами через меню управления окнами.]=]
-L["STRING_OPTIONS_MAXSEGMENTS"] = "Количество сегментов"
+L["STRING_OPTIONS_MAXSEGMENTS"] = "Кол-во сегментов"
 L["STRING_OPTIONS_MAXSEGMENTS_DESC"] = "Управление количеством сегментов, которые требуется сохранять."
 L["STRING_OPTIONS_MENU_ALPHA"] = "Взаимодействие мыши:"
-L["STRING_OPTIONS_MENU_ALPHAENABLED_DESC"] = [=[При включении, прозрачность изменяется автоматически при наведении курсора мыши и выходе из окна.
+L["STRING_OPTIONS_MENU_ALPHAENABLED_DESC"] = [=[При включении прозрачность изменяется автоматически при наведении курсора мыши и выходе из окна.
 
 |cFFFFFF00Важно|r: Эти настройки перезаписывают альфу, выбранную в окне цвета параметра в разделе настройки окна.]=]
 L["STRING_OPTIONS_MENU_ALPHAENTER"] = "Наведение курсора мыши"
@@ -781,11 +861,11 @@ L["STRING_OPTIONS_MENU_ALPHAENTER_DESC"] = "При наведении мыши �
 L["STRING_OPTIONS_MENU_ALPHALEAVE"] = "Нет взаимодействия"
 L["STRING_OPTIONS_MENU_ALPHALEAVE_DESC"] = "Когда нет курсора мыши над окном, прозрачность меняется на это значение."
 L["STRING_OPTIONS_MENU_ALPHAWARNING"] = "Взаимодействие с мышью включено, альфа не может быть затронута."
-L["STRING_OPTIONS_MENU_ANCHOR"] = "Кнопки крепятся к правой стороне "
+L["STRING_OPTIONS_MENU_ANCHOR"] = "Кнопки крепятся к правой стороне"
 L["STRING_OPTIONS_MENU_ANCHOR_DESC"] = "Когда отмечено, кнопки прикреплены к правой стороне окна."
-L["STRING_OPTIONS_MENU_ATTRIBUTE_ANCHORX"] = "Положение X"
+L["STRING_OPTIONS_MENU_ATTRIBUTE_ANCHORX"] = "Положение по оси X"
 L["STRING_OPTIONS_MENU_ATTRIBUTE_ANCHORX_DESC"] = "Отрегулируйте расположение текста атрибута по оси X."
-L["STRING_OPTIONS_MENU_ATTRIBUTE_ANCHORY"] = "Положение Y"
+L["STRING_OPTIONS_MENU_ATTRIBUTE_ANCHORY"] = "Положение по оси Y"
 L["STRING_OPTIONS_MENU_ATTRIBUTE_ANCHORY_DESC"] = "Отрегулируйте расположение текста атрибута по оси Y."
 L["STRING_OPTIONS_MENU_ATTRIBUTE_ENABLED_DESC"] = "Активно показывает отображаемое имя, отображаемое в данный момент в окне."
 L["STRING_OPTIONS_MENU_ATTRIBUTE_ENCOUNTERTIMER"] = "Таймер сражения"
@@ -801,7 +881,7 @@ L["STRING_OPTIONS_MENU_ATTRIBUTE_TEXTSIZE"] = "Размера текста"
 L["STRING_OPTIONS_MENU_ATTRIBUTE_TEXTSIZE_DESC"] = "Отрегулируйте размер текста атрибута."
 L["STRING_OPTIONS_MENU_ATTRIBUTESETTINGS_ANCHOR"] = "Настройки:"
 L["STRING_OPTIONS_MENU_AUTOHIDE_DESC"] = "Скрыть кнопки автоматически, когда мышь покидает окно и показывать, когда вы снова взаимодействуйте с окном."
-L["STRING_OPTIONS_MENU_AUTOHIDE_LEFT"] = "Авто-скрытие кнопок"
+L["STRING_OPTIONS_MENU_AUTOHIDE_LEFT"] = "Автоскрытие кнопок"
 L["STRING_OPTIONS_MENU_BUTTONSSIZE_DESC"] = "Выберите размер кнопок. Это также изменяет кнопки, добавленные в плагинах."
 L["STRING_OPTIONS_MENU_FONT_FACE"] = "Шрифт текста меню"
 L["STRING_OPTIONS_MENU_FONT_FACE_DESC"] = "Изменить шрифт во всех меню."
@@ -811,9 +891,9 @@ L["STRING_OPTIONS_MENU_IGNOREBARS"] = "Игнорировать полосы"
 L["STRING_OPTIONS_MENU_IGNOREBARS_DESC"] = "При включении, все строки в этом окне не зависят от этого механизма."
 L["STRING_OPTIONS_MENU_SHOWBUTTONS"] = "Показывать кнопки"
 L["STRING_OPTIONS_MENU_SHOWBUTTONS_DESC"] = "Выбрать, какие кнопки отображаются в строке полос."
-L["STRING_OPTIONS_MENU_X"] = "Положение X"
+L["STRING_OPTIONS_MENU_X"] = "Положение по оси X"
 L["STRING_OPTIONS_MENU_X_DESC"] = "Изменение положения оси по X."
-L["STRING_OPTIONS_MENU_Y"] = "Положение Y"
+L["STRING_OPTIONS_MENU_Y"] = "Положение по оси Y"
 L["STRING_OPTIONS_MENU_Y_DESC"] = "Изменение положения оси по Y."
 L["STRING_OPTIONS_MENUS_SHADOW"] = "Тьма"
 L["STRING_OPTIONS_MENUS_SHADOW_DESC"] = "Добавляет тонкую теневую границу на всех кнопках."
@@ -825,7 +905,7 @@ L["STRING_OPTIONS_MICRODISPLAY_LOCK_DESC"] = "При блокировке они
 L["STRING_OPTIONS_MICRODISPLAYS_DROPDOWN_TOOLTIP"] = "Выберите микро-дисплей, который вы хотите показать на этой стороне."
 L["STRING_OPTIONS_MICRODISPLAYS_OPTION_TOOLTIP"] = "Установите конфигурацию для этого микро-дисплея."
 L["STRING_OPTIONS_MICRODISPLAYS_SHOWHIDE_TOOLTIP"] = "Показать или скрыть этот микро-дисплей"
-L["STRING_OPTIONS_MICRODISPLAYS_WARNING"] = [=[|cFFFFFF00Заметка|r: микро-дисплеи не могут быть показаны,
+L["STRING_OPTIONS_MICRODISPLAYS_WARNING"] = [=[|cFFFFFF00Заметка|r: микродисплеи не могут быть показаны,
 потому что они закреплены снизу,
 а сбоку панель состояния отключена.]=]
 L["STRING_OPTIONS_MICRODISPLAYSSIDE"] = "Микро-дисплеи на верхней стороне"
@@ -836,17 +916,29 @@ L["STRING_OPTIONS_MINIMAP_ACTION"] = "По щелчку"
 L["STRING_OPTIONS_MINIMAP_ACTION_DESC"] = "Выберите, что делать при щелчке по значку, на мини-карте левой кнопкой мыши."
 L["STRING_OPTIONS_MINIMAP_ACTION1"] = "Открыть панель параметров"
 L["STRING_OPTIONS_MINIMAP_ACTION2"] = "Сбросить сегменты"
-L["STRING_OPTIONS_MINIMAP_ACTION3"] = "Показать/скрыть Окна"
+L["STRING_OPTIONS_MINIMAP_ACTION3"] = "Показать/скрыть окна"
 L["STRING_OPTIONS_MINIMAP_ANCHOR"] = "Мини-карта"
 L["STRING_OPTIONS_MINIMAP_DESC"] = "Отобразить или скрыть значок у мини-карты."
 L["STRING_OPTIONS_MISCTITLE"] = "Прочие настройки"
-L["STRING_OPTIONS_MISCTITLE2"] = "Этот элемент управляется, несколькими вариантами."
+L["STRING_OPTIONS_MISCTITLE2"] = "Этот элемент управляется несколькими вариантами."
+L["STRING_OPTIONS_MPLUS_AUTO_CLOSE_TIME"] = "Время автоматического закрытия"
+L["STRING_OPTIONS_MPLUS_AUTO_CLOSE_TIME_DESC"] = "Время автоматического закрытия фрейма с подробностями о прохождении M+ подземелья."
+L["STRING_OPTIONS_MPLUS_BOSSNEWCOMBAT"] = "Новый бой при пулле босса"
+L["STRING_OPTIONS_MPLUS_BOSSNEWCOMBAT_DESC"] = "Если пулл босса начат во время боя, автоматически завершать текущий бой, и начинать новый для босса."
+L["STRING_OPTIONS_MPLUS_DPS_ANCHOR"] = "Подсчет УВС по полному сегменту"
+L["STRING_OPTIONS_MPLUS_MERGETRASH"] = "Слияние мусора"
+L["STRING_OPTIONS_MPLUS_PANELS_ANCHOR"] = "Панели"
+L["STRING_OPTIONS_MPLUS_SHOWENDPANEL"] = "Показывать фрейм с подробностями о прохождении M+ подземелья"
+L["STRING_OPTIONS_MPLUS_TIME_INCOMBAT"] = "Время в бою"
+L["STRING_OPTIONS_MPLUS_TIME_INCOMBAT_DESC"] = "УВС по всему М+ забегу вычисляется по формуле (общий урон)/(общее время боя)."
+L["STRING_OPTIONS_MPLUS_TIME_RUNTIME"] = "Время прохождения подземелья"
+L["STRING_OPTIONS_MPLUS_TIME_RUNTIME_DESC"] = "УВС по всему М+ забегу вычисляется по формуле (общий урон)/(общее время боя)."
 L["STRING_OPTIONS_NICKNAME"] = "Псевдоним"
-L["STRING_OPTIONS_NICKNAME_DESC"] = [=[Задайте ваш псевдоним.
-
-Псевдонимы отправляются участникам гильдии с Details! используется вместо имени персонажа.]=]
+L["STRING_OPTIONS_NICKNAME_DESC"] = [=[Задайте Ваш псевдоним.
+Псевдонимы отправляются участникам гильдии с Details!, используется вместо имени персонажа.]=]
 L["STRING_OPTIONS_OPEN_ROWTEXT_EDITOR"] = "Текстовый редактор строк"
 L["STRING_OPTIONS_OPEN_TEXT_EDITOR"] = "Открыть текстовый редактор"
+L["STRING_OPTIONS_OPENBROKER"] = "Открыть текстовый редактор"
 L["STRING_OPTIONS_OVERALL_ALL"] = "Все сегменты"
 L["STRING_OPTIONS_OVERALL_ALL_DESC"] = "Все сегменты добавляются к общим данным."
 L["STRING_OPTIONS_OVERALL_ANCHOR"] = "Общие данные:"
@@ -886,8 +978,8 @@ L["STRING_OPTIONS_PERFORMANCE_ERASEWORLD"] = "Авто стирание миро
 L["STRING_OPTIONS_PERFORMANCE_ERASEWORLD_DESC"] = "Авто стирание сегментов боя, когда в открытом мире."
 L["STRING_OPTIONS_PERFORMANCE_MYTHIC"] = "Эпохальный"
 L["STRING_OPTIONS_PERFORMANCE_PROFILE_LOAD"] = "Изменен профиль производительности:"
-L["STRING_OPTIONS_PERFORMANCE_RAID25"] = "Рейд (10-25)"
-L["STRING_OPTIONS_PERFORMANCE_RAID40"] = "Рейд (26-40)"
+L["STRING_OPTIONS_PERFORMANCE_RAID15"] = "Рейд (10-15)"
+L["STRING_OPTIONS_PERFORMANCE_RAID30"] = "Рейд (16-30)"
 L["STRING_OPTIONS_PERFORMANCE_RF"] = "Поиск рейда (ЛФР)"
 L["STRING_OPTIONS_PERFORMANCE_TYPES"] = "Тип"
 L["STRING_OPTIONS_PERFORMANCE_TYPES_DESC"] = "Это тип рейдов, где различные параметры могут автоматически изменяться."
@@ -898,6 +990,11 @@ L["STRING_OPTIONS_PERFORMANCECAPTURES_DESC"] = "Эти параметры отв
 L["STRING_OPTIONS_PERFORMANCEPROFILES_ANCHOR"] = "Профили производительности:"
 L["STRING_OPTIONS_PICONS_DIRECTION"] = "Плагины прикрепляются справа"
 L["STRING_OPTIONS_PICONS_DIRECTION_DESC"] = "Если стоит галочка, кнопки плагина отображаются в правой части кнопок меню."
+L["STRING_OPTIONS_PLAYERNAME"] = "Имя игрока"
+L["STRING_OPTIONS_PLAYERNAME_AUTO_ALIGNMENT"] = "Автоматическое выравнивание"
+L["STRING_OPTIONS_PLAYERNAME_AUTO_ALIGNMENT_DESC"] = "Отключайте эту функцию только в том случае, если у Вас возникают проблемы с выравниванием имен игроков."
+L["STRING_OPTIONS_PLAYERNAME_AUTO_WIDTH"] = "Автоматическая длина"
+L["STRING_OPTIONS_PLAYERNAME_WIDTH"] = "Длина"
 L["STRING_OPTIONS_PLUGINS"] = "Плагины"
 L["STRING_OPTIONS_PLUGINS_AUTHOR"] = "Автор"
 L["STRING_OPTIONS_PLUGINS_NAME"] = "Название"
@@ -909,7 +1006,7 @@ L["STRING_OPTIONS_PLUGINS_VERSION"] = "Версия"
 L["STRING_OPTIONS_PRESETNONAME"] = "Укажите имя вашей предустановки."
 L["STRING_OPTIONS_PRESETTOOLD"] = "Эта предустановка слишком старая и не может быть загружена с этой версией Details!."
 L["STRING_OPTIONS_PROFILE_COPYOKEY"] = "Профиль успешно скопирован."
-L["STRING_OPTIONS_PROFILE_FIELDEMPTY"] = "В поле с названием пусто."
+L["STRING_OPTIONS_PROFILE_FIELDEMPTY"] = "Поле с названием пустое."
 L["STRING_OPTIONS_PROFILE_GLOBAL"] = "Выбрать профиль, который будет использоваться для всех персонажей."
 L["STRING_OPTIONS_PROFILE_LOADED"] = "Профиль загружен:"
 L["STRING_OPTIONS_PROFILE_NOTCREATED"] = "Профиль не создан."
@@ -962,7 +1059,7 @@ L["STRING_OPTIONS_PS_ABBREVIATE_TOK0MIN"] = "ToM I Нижняя"
 L["STRING_OPTIONS_PS_ABBREVIATE_TOK2"] = "ToK II Верхняя"
 L["STRING_OPTIONS_PS_ABBREVIATE_TOK2MIN"] = "ToK II Нижняя"
 L["STRING_OPTIONS_PS_ABBREVIATE_TOKMIN"] = "ToK I Нижняя"
-L["STRING_OPTIONS_PVPFRAGS"] = "Только PvP убийства "
+L["STRING_OPTIONS_PVPFRAGS"] = "Только PvP убийства"
 L["STRING_OPTIONS_PVPFRAGS_DESC"] = "Когда включено, только убийства против вражеских игроков рассчитываются на |cFFFFFF00урон > убийства|r в дисплее."
 L["STRING_OPTIONS_REALMNAME"] = "Убрать название игрового мира"
 L["STRING_OPTIONS_REALMNAME_DESC"] = [=[Когда включено, название игрового мира персонажа не отображается.
@@ -971,17 +1068,16 @@ L["STRING_OPTIONS_REALMNAME_DESC"] = [=[Когда включено, назва�
 |cFFFFFF00Включено|r: Возлайт]=]
 L["STRING_OPTIONS_REPORT_ANCHOR"] = "Отчет:"
 L["STRING_OPTIONS_REPORT_HEALLINKS"] = "Полезные ссылки на заклинания"
-L["STRING_OPTIONS_REPORT_HEALLINKS_DESC"] = [=[Когда отправляться отчет и при этом параметр включен, |cFF55FF55полезные|r заклинания сообщаются с помощью заклинания, а не его названия.
+L["STRING_OPTIONS_REPORT_HEALLINKS_DESC"] = [=[Когда отправляется отчет и при этом параметр включен, |cFF55FF55полезные|r заклинания сообщаются с помощью заклинания, а не его названия.
 
-|cFFFF5555Вредные|r заклинания, сообщаются, по ссылкам по умолчанию.]=]
+|cFFFF5555Вредные|r заклинания сообщаются по ссылкам по умолчанию.]=]
 L["STRING_OPTIONS_REPORT_SCHEMA"] = "Формат"
 L["STRING_OPTIONS_REPORT_SCHEMA_DESC"] = "Выберите текстовый формат для текста, отправляемого в канал чата."
 L["STRING_OPTIONS_REPORT_SCHEMA1"] = "Всего / В секунду / Процент"
 L["STRING_OPTIONS_REPORT_SCHEMA2"] = "Процент / В секунду / Всего"
 L["STRING_OPTIONS_REPORT_SCHEMA3"] = "Процент / Всего / В секунду"
 L["STRING_OPTIONS_RESET_TO_DEFAULT"] = "Сброс до значения по умолчанию"
-L["STRING_OPTIONS_ROW_SETTING_ANCHOR"] = "Макет:"
-L["STRING_OPTIONS_ROWADV_TITLE"] = "Дополнительные настройки строки"
+L["STRING_OPTIONS_ROWADV_TITLE"] = "Расширенные настройки строки"
 L["STRING_OPTIONS_ROWADV_TITLE_DESC"] = "Эти параметры позволяют более глубоко изменять строки."
 L["STRING_OPTIONS_RT_COOLDOWN1"] = "%s использован(а) на %s!"
 L["STRING_OPTIONS_RT_COOLDOWN2"] = "%s использован(а)!"
@@ -1000,7 +1096,7 @@ L["STRING_OPTIONS_RT_COOLDOWNS_ONOFF_DESC"] = "Когда вы использу�
 L["STRING_OPTIONS_RT_COOLDOWNS_SELECT"] = "Игнорируемый список кулдаунов"
 L["STRING_OPTIONS_RT_COOLDOWNS_SELECT_DESC"] = "Выберите, какие кулдауны следует игнорировать."
 L["STRING_OPTIONS_RT_DEATH_MSG"] = "Details! %s умер(ла)"
-L["STRING_OPTIONS_RT_DEATHS_ANCHOR"] = "Объявлять смерти"
+L["STRING_OPTIONS_RT_DEATHS_ANCHOR"] = "Объявить о смерти:"
 L["STRING_OPTIONS_RT_DEATHS_FIRST"] = "Только первые"
 L["STRING_OPTIONS_RT_DEATHS_FIRST_DESC"] = "Делать объявление только до первых X смертей во время сражения."
 L["STRING_OPTIONS_RT_DEATHS_HITS"] = "Количество ударов"
@@ -1014,7 +1110,7 @@ L["STRING_OPTIONS_RT_DEATHS_WHERE_DESC"] = [=[Выберите место, гд�
 Если выбран |cFFFFFF00Наблюдатель|r, то смерти показываются только для вас в чате.]=]
 L["STRING_OPTIONS_RT_DEATHS_WHERE1"] = "Рейд и Подземелье"
 L["STRING_OPTIONS_RT_DEATHS_WHERE2"] = "Только Рейд"
-L["STRING_OPTIONS_RT_DEATHS_WHERE3"] = "Только Подземелье"
+L["STRING_OPTIONS_RT_DEATHS_WHERE3"] = "Только подземелье"
 L["STRING_OPTIONS_RT_FIRST_HIT"] = "Первый удар"
 L["STRING_OPTIONS_RT_FIRST_HIT_DESC"] = "Печатает в панель чата (|cFFFFFF00только для вас|r), кто нанёс первый удар, как правило, это тот кто начал бой."
 L["STRING_OPTIONS_RT_IGNORE_TITLE"] = "Игнорировать кулдауны"
@@ -1040,7 +1136,7 @@ L["STRING_OPTIONS_RT_INTERRUPTS_ONOFF_DESC"] = "При успешном прер
 L["STRING_OPTIONS_RT_INTERRUPTS_WHISPER"] = "Шепот"
 L["STRING_OPTIONS_RT_OTHER_ANCHOR"] = "Общее:"
 L["STRING_OPTIONS_RT_TITLE"] = "Инструменты для рейдеров"
-L["STRING_OPTIONS_RT_TITLE_DESC"] = "На этой панели можно активировать несколько механизмов, помогающих вам во время рейдов."
+L["STRING_OPTIONS_RT_TITLE_DESC"] = "На этой панели можно активировать несколько механизмов, помогающих Вам во время рейдов."
 L["STRING_OPTIONS_SAVELOAD"] = "Сохранить и загрузить"
 L["STRING_OPTIONS_SAVELOAD_APPLYALL"] = "Текущий скин был применен ко всем остальным окнам."
 L["STRING_OPTIONS_SAVELOAD_APPLYALL_DESC"] = "Применить текущий скин на все созданные окна."
@@ -1049,7 +1145,7 @@ L["STRING_OPTIONS_SAVELOAD_CREATE_DESC"] = "Сохранить текущий с
 L["STRING_OPTIONS_SAVELOAD_DESC"] = "Эти параметры позволяют сохранять или загружать предопределенные настройки."
 L["STRING_OPTIONS_SAVELOAD_ERASE_DESC"] = "Этот параметр удаляет предыдущий сохраненный скин."
 L["STRING_OPTIONS_SAVELOAD_EXPORT"] = "Экспорт"
-L["STRING_OPTIONS_SAVELOAD_EXPORT_COPY"] = "Нажмите CTRL + C"
+L["STRING_OPTIONS_SAVELOAD_EXPORT_COPY"] = "Нажмите CTRL+C"
 L["STRING_OPTIONS_SAVELOAD_EXPORT_DESC"] = "Сохранить скин в текстовом формате."
 L["STRING_OPTIONS_SAVELOAD_IMPORT"] = "Импорт скина"
 L["STRING_OPTIONS_SAVELOAD_IMPORT_DESC"] = "Импорт скина в текстовом формате."
@@ -1069,16 +1165,17 @@ L["STRING_OPTIONS_SAVELOAD_STDSAVE"] = "Стандартный скин сохр
 L["STRING_OPTIONS_SCROLLBAR"] = "Полоса прокрутки"
 L["STRING_OPTIONS_SCROLLBAR_DESC"] = [=[Включение или отключение полос прокрутки.
 
-По умолчанию в, Details! полосы прокрутки заменяются механизмом, растягивающим окно.
+По умолчанию в Details! полосы прокрутки заменяются механизмом, растягивающим окно.
 
 |cFFFFFF00Ручное растяжение|r находится снаружи окна над кнопками/меню (слева от кнопки закрытия).]=]
 L["STRING_OPTIONS_SEGMENTSSAVE"] = "Сохраненные сегменты"
-L["STRING_OPTIONS_SEGMENTSSAVE_DESC"] = [=[Сколько сегментов вы хотите сохранить между игровыми сеансами.
+L["STRING_OPTIONS_SEGMENTSSAVE_DESC"] = [=[Сколько сегментов Вы хотите сохранить между игровыми сеансами.
 
 Высокие значения могут увеличить время, затрачиваемое на выход из системы.]=]
+L["STRING_OPTIONS_SELECT_TEMPLATE"] = "Выбрать шаблон"
 L["STRING_OPTIONS_SENDFEEDBACK"] = "Обратная связь"
 L["STRING_OPTIONS_SHOW_SIDEBARS"] = "Показывать границы:"
-L["STRING_OPTIONS_SHOW_SIDEBARS_DESC"] = "Показать или скрыть границы окна."
+L["STRING_OPTIONS_SHOW_SIDEBARS_DESC"] = "Показывать границу окна из файла скина, использовать тот же цвет, что и 'Цвет окна'."
 L["STRING_OPTIONS_SHOW_STATUSBAR"] = "Показать строку состояния"
 L["STRING_OPTIONS_SHOW_STATUSBAR_DESC"] = "Показать или скрыть нижнюю строку состояния."
 L["STRING_OPTIONS_SHOW_TOTALBAR_COLOR_DESC"] = "Выберите цвет. Значение прозрачности соответствует альфа-значению строки."
@@ -1086,7 +1183,7 @@ L["STRING_OPTIONS_SHOW_TOTALBAR_DESC"] = "Показать или скрыть �
 L["STRING_OPTIONS_SHOW_TOTALBAR_ICON"] = "Значок"
 L["STRING_OPTIONS_SHOW_TOTALBAR_ICON_DESC"] = "Выберите значок, отображаемый на полосе итогов."
 L["STRING_OPTIONS_SHOW_TOTALBAR_INGROUP"] = "Только в группе"
-L["STRING_OPTIONS_SHOW_TOTALBAR_INGROUP_DESC"] = "Полоса итога не показывается, когда вы не в группе."
+L["STRING_OPTIONS_SHOW_TOTALBAR_INGROUP_DESC"] = "Полоса итога не отображается, если Вы не в группе."
 L["STRING_OPTIONS_SIZE"] = "Размер"
 L["STRING_OPTIONS_SKIN_A"] = "Настройки: Скины"
 L["STRING_OPTIONS_SKIN_A_DESC"] = "Эти параметры позволяют изменять скин."
@@ -1130,10 +1227,10 @@ L["STRING_OPTIONS_SPELL_RESET"] = "Сбросить"
 L["STRING_OPTIONS_SPELL_SPELLID"] = "ID заклинания"
 L["STRING_OPTIONS_STRETCH"] = "Кнопка растягивания сверху"
 L["STRING_OPTIONS_STRETCH_DESC"] = "Расположить кнопку растягивания в верхней части окна."
-L["STRING_OPTIONS_STRETCHTOP"] = "Кнопка растягивать всегда поверх всех"
+L["STRING_OPTIONS_STRETCHTOP"] = "Кнопка растягивания всегда поверх всех"
 L["STRING_OPTIONS_STRETCHTOP_DESC"] = [=[Кнопка растягивания будет размещена на ПОЛНОЭКРАННОМ слое и всегда оставаться выше остальных рамок.
 
-|cFFFFFF00Важно|r: Перемещение захвата на верхний слой, он может оставаться перед другими рамками, как сумки, используйте только если вам действительно нужно.]=]
+|cFFFFFF00Важно|r: Перемещение захвата на верхний слой, он может оставаться перед другими рамками, как сумки, используйте только если Вам действительно нужно.]=]
 L["STRING_OPTIONS_SWITCH_ANCHOR"] = "Переключатели:"
 L["STRING_OPTIONS_SWITCHINFO"] = "|cFFF79F81 ЛЕВЫЙ ОТКЛЮЧЕН|r  |cFF81BEF7 ПРАВЫЙ ВКЛЮЧЕН|r"
 L["STRING_OPTIONS_TABEMB_ANCHOR"] = "Встраивание во вкладку чата"
@@ -1158,14 +1255,17 @@ L["STRING_OPTIONS_TEXT_LOUTILINE_DESC"] = "Включение или отклю�
 L["STRING_OPTIONS_TEXT_LPOSITION"] = "Показывать номер"
 L["STRING_OPTIONS_TEXT_LPOSITION_DESC"] = "Показать номер позиции на левой стороне имени игрока."
 L["STRING_OPTIONS_TEXT_LTRANSLIT"] = "Транслит"
-L["STRING_OPTIONS_TEXT_LTRANSLIT_DESC"] = "Пусть эти русские буквы, которые никто не понимает, будут представлены как латинские буквы."
+L["STRING_OPTIONS_TEXT_LTRANSLIT_DESC"] = "Сделать так, чтобы русские буквы, которые никто не понимает, будут представлены как латинские буквы."
+L["STRING_OPTIONS_TEXT_OUTLINE"] = "Контур текста"
 L["STRING_OPTIONS_TEXT_RIGHT_ANCHOR"] = "Текст справа:"
 L["STRING_OPTIONS_TEXT_ROUTILINE_DESC"] = "Включение или отключение контура для правого текста."
 L["STRING_OPTIONS_TEXT_ROWICONS_ANCHOR"] = "Значки:"
+L["STRING_OPTIONS_TEXT_SHADOWCOLOR"] = "Цвет тени"
+L["STRING_OPTIONS_TEXT_SHADOWOFFSET"] = "Смещение тени %s"
 L["STRING_OPTIONS_TEXT_SHOW_BRACKET"] = "Скобка"
 L["STRING_OPTIONS_TEXT_SHOW_BRACKET_DESC"] = "Выберите символ, используемый для открытия и закрытия блока в секунду и процент."
 L["STRING_OPTIONS_TEXT_SHOW_PERCENT"] = "Показывать процент"
-L["STRING_OPTIONS_TEXT_SHOW_PERCENT_DESC"] = "Показывать проценты."
+L["STRING_OPTIONS_TEXT_SHOW_PERCENT_DESC"] = "Показывать проценты. При отключении процента, возможно, стоит установить «Разделитель» на «нет», чтобы избежать лишней запятой после DPS."
 L["STRING_OPTIONS_TEXT_SHOW_PS"] = "Показывать в секунду"
 L["STRING_OPTIONS_TEXT_SHOW_PS_DESC"] = "Показывать урон в секунду и исцеление в секунду."
 L["STRING_OPTIONS_TEXT_SHOW_SEPARATOR"] = "Разделитель"
@@ -1183,7 +1283,7 @@ L["STRING_OPTIONS_TEXTEDITOR_CANCEL_TOOLTIP"] = "Закончить редакт
 L["STRING_OPTIONS_TEXTEDITOR_COLOR_TOOLTIP"] = "Выберите текст, а затем нажмите на кнопку цвета, чтобы изменить выбранный цвет текста."
 L["STRING_OPTIONS_TEXTEDITOR_COMMA"] = "Запятая"
 L["STRING_OPTIONS_TEXTEDITOR_COMMA_TOOLTIP"] = [=[Добавить функцию для форматирования чисел, разделяя их запятыми.
-Пример: 1000000 to 1.000.000.]=]
+Пример: 1000000 -> 1.000.000.]=]
 L["STRING_OPTIONS_TEXTEDITOR_DATA"] = "[Данные %s]"
 L["STRING_OPTIONS_TEXTEDITOR_DATA_TOOLTIP"] = [=[Добавить данные:
 
@@ -1206,12 +1306,13 @@ L["STRING_OPTIONS_TIMEMEASURE"] = "Мера времени"
 L["STRING_OPTIONS_TIMEMEASURE_DESC"] = [=[|cFFFFFF00Активный|r: таймер каждого участника рейда ставится на удержание, если их активность прекращается, и снова подсчитывается при возобновлении, общий способ измерения УВС и ИВС.
 
 |cFFFFFF00Эффективный|r: используется в рейтинге, этот метод использует прошедшее боевое время для измерения УВС и ИВС - всех участников рейда.]=]
+L["STRING_OPTIONS_TITLEBAR_MENUBUTTONS_HEADER"] = "Настройки кнопок и меню"
 L["STRING_OPTIONS_TOOLBAR_SETTINGS"] = "Настройки кнопки заголовка полос"
 L["STRING_OPTIONS_TOOLBAR_SETTINGS_DESC"] = "Эти параметры меняют главное меню в верхней части окна."
 L["STRING_OPTIONS_TOOLBARSIDE"] = "Полоса заголовка сверху"
 L["STRING_OPTIONS_TOOLBARSIDE_DESC"] = [=[Помещает полосу заголовка в верхней части окна.
 
-|cFFFFFF00Важно|r: при изменении положения, текст заголовка не изменится, проверьте раздел |cFFFFFF00Полоса заголовка: Текст|r для дополнительных параметров.]=]
+|cFFFFFF00Важно|r: при изменении положения текст заголовка не изменится, проверьте раздел |cFFFFFF00Полоса заголовка: Текст|r для дополнительных параметров.]=]
 L["STRING_OPTIONS_TOOLS_ANCHOR"] = "Инструменты:"
 L["STRING_OPTIONS_TOOLTIP_ANCHOR"] = "Настройки:"
 L["STRING_OPTIONS_TOOLTIP_ANCHORTEXTS"] = "Тексты:"
@@ -1237,6 +1338,8 @@ L["STRING_OPTIONS_TOOLTIPS_BACKGROUNDCOLOR_DESC"] = "Выберите цвет, 
 L["STRING_OPTIONS_TOOLTIPS_BORDER_COLOR_DESC"] = "Изменить цвет границы."
 L["STRING_OPTIONS_TOOLTIPS_BORDER_SIZE_DESC"] = "Изменить размер границы."
 L["STRING_OPTIONS_TOOLTIPS_BORDER_TEXTURE_DESC"] = "Изменить файл текстуры границы."
+L["STRING_OPTIONS_TOOLTIPS_DISABLE"] = "Отключить всплывающие подсказки"
+L["STRING_OPTIONS_TOOLTIPS_DISABLE_DESC"] = "Отключить всплывающие подсказки для выбранного окна."
 L["STRING_OPTIONS_TOOLTIPS_FONTCOLOR"] = "Цвет текста"
 L["STRING_OPTIONS_TOOLTIPS_FONTCOLOR_DESC"] = "Изменение цвета, используемого в текстах подсказки."
 L["STRING_OPTIONS_TOOLTIPS_FONTFACE"] = "Шрифт текста"
@@ -1260,23 +1363,23 @@ L["STRING_OPTIONS_TOOLTIPS_MAXIMIZE_DESC"] = [=[Выберите метод, и�
 |cFFFFFF00 Только блок Alt|r: третий блок всегда расширяется по умолчанию.]=]
 L["STRING_OPTIONS_TOOLTIPS_MAXIMIZE1"] = "На Shift Ctrl Alt"
 L["STRING_OPTIONS_TOOLTIPS_MAXIMIZE2"] = "Всегда развернуто"
-L["STRING_OPTIONS_TOOLTIPS_MAXIMIZE3"] = "Только блок Shift"
-L["STRING_OPTIONS_TOOLTIPS_MAXIMIZE4"] = "Только блок Ctrl"
-L["STRING_OPTIONS_TOOLTIPS_MAXIMIZE5"] = "Только блок Alt"
+L["STRING_OPTIONS_TOOLTIPS_MAXIMIZE3"] = "Блокировать только Shift"
+L["STRING_OPTIONS_TOOLTIPS_MAXIMIZE4"] = "Блокировать только CTRL"
+L["STRING_OPTIONS_TOOLTIPS_MAXIMIZE5"] = "Блокировать только Alt"
 L["STRING_OPTIONS_TOOLTIPS_MENU_WALLP"] = "Редактор обоев меню"
 L["STRING_OPTIONS_TOOLTIPS_MENU_WALLP_DESC"] = "Изменение аспектов обоев для меню полос заголовка."
-L["STRING_OPTIONS_TOOLTIPS_OFFSETX"] = "Расстояние по X"
+L["STRING_OPTIONS_TOOLTIPS_OFFSETX"] = "Расстояние по оси X"
 L["STRING_OPTIONS_TOOLTIPS_OFFSETX_DESC"] = "На сколько далеко по горизонтали подсказка от своего крепления."
-L["STRING_OPTIONS_TOOLTIPS_OFFSETY"] = "Расстояние по Y"
+L["STRING_OPTIONS_TOOLTIPS_OFFSETY"] = "Расстояние по оси Y"
 L["STRING_OPTIONS_TOOLTIPS_OFFSETY_DESC"] = "На сколько далеко по вертикали подсказка от своего крепления."
 L["STRING_OPTIONS_TOOLTIPS_SHOWAMT"] = "Показывать количество"
 L["STRING_OPTIONS_TOOLTIPS_SHOWAMT_DESC"] = "Показывает число, указывающее количество заклинаний, целей и питомцев в подсказке."
 L["STRING_OPTIONS_TOOLTIPS_TITLE"] = "Подсказки"
-L["STRING_OPTIONS_TOOLTIPS_TITLE_DESC"] = "Эти параметры управляют появлением подсказок."
+L["STRING_OPTIONS_TOOLTIPS_TITLE_DESC"] = "Эти параметры управляют внешним видом подсказок."
 L["STRING_OPTIONS_TOTALBAR_ANCHOR"] = "Полоса итога:"
 L["STRING_OPTIONS_TRASH_SUPPRESSION"] = "Исключать мусор"
 L["STRING_OPTIONS_TRASH_SUPPRESSION_DESC"] = "В течение |cFFFFFF00X|r секунд, отключается автоматическое переключение, чтобы показать сегменты мусора (|cFFFFFF00только, после победы над боссом|r)."
-L["STRING_OPTIONS_WALLPAPER_ALPHA"] = "Альфа:"
+L["STRING_OPTIONS_WALLPAPER_ALPHA"] = "Прозрачность:"
 L["STRING_OPTIONS_WALLPAPER_ANCHOR"] = "Выбор обоев:"
 L["STRING_OPTIONS_WALLPAPER_BLUE"] = "Синий:"
 L["STRING_OPTIONS_WALLPAPER_CBOTTOM"] = "Обрезать (|cFFC0C0C0снизу|r):"
@@ -1284,7 +1387,7 @@ L["STRING_OPTIONS_WALLPAPER_CLEFT"] = "Обрезать (|cFFC0C0C0слева|r)
 L["STRING_OPTIONS_WALLPAPER_CRIGHT"] = "Обрезать (|cFFC0C0C0справа|r):"
 L["STRING_OPTIONS_WALLPAPER_CTOP"] = "Обрезать (|cFFC0C0C0сверху|r):"
 L["STRING_OPTIONS_WALLPAPER_FILE"] = "Файл:"
-L["STRING_OPTIONS_WALLPAPER_GREEN"] = "Зелёный"
+L["STRING_OPTIONS_WALLPAPER_GREEN"] = "Зелёный:"
 L["STRING_OPTIONS_WALLPAPER_LOAD"] = "Загрузить изображение"
 L["STRING_OPTIONS_WALLPAPER_LOAD_DESC"] = "Выберите изображение с жёсткого диска для использования в качестве обоев."
 L["STRING_OPTIONS_WALLPAPER_LOAD_EXCLAMATION"] = [=[Требования к изображению:
@@ -1293,14 +1396,14 @@ L["STRING_OPTIONS_WALLPAPER_LOAD_EXCLAMATION"] = [=[Требования к из
 -Быть внутри корневой папки WOW/Interface/.
 -Размер должен быть 256 x 256 пикселей.
 -Игра должна быть закрыта перед копированием файла.]=]
-L["STRING_OPTIONS_WALLPAPER_LOAD_FILENAME"] = "Наименование файла:"
+L["STRING_OPTIONS_WALLPAPER_LOAD_FILENAME"] = "Имя файла:"
 L["STRING_OPTIONS_WALLPAPER_LOAD_FILENAME_DESC"] = "Вставить только имя файла, без пути и расширения."
 L["STRING_OPTIONS_WALLPAPER_LOAD_OKEY"] = "Загрузить"
-L["STRING_OPTIONS_WALLPAPER_LOAD_TITLE"] = "Из компьютера:"
+L["STRING_OPTIONS_WALLPAPER_LOAD_TITLE"] = "Ваши персонализированные обои"
 L["STRING_OPTIONS_WALLPAPER_LOAD_TROUBLESHOOT"] = "Устранение проблем"
 L["STRING_OPTIONS_WALLPAPER_LOAD_TROUBLESHOOT_TEXT"] = [=[Если обои отображаются полностью в зелёный цвете:
 
--Перезапустите клиент wow.
+-Перезапустите клиент WOW.
 -Убедитесь, что изображение 256 в ширину и 256 в высоту.
 -Проверьте, находится ли изображение в формате .TGA
 и убедитесь, что оно сохранено с 32 бит/пиксель.
@@ -1311,11 +1414,7 @@ L["STRING_OPTIONS_WC_ANCHOR"] = "Быстрое управление окном 
 L["STRING_OPTIONS_WC_BOOKMARK"] = "Управление закладками"
 L["STRING_OPTIONS_WC_BOOKMARK_DESC"] = "Открыть панель управления закладками."
 L["STRING_OPTIONS_WC_CLOSE"] = "Закрыть"
-L["STRING_OPTIONS_WC_CLOSE_DESC"] = [=[Закрыть текущее окно редактирования.
-
-Когда окно закрыто, окно является неактивным и оно может быть возобновлено в любое время с помощью меню управления.
-
-|cFFFFFF00Важно:|r чтобы полностью удалить окно, перейдите в раздел 'Окно:Общее'.]=]
+L["STRING_OPTIONS_WC_CLOSE_DESC"] = "Закрыть текущее окно редактирования. Когда окно закрыто, окно является неактивным и оно может быть открыто в любое время с помощью меню управления. |cFFFFFF00Важно:|r чтобы полностью удалить окно, перейдите в раздел 'Окно: Общее'."
 L["STRING_OPTIONS_WC_CREATE"] = "Создать окно"
 L["STRING_OPTIONS_WC_CREATE_DESC"] = "Создать новое окно."
 L["STRING_OPTIONS_WC_LOCK"] = "Заблокировать"
@@ -1332,14 +1431,18 @@ L["STRING_OPTIONS_WINDOW"] = "Панель параметров"
 L["STRING_OPTIONS_WINDOW_ANCHOR_ANCHORS"] = "Крепления:"
 L["STRING_OPTIONS_WINDOW_IGNOREMASSTOGGLE"] = "Игнорировать массовое переключение"
 L["STRING_OPTIONS_WINDOW_IGNOREMASSTOGGLE_DESC"] = "При включении этого окна не влияет на скрытие, отображении или переключении всех окон."
+L["STRING_OPTIONS_WINDOW_ROWAREA_COLOR"] = "\"Цвет области строки\""
+L["STRING_OPTIONS_WINDOW_ROWAREA_COLOR_DESC"] = "Установить цвет фона области, когда отображаются строки."
 L["STRING_OPTIONS_WINDOW_SCALE"] = "Масштаб"
 L["STRING_OPTIONS_WINDOW_SCALE_DESC"] = [=[Отрегулируйте масштаб окна.
 
 |cFFFFFF00Совет|r: правый щелчок, чтобы ввести значение.
 
 |cFFFFFF00Текущий|r: %s]=]
+L["STRING_OPTIONS_WINDOW_SKIN_COLOR"] = "Цвет оболочки"
+L["STRING_OPTIONS_WINDOW_SKIN_COLOR_DESC"] = "Изменяет цвет скина, примененного к этому окну. |cFFFFFF00Важно|r: выбранный здесь альфа-канал перезаписывается значениями |cFFFFFF00Автоматическая прозрачность|r при включении. |cFFFFFF00Важно|r: выбор цвета скина перезаписывает любые настройки цвета, примененные к строке состояния."
 L["STRING_OPTIONS_WINDOW_TITLE"] = "Общие настройки окна"
-L["STRING_OPTIONS_WINDOW_TITLE_DESC"] = "Эти параметры управляют внешним видом окна, выбранного окна."
+L["STRING_OPTIONS_WINDOW_TITLE_DESC"] = "Эти параметры управляют внешним видом выбранного окна."
 L["STRING_OPTIONS_WINDOWSPEED"] = "Интервал обновления"
 L["STRING_OPTIONS_WINDOWSPEED_DESC"] = [=[Интервал времени между каждым обновлением.
 
@@ -1349,7 +1452,7 @@ L["STRING_OPTIONS_WINDOWSPEED_DESC"] = [=[Интервал времени меж
 
 |cFFFFFF003.0|r: обновление каждые 3 секунды.]=]
 L["STRING_OPTIONS_WP"] = "Настройки обоев"
-L["STRING_OPTIONS_WP_ALIGN"] = "Выравнять "
+L["STRING_OPTIONS_WP_ALIGN"] = "Выровнять"
 L["STRING_OPTIONS_WP_ALIGN_DESC"] = [=[Способ выровнять обои в пределах окна.
 
 - |cFFFFFF00Заполнить|r: автоматическое изменение размера и выровнять все углы.
@@ -1360,7 +1463,7 @@ L["STRING_OPTIONS_WP_ALIGN_DESC"] = [=[Способ выровнять обои 
 
 -|cFFFFFF00Четыре угла|r: выравнивание с указанным углом, автоматическое изменение размера не производится.]=]
 L["STRING_OPTIONS_WP_DESC"] = "Эти параметры управляют обоями окна."
-L["STRING_OPTIONS_WP_EDIT"] = "Редактировать изображение "
+L["STRING_OPTIONS_WP_EDIT"] = "Редактировать изображение"
 L["STRING_OPTIONS_WP_EDIT_DESC"] = "Открыть редактор изображений, чтобы изменить некоторые аспекты выбранного изображения."
 L["STRING_OPTIONS_WP_ENABLE_DESC"] = "Показать обои."
 L["STRING_OPTIONS_WP_GROUP"] = "Категория"
@@ -1368,14 +1471,15 @@ L["STRING_OPTIONS_WP_GROUP_DESC"] = "Выберите группу изобра�
 L["STRING_OPTIONS_WP_GROUP2"] = "Обои"
 L["STRING_OPTIONS_WP_GROUP2_DESC"] = "Изображение, которое будет использоваться в качестве обоев."
 L["STRING_OPTIONSMENU_AUTOMATIC"] = "Окно: Автоматизация"
-L["STRING_OPTIONSMENU_AUTOMATIC_TITLE"] = "Настройки Окна автоматизации"
-L["STRING_OPTIONSMENU_AUTOMATIC_TITLE_DESC"] = "Эти параметры управляют автоматическим поведением окна, таким как автоматическое скрытие и автоматическое переключение."
+L["STRING_OPTIONSMENU_AUTOMATIC_TITLE"] = "Настройки автоматизации окон"
+L["STRING_OPTIONSMENU_AUTOMATIC_TITLE_DESC"] = "Эти параметры управляют автоматическим режимом окна, таким как автоматическое скрытие и автоматическое переключение."
 L["STRING_OPTIONSMENU_COMBAT"] = "PvE PvP"
 L["STRING_OPTIONSMENU_DATACHART"] = "Данные для диаграмм"
-L["STRING_OPTIONSMENU_DATACOLLECT"] = "Данные сборщика"
+L["STRING_OPTIONSMENU_DATACOLLECT"] = "Сборщик данных"
 L["STRING_OPTIONSMENU_DATAFEED"] = "Канал данных"
-L["STRING_OPTIONSMENU_DISPLAY"] = "Отображение "
-L["STRING_OPTIONSMENU_DISPLAY_DESC"] = "Основные базовые регулировки и быстрое управление окном."
+L["STRING_OPTIONSMENU_DESIGNER"] = "Дизайнер"
+L["STRING_OPTIONSMENU_DISPLAY"] = "Отображение"
+L["STRING_OPTIONSMENU_DISPLAY_DESC"] = "Основные настройки и быстрое управление окном."
 L["STRING_OPTIONSMENU_LEFTMENU"] = "Заголовок полос: Общее"
 L["STRING_OPTIONSMENU_MISC"] = "Разное"
 L["STRING_OPTIONSMENU_PERFORMANCE"] = "Производительность"
@@ -1387,32 +1491,35 @@ L["STRING_OPTIONSMENU_ROWMODELS"] = "Полосы: Дополнительно"
 L["STRING_OPTIONSMENU_ROWSETTINGS"] = "Полосы: Общее"
 L["STRING_OPTIONSMENU_ROWTEXTS"] = "Полосы: Тексты"
 L["STRING_OPTIONSMENU_SKIN"] = "Скины"
-L["STRING_OPTIONSMENU_SPELLS"] = "Кастомизация заклинаний"
+L["STRING_OPTIONSMENU_SPELLS"] = "Переименовать заклинания"
 L["STRING_OPTIONSMENU_SPELLS_CONSOLIDATE"] = "Объединить общие заклинания с тем же названием"
-L["STRING_OPTIONSMENU_TITLETEXT"] = "Заголовок полос: Текст"
+L["STRING_OPTIONSMENU_TITLEBAR"] = "Полоса заголовка"
+L["STRING_OPTIONSMENU_TITLETEXT"] = "Строка заголовка: Текст"
 L["STRING_OPTIONSMENU_TOOLTIP"] = "Подсказки"
 L["STRING_OPTIONSMENU_WALLPAPER"] = "Окно: Обои"
 L["STRING_OPTIONSMENU_WINDOW"] = "Окно: Общее"
+L["STRING_OPTIONSMENU_WINDOWBODY"] = "Настройки окон"
+L["STRING_OR"] = "Или"
 L["STRING_OVERALL"] = "Общий"
-L["STRING_OVERHEAL"] = "Избыточное лечение"
-L["STRING_OVERHEALED"] = "Избыточно исцелено"
+L["STRING_OVERHEAL"] = "Избыточное исцеление"
+L["STRING_OVERHEALED"] = "Избыточное исцеление"
 L["STRING_PARRY"] = "Парирование"
 L["STRING_PERCENTAGE"] = "Процент"
 L["STRING_PET"] = "Питомец"
 L["STRING_PETS"] = "Питомцы"
-L["STRING_PLAYER_DETAILS"] = "Details! Игрока"
+L["STRING_PLAYER_DETAILS"] = "Анализ игрока Details!"
 L["STRING_PLAYERS"] = "Игроки"
 L["STRING_PLEASE_WAIT"] = "Пожалуйста, подождите"
 L["STRING_PLUGIN_CLEAN"] = "Никакой"
 L["STRING_PLUGIN_CLOCKNAME"] = "Время сражения"
 L["STRING_PLUGIN_CLOCKTYPE"] = "Тип часов"
-L["STRING_PLUGIN_DURABILITY"] = "Прочность "
+L["STRING_PLUGIN_DURABILITY"] = "Прочность"
 L["STRING_PLUGIN_FPS"] = "Частота кадров"
 L["STRING_PLUGIN_GOLD"] = "Золото"
-L["STRING_PLUGIN_LATENCY"] = "Задержка "
+L["STRING_PLUGIN_LATENCY"] = "Задержка"
 L["STRING_PLUGIN_MINSEC"] = "Минуты и секунды"
-L["STRING_PLUGIN_NAMEALREADYTAKEN"] = "Details! не удается установить подключаемый модуль, поскольку имя уже было принято"
-L["STRING_PLUGIN_PATTRIBUTENAME"] = "Атрибут"
+L["STRING_PLUGIN_NAMEALREADYTAKEN"] = "Details! не удается установить подключаемый модуль, потому что имя уже занято"
+L["STRING_PLUGIN_PATTRIBUTENAME"] = "Свойство"
 L["STRING_PLUGIN_PDPSNAME"] = "Рейдовый УВС"
 L["STRING_PLUGIN_PSEGMENTNAME"] = "Сегмент"
 L["STRING_PLUGIN_SECONLY"] = "Только секунды"
@@ -1430,8 +1537,8 @@ L["STRING_PLUGINOPTIONS_COMMA"] = "Запятая"
 L["STRING_PLUGINOPTIONS_FONTFACE"] = "Выбрать шрифт"
 L["STRING_PLUGINOPTIONS_NOFORMAT"] = "Никакой"
 L["STRING_PLUGINOPTIONS_TEXTALIGN"] = "Выравнивание текста"
-L["STRING_PLUGINOPTIONS_TEXTALIGN_X"] = "Выравнивание текста по X"
-L["STRING_PLUGINOPTIONS_TEXTALIGN_Y"] = "Выравнивание текста по Y"
+L["STRING_PLUGINOPTIONS_TEXTALIGN_X"] = "Выравнивание текста по оси X"
+L["STRING_PLUGINOPTIONS_TEXTALIGN_Y"] = "Выравнивание текста по оси Y"
 L["STRING_PLUGINOPTIONS_TEXTCOLOR"] = "Цвет текста"
 L["STRING_PLUGINOPTIONS_TEXTSIZE"] = "Размер текста"
 L["STRING_PLUGINOPTIONS_TEXTSTYLE"] = "Стиль текста"
@@ -1439,9 +1546,10 @@ L["STRING_QUERY_INSPECT"] = "получение талантов и уровня
 L["STRING_QUERY_INSPECT_FAIL1"] = "нельзя запрашивать во время боя."
 L["STRING_QUERY_INSPECT_REFRESH"] = "необходимо обновить"
 L["STRING_RAID_WIDE"] = "[*] большой рейдовый кулдаун"
-L["STRING_RAIDCHECK_PLUGIN_DESC"] = "Когда внутри рейда, показывать значок Details! заголовке показывающий настой, еду, использование пре-пота."
+L["STRING_RAIDCHECK_PLUGIN_DESC"] = "Когда внутри рейда, показывать значок Details! заголовке показывающий настой, еду, использование препота."
 L["STRING_RAIDCHECK_PLUGIN_NAME"] = "Проверка рейда"
-L["STRING_REPORT"] = "c"
+L["STRING_RECENT_PLAYERS"] = "Недавние игроки:"
+L["STRING_REPORT"] = "для"
 L["STRING_REPORT_BUTTON_TOOLTIP"] = "Щелкните, чтобы открыть диалоговое окно отчета"
 L["STRING_REPORT_FIGHT"] = "бой"
 L["STRING_REPORT_FIGHTS"] = "бои"
@@ -1454,12 +1562,13 @@ L["STRING_REPORT_SINGLE_BUFFUPTIME"] = "Время баффов для"
 L["STRING_REPORT_SINGLE_COOLDOWN"] = "использованы кулдауны от"
 L["STRING_REPORT_SINGLE_DEATH"] = "Смерть от"
 L["STRING_REPORT_SINGLE_DEBUFFUPTIME"] = "время дебаффов для"
+L["STRING_REPORT_TEXT"] = "Отчёт"
 L["STRING_REPORT_TOOLTIP"] = "Результат отчёта"
-L["STRING_REPORTFRAME_COPY"] = "Копировать и Вставить"
+L["STRING_REPORTFRAME_COPY"] = "Копировать и вставить"
 L["STRING_REPORTFRAME_CURRENT"] = "Текущий"
 L["STRING_REPORTFRAME_CURRENTINFO"] = "Отображение только тех данных, которые отображаются в данный момент (если поддерживается)."
 L["STRING_REPORTFRAME_GUILD"] = "Гильдия"
-L["STRING_REPORTFRAME_INSERTNAME"] = "имя игрока"
+L["STRING_REPORTFRAME_INSERTNAME"] = "вставить имя игрока"
 L["STRING_REPORTFRAME_LINES"] = "Строк"
 L["STRING_REPORTFRAME_OFFICERS"] = "Канал офицеров"
 L["STRING_REPORTFRAME_PARTY"] = "Группа"
@@ -1469,25 +1578,24 @@ L["STRING_REPORTFRAME_REVERTED"] = "обратный"
 L["STRING_REPORTFRAME_REVERTINFO"] = "отправить в порядке возрастания."
 L["STRING_REPORTFRAME_SAY"] = "Сказать"
 L["STRING_REPORTFRAME_SEND"] = "Отправить"
-L["STRING_REPORTFRAME_WHISPER"] = "Шепот"
+L["STRING_REPORTFRAME_WHISPER"] = "Шёпот"
 L["STRING_REPORTFRAME_WHISPERTARGET"] = "Шепнуть цели"
-L["STRING_REPORTFRAME_WINDOW_TITLE"] = "Поделится Details!"
+L["STRING_REPORTFRAME_WINDOW_TITLE"] = "Поделиться Details!"
 L["STRING_REPORTHISTORY"] = "Последние отчеты"
 L["STRING_RESISTED"] = "Сопротивление"
 L["STRING_RESIZE_ALL"] = "Свободно изменять размеры всех окон"
 L["STRING_RESIZE_COMMON"] = "Изменение размера"
-L["STRING_RESIZE_HORIZONTAL"] = [=[Изменяет ширину всех
- окон в группе]=]
-L["STRING_RESIZE_VERTICAL"] = [=[Изменяет высоту всех
- окон в группе]=]
+L["STRING_RESIZE_HORIZONTAL"] = "Изменяет ширину всех окон в группе"
+L["STRING_RESIZE_VERTICAL"] = "Изменяет высоту всех окон в группе"
 L["STRING_RIGHT"] = "справа"
 L["STRING_RIGHT_TO_LEFT"] = "Справа налево"
-L["STRING_RIGHTCLICK_CLOSE_LARGE"] = "Щелкните правой кнопкой мыши, чтобы закрыть это окно."
-L["STRING_RIGHTCLICK_CLOSE_MEDIUM"] = "Исп. правый щелчок, чтобы закрыть это окно."
-L["STRING_RIGHTCLICK_CLOSE_SHORT"] = "Правый щелчок, чтобы закрыть."
-L["STRING_RIGHTCLICK_TYPEVALUE"] = "правый щелчок, чтобы ввести значение"
-L["STRING_SCORE_BEST"] = "вы набрали |cFFFFFF00%s|r, это ваши лучшие очки, поздравляю!"
-L["STRING_SCORE_NOTBEST"] = "ваши очки |cFFFFFF00%s|r, ваш лучший результат был |cFFFFFF00%s|r на %s с %d уровнем предметов."
+L["STRING_RIGHTCLICK_CLOSE_LARGE"] = "ПКМ, чтобы закрыть это окно."
+L["STRING_RIGHTCLICK_CLOSE_MEDIUM"] = "ПКМ, чтобы закрыть это окно."
+L["STRING_RIGHTCLICK_CLOSE_SHORT"] = "ПКМ, чтобы закрыть."
+L["STRING_RIGHTCLICK_TYPEVALUE"] = "ПКМ, чтобы ввести значение"
+L["STRING_SCORE_BEST"] = "Вы набрали |cFFFFFF00%s|r, это Ваши лучшие очки, поздравляю!"
+L["STRING_SCORE_NOTBEST"] = "Ваши очки |cFFFFFF00%s|r, Ваш лучший результат был |cFFFFFF00%s|r на %s с %d уровнем предметов."
+L["STRING_SCRIPTS_TITLE"] = "Скрипты"
 L["STRING_SEE_BELOW"] = "смотреть ниже"
 L["STRING_SEGMENT"] = "Сегмент"
 L["STRING_SEGMENT_EMPTY"] = "этот сегмент пуст"
@@ -1507,9 +1615,23 @@ L["STRING_SEGMENTS_LIST_TRASH"] = "мусор"
 L["STRING_SEGMENTS_LIST_WASTED_TIME"] = "Не в бою"
 L["STRING_SHIELD_HEAL"] = "Предотвращено"
 L["STRING_SHIELD_OVERHEAL"] = "Впустую"
-L["STRING_SHORTCUT_RIGHTCLICK"] = "правый щелчок, чтобы закрыть"
+L["STRING_SHORTCUT_RIGHTCLICK"] = "ПКМ, чтобы закрыть"
+L["STRING_SIMPLE_TEXT_FORMAT"] = "Использовать простое форматирование текста"
+L["STRING_SIMPLE_TEXT_FORMAT_ASLIGNED"] = "Использовать выровненный текст"
+L["STRING_SIMPLE_TEXT_FORMAT_ASLIGNED_DESC"] = "Текст выравнивается по колонкам, настройте расстояние между колонками."
+L["STRING_SIMPLE_TEXT_FORMAT_ASLIGNED_SPACE_BETWEEN"] = "Расстояние между колонками"
+L["STRING_SIMPLE_TEXT_FORMAT_DESC"] = "Включает использование трёх правил ниже."
+L["STRING_SIMPLE_TEXT_FORMAT_TEMPLATE2"] = "Не показывать проценты"
+L["STRING_SIMPLE_TEXT_FORMAT_TEMPLATE3"] = "Показывать только сумму"
+L["STRING_SIMPLE_TEXT_FORMAT_TEMPLATE4"] = "Разделять с помощью | как разделителя"
+L["STRING_SIMPLE_TEXT_FORMAT_TEMPLATE5"] = "Разделять с помощью [квадратных скобок]"
+L["STRING_SIMPLE_TEXT_FORMAT_TEMPLATE6"] = "Сумма (DPS) Проценты"
+L["STRING_SIMPLE_TEXT_FORMAT_TITLE"] = "Текст справа: Простой или Выровненный"
+L["STRING_SIMPLE_TEXT_FORMAT_TYPE1"] = "Когда в строке есть информация об итоге и проценте. |cFFAAAAAAПорядок %s: итог, процент."
+L["STRING_SIMPLE_TEXT_FORMAT_TYPE2"] = "Когда в строке есть информация об итоге и в секунду. |cFFAAAAAAПорядок %s: итог, в секунду."
+L["STRING_SIMPLE_TEXT_FORMAT_TYPE3"] = "Когда в строке есть информация об итоге, в секунду и проценте. |cFFAAAAAAПорядок %s: итог, в секунду, процент."
 L["STRING_SLASH_API_DESC"] = "открыть панель API для сборки плагинов, своих дисплеев, аур и т.д."
-L["STRING_SLASH_CAPTURE_DESC"] = "вкл. или выкл., всех записанных данных."
+L["STRING_SLASH_CAPTURE_DESC"] = "вкл. или выкл. все виды сбора данных."
 L["STRING_SLASH_CAPTUREOFF"] = "все захваты были откл."
 L["STRING_SLASH_CAPTUREON"] = "все захваты были вкл."
 L["STRING_SLASH_CHANGES"] = "обновления"
@@ -1528,25 +1650,22 @@ L["STRING_SLASH_OPTIONS_DESC"] = "открыть панель параметро
 L["STRING_SLASH_RESET"] = "сброс"
 L["STRING_SLASH_RESET_ALIAS1"] = "очистить"
 L["STRING_SLASH_RESET_DESC"] = "очистить все сегменты."
-L["STRING_SLASH_SHOW"] = "Показать"
+L["STRING_SLASH_SHOW"] = "показать"
 L["STRING_SLASH_SHOW_ALIAS1"] = "открыть"
 L["STRING_SLASH_SHOWHIDETOGGLE_DESC"] = "все окна, если <номер окна> не передается."
 L["STRING_SLASH_TOGGLE"] = "переключение"
 L["STRING_SLASH_WIPE"] = "вайп"
 L["STRING_SLASH_WIPECONFIG"] = "переустановить"
-L["STRING_SLASH_WIPECONFIG_CONFIRM"] = "Нажмите для продолжения переустанов."
+L["STRING_SLASH_WIPECONFIG_CONFIRM"] = "Нажмите для продолжения переустановки"
 L["STRING_SLASH_WIPECONFIG_DESC"] = "установить все конфигурации по умолчанию, используйте это, если Details! не работает должным образом."
 L["STRING_SLASH_WORLDBOSS"] = "мировой босс"
-L["STRING_SLASH_WORLDBOSS_DESC"] = "запустить макрос, показывающий, кого босса вы убили на этой неделе."
+L["STRING_SLASH_WORLDBOSS_DESC"] = "запустить макрос, показывающий, какого босса Вы убили на этой неделе."
 L["STRING_SPELL_INTERRUPTED"] = "Заклинания прерваны"
 L["STRING_SPELLLIST"] = "Список заклинаний"
 L["STRING_SPELLS"] = "Заклинания"
 L["STRING_SPIRIT_LINK_TOTEM"] = "Обмен здоровья"
-L["STRING_SPIRIT_LINK_TOTEM_DESC"] = [=[Количество обмена здоровья между
-игроками внутри круга тотема.
-
-Это исцеление не добавляется
-в общее исцеление игрока.]=]
+L["STRING_SPIRIT_LINK_TOTEM_DESC"] = [=[Количество обмена здоровья между игроками внутри круга тотема.
+Это исцеление не добавляется в общее исцеление игрока.]=]
 L["STRING_STATISTICS"] = "Статистика"
 L["STRING_STATUSBAR_NOOPTIONS"] = "Этот графический виджет не имеет параметров."
 L["STRING_SWITCH_CLICKME"] = "добавить закладку"
@@ -1556,33 +1675,34 @@ L["STRING_SWITCH_WARNING"] = "Роль изменена. Переключени�
 L["STRING_TARGET"] = "Цель"
 L["STRING_TARGETS"] = "Цели"
 L["STRING_TARGETS_OTHER1"] = "Питомцы и другие цели"
+L["STRING_TELEPORT"] = "Телепорт"
+L["STRING_TELEPORTERS"] = "Телепорты"
 L["STRING_TEXTURE"] = "Текстура"
 L["STRING_TIME_OF_DEATH"] = "Смерть"
-L["STRING_TOOOLD"] = "не может быть установлено, потому что ваша версия Details! устарела."
+L["STRING_TOOOLD"] = "не может быть установлено, потому что Ваша версия Details! устарела."
 L["STRING_TOP"] = "вверх"
 L["STRING_TOP_TO_BOTTOM"] = "Сверху вниз"
 L["STRING_TOTAL"] = "Всего"
+L["STRING_TRAINING_DUMMY"] = "Тренировочный манекен"
 L["STRING_TRANSLATE_LANGUAGE"] = "Помогите перевести Details!"
-L["STRING_TUTORIAL_FULLY_DELETE_WINDOW"] = [=[Вы закрыли окно, и вы можете возобновить его в любое время.
+L["STRING_TUTORIAL_FULLY_DELETE_WINDOW"] = [=[Вы закрыли окно, и можете возобновить его в любое время.
 Чтобы полностью удалить окно, перейдите к параметрам -> Окно: Общее -> Удалить.]=]
-L["STRING_TUTORIAL_OVERALL1"] = "Настройка общих настроек на панели параметров > PvE/PvP."
+L["STRING_TUTORIAL_OVERALL1"] = "Общие данные обновляются только после завершения боя, если Вы хотите получать регулярные обновления, щелкните ПКМ на строку заголовка и выберите пункт 'динамические общие данные'."
 L["STRING_UNKNOW"] = "Неизвестно"
 L["STRING_UNKNOWSPELL"] = "Неизвестное заклинание"
-L["STRING_UNLOCK"] = [=[Разгруппировать окна
- в этой кнопке]=]
+L["STRING_UNLOCK"] = "Разгруппировать окна в этой кнопке"
 L["STRING_UNLOCK_WINDOW"] = "разблокировать"
 L["STRING_UPTADING"] = "обновление"
-L["STRING_VERSION_AVAILABLE"] = "Вышла новая версия, скачать её можно из приложения Twitch либо с сайта Curse."
+L["STRING_VERSION_AVAILABLE"] = "Доступна новая версия, загрузите ее из приложения или сайта CurseForge."
 L["STRING_VERSION_UPDATE"] = "новая версия: что изменилось? щелкните сюда"
 L["STRING_VOIDZONE_TOOLTIP"] = "Урон и время"
-L["STRING_WAITPLUGIN"] = [=[ожидание
-плагинов]=]
+L["STRING_WAITPLUGIN"] = "Плагин недоступен, проверьте: - Esc > Аддоны > включен ли там. - Страница плагинов в Details! опции. - Плагин открылся в другом окне. - Плагин используется в закрытом окне."
 L["STRING_WAVE"] = "волна"
 L["STRING_WELCOME_1"] = [=[|cFFFFFFFFДобро пожаловать в Details! С Вами - Мастер быстрой установки|r
 
 Используйте стрелки в правом нижнем углу для навигации.]=]
-L["STRING_WELCOME_11"] = "если вы передумали, вы всегда можете изменить снова через панель параметров"
-L["STRING_WELCOME_12"] = "Выберите скорость обновления окна, вы также можете включить анимацию обновления в режиме реального времени для чисел Ивс и Увс."
+L["STRING_WELCOME_11"] = "если Вы передумали, то всегда можете изменить снова через панель параметров"
+L["STRING_WELCOME_12"] = "Выберите скорость обновления окна, Вы также можете включить анимацию обновления в режиме реального времени для чисел ИВС и УВС."
 L["STRING_WELCOME_13"] = "_"
 L["STRING_WELCOME_14"] = "Скорость обновления"
 L["STRING_WELCOME_15"] = "Скорость обновления подсказки в окне приветствия."
@@ -1590,26 +1710,25 @@ L["STRING_WELCOME_16"] = "Включить анимации"
 L["STRING_WELCOME_17"] = [=[Когда включено, все полосы анимируются влево и вправо.
 
 |cffffff00Важно|r: Для Ютуберов и Стримеров, возможно, захотите включить, чтобы увеличить зрелищность для зрителей.]=]
-L["STRING_WELCOME_2"] = "если вы передумали, вы всегда можете изменить снова через панель параметров"
+L["STRING_WELCOME_2"] = "если Вы передумали, то всегда можете изменить снова через панель параметров"
 L["STRING_WELCOME_26"] = "Использование интерфейса: Растягивание"
-L["STRING_WELCOME_27"] = [=[Подсвеченная кнопка это растягивание. |cFFFFFF00Удерживайте|r и |cFFFFFF00тяните вверх!|r.
-
+L["STRING_WELCOME_27"] = [=[Подсвеченная кнопка - это растягивание. |cFFFFFF00Удерживайте|r и |cFFFFFF00тяните вверх!|r.
 
 Если окно заблокировано, то вся строка заголовка становится кнопкой растягивания.]=]
 L["STRING_WELCOME_28"] = "Использование интерфейса: Управление окном"
 L["STRING_WELCOME_29"] = [=[Окно управления в основном делает две вещи:
 
-- открывает |cFFFFFF00новое окно|r.
+- открывает |cFFFFFF00новое окно|r. 
 - показывает меню с |cFFFFFF00закрытыми окнами|r, которые можно открыть снова в любой момент.]=]
 L["STRING_WELCOME_3"] = "Выберите предпочитаемый метод УВС и ИВС:"
 L["STRING_WELCOME_30"] = "Использование интерфейса: Закладки"
-L["STRING_WELCOME_31"] = [=[|cFFFFFF00Правый щелчок|r в любом месте окна показывает панель |cFFFFAA00Закладок|r.
+L["STRING_WELCOME_31"] = [=[|cFFFFFF00ПКМ|r в любом месте окна показывает панель |cFFFFAA00Закладок|r.
 
-|cFFFFFF00Правый щелчок опять|r закрывает панель или выбирает другой дисплей, если нажать на значок.
+|cFFFFFF00ПКМ снова|r закрывает панель или выбирает другой дисплей, если нажать на значок.
 
-|cFFFFFF00Правый щелчок|r в строке заголовка, чтобы открыть панель 'все дисплеи'.
+|cFFFFFF00ПКМ|r в строке заголовка, чтобы открыть панель 'все дисплеи'.
 
-|TInterface\AddOns\Details\images\key_ctrl:14:30:0:0:64:64:0:64:0:40|t + Правый щелчок закрывает окно.]=]
+|TInterface\AddOns\Details\images\key_ctrl:14:30:0:0:64:64:0:64:0:40|t + ПКМ закрывает окно.]=]
 L["STRING_WELCOME_32"] = "Использование интерфейса: Группирование окон"
 L["STRING_WELCOME_34"] = "Использование интерфейса: Расширение подсказок"
 L["STRING_WELCOME_36"] = "Использование интерфейса: Плагины"
@@ -1618,14 +1737,13 @@ L["STRING_WELCOME_39"] = [=[Спасибо, что выбрали Details!
 
 Вы можете всегда отправлять нам отзывы и сообщения об ошибках.
 
-
  |cFFFFAA00/details feedback|r]=]
 L["STRING_WELCOME_4"] = "По активности:"
-L["STRING_WELCOME_41"] = "Развлекательные сдвиги интерфейса:"
+L["STRING_WELCOME_41"] = "Развлечения в интерфейсе:"
 L["STRING_WELCOME_42"] = "Быстрые настройки внешнего вида"
 L["STRING_WELCOME_43"] = "Выберите предпочитаемый скин:"
 L["STRING_WELCOME_44"] = "Обои"
-L["STRING_WELCOME_45"] = "Для получения дополнительных параметров, проверьте панель параметров."
+L["STRING_WELCOME_45"] = "Для получения дополнительных параметров проверьте панель настроек."
 L["STRING_WELCOME_46"] = "Импорт настроек"
 L["STRING_WELCOME_5"] = "По эффективности:"
 L["STRING_WELCOME_57"] = [=[Импорт основных настроек из уже установленных аддонов.
@@ -1635,10 +1753,10 @@ L["STRING_WELCOME_58"] = [=[Предопределенные наборы кон
 
 |cFFFFFF00Важно|r: все настройки можно изменить позже на панели параметров.]=]
 L["STRING_WELCOME_59"] = "Включить фоновые обои."
-L["STRING_WELCOME_6"] = "таймер каждого участника рейда будет приостановлен, если их активность будет прекращена, и снова рассчитываться при ее возобновлении."
+L["STRING_WELCOME_6"] = "таймер каждого участника рейда будет приостановлен, если их активность будет прекращена, и снова рассчитываться при её возобновлении."
 L["STRING_WELCOME_60"] = "Псевдоним и аватар"
 L["STRING_WELCOME_61"] = "Аватары отображаются на подсказках, а также в окне сведений об игроке."
-L["STRING_WELCOME_62"] = "Отправляется другим участникам вашей гильдии, которые тоже используют Details!. Изменяя, имя вашего персонажа на псевдоним."
+L["STRING_WELCOME_62"] = "Отправляется другим участникам Вашей гильдии, которые тоже используют Details!. Изменяя имя Вашего персонажа на псевдоним."
 L["STRING_WELCOME_63"] = "Обновление УВС/ИВС в реальном времени"
 L["STRING_WELCOME_64"] = [=[Когда включено, УВС и ИВС обновляется очень быстро, не дожидаясь следующего обновления окна.
 
@@ -1649,18 +1767,12 @@ L["STRING_WELCOME_66"] = [=[Перетаскивание окна рядом с 
 Сгруппированные окна растягиваются и изменяют размер вместе.
 
 Они также живут счастливее, как пара.]=]
-L["STRING_WELCOME_67"] = [=[Нажмите shift, чтобы развернуть всплывающую подсказку игрока, чтобы показать все используемые заклинания.
+L["STRING_WELCOME_67"] = [=[Нажмите Shift, чтобы развернуть всплывающую подсказку игрока, чтобы показать все используемые заклинания.
 
 Ctrl для целей и Alt для питомцев.]=]
-L["STRING_WELCOME_68"] = [=[Details! заражен,
-чумой под названием 'Плагины'.
-
-Оно везде, помогая
-вам со многими задачами.
-
-Примеры: измеритель угроз, анализ увс, сводка сражения, создание диаграмм и многое другое.]=]
+L["STRING_WELCOME_68"] = "Details! поражён чумой под названием «плагины». Они повсюду и помогают Вам во многих задачах. Примеры: измеритель угрозы, анализ урона, сводка сражения, создание графиков и многое другое."
 L["STRING_WELCOME_69"] = "Пропустить"
-L["STRING_WELCOME_7"] = "используется для рейтинга, этот метод считывает прошедшее время боя для измерения УВС и ИВС - всех участников рейда."
+L["STRING_WELCOME_7"] = "используется для рейтинга, этот метод считывает прошедшее время боя для измерения DPS и HPS всех участников рейда."
 L["STRING_WELCOME_70"] = "Настройки полос заголовка"
 L["STRING_WELCOME_71"] = "Настройки полос"
 L["STRING_WELCOME_72"] = "Настройки окнa"
@@ -1675,8 +1787,7 @@ L["STRING_WINDOW_NOTFOUND"] = "Окно не найдено."
 L["STRING_WINDOW_NUMBER"] = "номер окна"
 L["STRING_WINDOW1ATACH_DESC"] = "Чтобы создать группу окон, перетащите окно #2 рядом с окном #1."
 L["STRING_WIPE_ALERT"] = "Рейд лидер говорит: Ложимся!"
-L["STRING_WIPE_ERROR1"] = "ложимся уже было сказано."
-L["STRING_WIPE_ERROR2"] = "вы не находитесь в рейдовом сражении."
+L["STRING_WIPE_ERROR1"] = "Уже было сказано: Ложимся!"
+L["STRING_WIPE_ERROR2"] = "Вы не находитесь в рейдовом сражении."
 L["STRING_WIPE_ERROR3"] = "не удалось закончить сражение."
 L["STRING_YES"] = "Да"
-

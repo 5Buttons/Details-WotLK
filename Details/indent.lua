@@ -331,9 +331,11 @@ if not IndentationLib.revision or revision > IndentationLib.revision then
             return tokens.TOKEN_COMMENT_LONG, nextPos2
         end
 
+        local byte = stringbyte(text, pos)
+
         -- Short comment, find the first linebreak
         while true do
-            local byte = stringbyte(text, pos)
+            byte = stringbyte(text, pos)
             if not byte then
                 return tokens.TOKEN_COMMENT_SHORT, pos
             end

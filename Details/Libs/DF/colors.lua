@@ -1,7 +1,6 @@
+
 do
-
 	local DF = _G ["DetailsFramework"]
-
 	if (not DF or not DetailsFrameworkCanLoad) then
 		return
 	end
@@ -19,6 +18,13 @@ do
 		["SHAMAN"] = {0.0, 0.44, 0.87},
 		["WARRIOR"] = {0.78, 0.61, 0.43},
 		["DEATHKNIGHT"] = {0.77, 0.12, 0.23},
+		["MONK"] = {0.0, 1.00, 0.59},
+		["DEMONHUNTER"] = {0.64, 0.19, 0.79},
+		["EVOKER"] = {0.20, 0.58, 0.50},
+
+		["dark1"] = {0.1215, 0.1176, 0.1294},
+		["dark2"] = {0.2215, 0.2176, 0.2294},
+		["dark3"] = {0.3215, 0.3176, 0.3294},
 
 		["aliceblue"] = {0.941176, 0.972549, 1, 1},
 		["antiquewhite"] = {0.980392, 0.921569, 0.843137, 1},
@@ -64,6 +70,7 @@ do
 		["dimgrey"] = {0.411765, 0.411765, 0.411765, 1},
 		["dodgerblue"] = {0.117647, 0.564706, 1, 1},
 		["firebrick"] = {0.698039, 0.133333, 0.133333, 1},
+		["firebrickdark"] = {0.258039, 0.033333, 0.033333, 1},
 		["floralwhite"] = {1, 0.980392, 0.941176, 1},
 		["forestgreen"] = {0.133333, 0.545098, 0.133333, 1},
 		["fuchsia"] = {1, 0, 1, 1},
@@ -169,8 +176,8 @@ do
 		return defaultColors
 	end
 
-	for colorName, colorTable in pairs (defaultColors) do
-		DF.alias_text_colors [colorName] = colorTable
+	for colorName, colorTable in pairs(defaultColors) do
+		DF.alias_text_colors[colorName] = colorTable
 	end
 
 end

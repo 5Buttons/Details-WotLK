@@ -1,6 +1,6 @@
 --[[
 Name: DBIcon-1.0
-Revision: $Rev: 15 $
+Revision: $Rev: 13 $
 Author(s): Rabbit (rabbit.magtheridon@gmail.com)
 Description: Allows addons to register to recieve a lightweight minimap icon as an alternative to more heavy LDB displays.
 Dependencies: LibStub
@@ -33,7 +33,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 --
 
 local DBICON10 = "LibDBIcon-1.0"
-local DBICON10_MINOR = tonumber(("$Rev: 20 $"):match("(%d+)"))
+local DBICON10_MINOR = tonumber(("$Rev: 13 $"):match("(%d+)"))
 if not LibStub then error(DBICON10 .. " requires LibStub.") end
 local ldb = LibStub("LibDataBroker-1.1", true)
 if not ldb then error(DBICON10 .. " requires LibDataBroker-1.1.") end
@@ -57,8 +57,8 @@ end
 
 -- Tooltip code ripped from StatBlockCore by Funkydude
 local function getAnchors(frame)
-	local x, y = frame:GetCenter()
-	if not x or not y then return "CENTER" end
+	local x,y = frame:GetCenter()
+	if not x or not y then return "TOPLEFT", "BOTTOMLEFT" end
 	local hhalf = (x > UIParent:GetWidth()*2/3) and "RIGHT" or (x < UIParent:GetWidth()/3) and "LEFT" or ""
 	local vhalf = (y > UIParent:GetHeight()/2) and "TOP" or "BOTTOM"
 	return vhalf..hhalf, frame, (vhalf == "TOP" and "BOTTOM" or "TOP")..hhalf
@@ -103,7 +103,7 @@ local minimapShapes = {
 }
 
 local function updatePosition(button)
-	local angle = math.rad(button.db and button.db.minimapPos or button.minimapPos or 225)
+	local angle = math.rad(button.db.minimapPos or 225)
 	local x, y, q = math.cos(angle), math.sin(angle), 1
 	if x < 0 then q = q + 1 end
 	if y > 0 then q = q + 2 end
@@ -128,11 +128,7 @@ local function onUpdate(self)
 	local px, py = GetCursorPosition()
 	local scale = Minimap:GetEffectiveScale()
 	px, py = px / scale, py / scale
-	if self.db then
-		self.db.minimapPos = math.deg(math.atan2(py - my, px - mx)) % 360
-	else
-		self.minimapPos = math.deg(math.atan2(py - my, px - mx)) % 360
-	end
+	self.db.minimapPos = math.deg(math.atan2(py - my, px - mx)) % 360
 	updatePosition(self)
 end
 
@@ -165,11 +161,7 @@ local function createButton(name, object, db)
 	overlay:SetWidth(53); overlay:SetHeight(53)
 	overlay:SetTexture("Interface\\Minimap\\MiniMap-TrackingBorder")
 	overlay:SetPoint("TOPLEFT")
-	local background = button:CreateTexture(nil, "BACKGROUND")
-	background:SetSize(20, 20)
-	background:SetTexture("Interface\\Minimap\\UI-Minimap-Background")
-	background:SetPoint("TOPLEFT", 7, -5)
-	local icon = button:CreateTexture(nil, "ARTWORK")
+	local icon = button:CreateTexture(nil, "BACKGROUND")
 	icon:SetWidth(20); icon:SetHeight(20)
 	icon:SetTexture(object.icon)
 	icon:SetTexCoord(0.05, 0.95, 0.05, 0.95)
@@ -188,7 +180,7 @@ local function createButton(name, object, db)
 
 	if lib.loggedIn then
 		updatePosition(button)
-		if not db or not db.hide then button:Show()
+		if not db.hide then button:Show()
 		else button:Hide() end
 	end
 end
@@ -210,7 +202,7 @@ if not lib.loggedIn then
 	f:SetScript("OnEvent", function()
 		for _, object in pairs(lib.objects) do
 			updatePosition(object)
-			if not lib.disabled and (not object.db or not object.db.hide) then object:Show()
+			if not lib.disabled and not object.db.hide then object:Show()
 			else object:Hide() end
 		end
 		lib.loggedIn = true
@@ -250,11 +242,6 @@ function lib:Refresh(name, db)
 	local button = lib.objects[name]
 	if db then button.db = db end
 	updatePosition(button)
-	if not db or not db.hide then
-		button:Show()
-	else
-		button:Hide()
-	end
 end
 
 function lib:EnableLibrary()

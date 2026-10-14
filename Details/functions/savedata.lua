@@ -1,46 +1,58 @@
 --[[this file save the data when player leave the game]]
 
-local _detalhes = 		_G._detalhes
+local Details = 		_G.Details
+local addonName, Details222 = ...
 
-function _detalhes:WipeConfig()
-	local Loc = LibStub ("AceLocale-3.0"):GetLocale ( "Details" )
+function Details:WipeConfig()
+	local Loc = LibStub("AceLocale-3.0"):GetLocale ( "Details" )
 
-	local b = CreateFrame ("button", "DetailsResetConfigButton", UIParent, "OptionsButtonTemplate")
-	tinsert (UISpecialFrames, "DetailsResetConfigButton")
+	local wipeButton = CreateFrame("button", "DetailsResetConfigButton", UIParent, "DetailsBackdropTemplate")
+	wipeButton:SetSize(270, 40)
+	wipeButton:SetScript("OnClick", function() Details.wipe_full_config = true; ReloadUI(); end)
+	wipeButton:SetPoint("center", UIParent, "center", 0, 0)
 
-	b:SetSize (250, 40)
-	b:SetText (Loc ["STRING_SLASH_WIPECONFIG_CONFIRM"])
-	b:SetScript ("OnClick", function() _detalhes.wipe_full_config = true; ReloadUI(); end)
-	b:SetPoint ("CENTER", UIParent, "CENTER", 0, 0)
+	table.insert(UISpecialFrames, "DetailsResetConfigButton")
+
+	DetailsFramework:ApplyStandardBackdrop(wipeButton)
+
+	local label = DetailsFramework:CreateLabel(wipeButton, Loc ["STRING_SLASH_WIPECONFIG_CONFIRM"])
+	label:SetPoint("center", 0, 0)
+
+	wipeButton.close_button = CreateFrame("Button", nil, wipeButton, "UIPanelCloseButton")
+	wipeButton.close_button:SetWidth(16)
+	wipeButton.close_button:SetHeight(16)
+	wipeButton.close_button:SetPoint("TOPRIGHT", wipeButton, "TOPRIGHT", -1, -1)
+	wipeButton.close_button:SetText("X")
+	wipeButton.close_button:SetFrameLevel(wipeButton:GetFrameLevel()+5)
 end
 
 local is_exception = {
 	["nick_tag_cache"] = true
 }
 
-function _detalhes:SaveLocalInstanceConfig()
-
-	for index, instance in _detalhes:ListInstances() do
-		--> check for the max size toggle, don't save it
+function Details222.SaveVariables.SaveLocalInstanceConfig()
+	for index, instance in Details:ListInstances() do
+		--check for the max size toggle, don't save it
 		if (instance.is_in_max_size) then
 			instance.is_in_max_size = false
-			instance:SetSize (instance.original_width, instance.original_height)
+			instance:SetSize(instance.original_width, instance.original_height)
 		end
 
-		--> save local instance data
+		--save local instance data
 		local a1, a2 = instance:GetDisplay()
 
 		local t = {
-			pos = table_deepcopy (instance:GetPosition()),
+			pos = Details.CopyTable(instance:GetPosition()),
 			is_open = instance:IsEnabled(),
-			attribute = a1,
-			sub_attribute = a2,
-			mode = instance:GetMode(),
-			segment = instance:GetSegment(),
-			snap = table_deepcopy (instance.snap),
+			attribute = a1 or 1,
+			sub_attribute = a2 or 1,
+			modo = instance:GetMode() or 2,
+			mode = instance:GetMode() or 2,
+			segment = instance:GetSegment() or 0,
+			snap = Details.CopyTable(instance.snap),
 			horizontalSnap = instance.horizontalSnap,
 			verticalSnap = instance.verticalSnap,
-			sub_atributo_last = instance.sub_atributo_last,
+			sub_atributo_last = instance.sub_atributo_last or {1, 1, 1, 1, 1},
 			isLocked = instance.isLocked,
 			last_raid_plugin = instance.last_raid_plugin
 		}
@@ -48,88 +60,119 @@ function _detalhes:SaveLocalInstanceConfig()
 		if (t.isLocked == nil) then
 			t.isLocked = false
 		end
-		if (_detalhes.profile_save_pos) then
-			local cprofile = _detalhes:GetProfile()
+
+		if (Details.profile_save_pos) then
+			local cprofile = Details:GetProfile()
 			local skin = cprofile.instances [instance:GetId()]
 			if (skin) then
-				t.pos = table_deepcopy (skin.__pos)
+				t.pos = Details.CopyTable(skin.__pos)
 				t.horizontalSnap = skin.__snapH
 				t.verticalSnap = skin.__snapV
-				t.snap = table_deepcopy (skin.__snap)
+				t.snap = Details.CopyTable(skin.__snap)
 				t.is_open = skin.__was_opened
 				t.isLocked = skin.__locked
 			end
 		end
 
-		_detalhes.local_instances_config [index] = t
+		Details.local_instances_config [index] = t
 	end
 end
 
-function _detalhes:SaveConfig()
+--function Details:SaveConfig()
+function Details222.SaveVariables.SaveConfig()
+	--save character instance settings, e.g. which attribute is selected, position, etc
+	Details222.SaveVariables.SaveLocalInstanceConfig()
 
-	--> save instance configs localy
-	_detalhes:SaveLocalInstanceConfig()
+	for index, instance in Details:ListInstances() do
+		instance.savedSegmentCombat = nil
+	end
 
-	--> cleanup
+	--cleanup
+	Details222.SaveVariables.PrepareTablesForSave()
 
-		_detalhes:PrepareTablesForSave()
-
-		_detalhes_database.tabela_instancias = {} --_detalhes.tabela_instancias --[[instances now saves only inside the profile --]]
-		_detalhes_database.tabela_historico = _detalhes.tabela_historico
-
-		if (not _detalhes.overall_clear_logout) then
-			_detalhes_database.tabela_overall = _detalhes.tabela_overall
-		end
-
-		local name, ttype, difficulty, difficultyName, maxPlayers, playerDifficulty, isDynamicInstance = GetInstanceInfo()
-		if (ttype == "party" or ttype == "raid") then
-			--> salvar container de pet
-			_detalhes_database.tabela_pets = _detalhes.tabela_pets.pets
-		end
-
-		xpcall (_detalhes.TimeDataCleanUpTemporary, _detalhes.saver_error_func)
-
-	--> buffs
-		xpcall (_detalhes.Buffs.SaveBuffs, _detalhes.saver_error_func)
-
-	--> date
-		_detalhes.last_day = date ("%d")
-
-	--> salva o container do personagem
-		for key, value in pairs (_detalhes.default_player_data) do
-			if (not is_exception [key]) then
-				_detalhes_database [key] = _detalhes [key]
+	--query keystone info for alts
+	Details.keystone_alts_cache.logs = nil
+	pcall(function()
+		local openRaidLib = LibStub:GetLibrary("LibOpenRaid-1.0", true)
+		if (openRaidLib and C_MythicPlus and C_PlayerInfo and C_MythicPlus.GetOwnedKeystoneLevel) then
+			local keystoneTable = {}
+			openRaidLib.KeystoneInfoManager.UpdatePlayerKeystoneInfo(keystoneTable)
+			if keystoneTable.level and keystoneTable.level > 0 then
+				Details.keystone_alts_cache[UnitName("player")] = keystoneTable
 			end
 		end
+	end)
 
-	--> salva o container das globais
-		for key, value in pairs (_detalhes.default_global_data) do
-			if (key ~= "__profiles") then
-				_detalhes_global [key] = _detalhes [key]
-			end
+	_detalhes_database.tabela_instancias = {} --Details.tabela_instancias --[[instances now saves only inside the profile --]]
+	_detalhes_database.tabela_historico = Details.tabela_historico
+
+	if (Details.overall_clear_logout) then
+		if (_detalhes_database.tabela_overall) then
+			_detalhes_database.tabela_overall = nil
 		end
+	else
+		_detalhes_database.tabela_overall = Details.tabela_overall
+	end
 
-	--> solo e raid mode
-		if (_detalhes.SoloTables.Mode) then
-			_detalhes_database.SoloTablesSaved = {}
-			_detalhes_database.SoloTablesSaved.Mode = _detalhes.SoloTables.Mode
-			if (_detalhes.SoloTables.Plugins [_detalhes.SoloTables.Mode]) then
-				_detalhes_database.SoloTablesSaved.LastSelected = _detalhes.SoloTables.Plugins [_detalhes.SoloTables.Mode].real_name
-			end
+	local name, instanceType = DetailsCompat335.GetInstanceInfo()
+	if (instanceType == "party" or instanceType == "raid") then
+		--save pet ownership information
+		_detalhes_database.saved_pet_cache = Details222.PetContainer.GetPets()
+	end
+
+	--clear temporarly time data (charts)
+	xpcall(Details.TimeDataCleanUpTemporary, Details.saver_error_func)
+
+	--buffs - feature lost in time
+	xpcall(Details.Buffs.SaveBuffs, Details.saver_error_func)
+
+	--date
+	Details.last_day = date("%d")
+
+	--save character data (unique for each character)
+	for key in pairs(Details.default_player_data) do
+		if (not is_exception[key]) then
+			_detalhes_database[key] = Details[key]
 		end
+	end
 
-		_detalhes_database.RaidTablesSaved = nil
+	--save shared data (shared among all characters)
+	for key in pairs(Details.default_global_data) do
+		if (key ~= "__profiles") then
+			_detalhes_global[key] = Details[key]
+		end
+	end
 
-	--> salva switch tables
-		_detalhes_global.switchSaved.slots = _detalhes.switch.slots
-		_detalhes_global.switchSaved.table = _detalhes.switch.table
+	--plugin for solo mode (currently none exists)
+	if (Details.SoloTables.Mode) then
+		_detalhes_database.SoloTablesSaved = {}
+		_detalhes_database.SoloTablesSaved.Mode = Details.SoloTables.Mode
+		if (Details.SoloTables.Plugins[Details.SoloTables.Mode]) then
+			_detalhes_database.SoloTablesSaved.LastSelected = Details.SoloTables.Plugins[Details.SoloTables.Mode].real_name
+		end
+	end
 
-	--> last boss
-		_detalhes_database.last_encounter = _detalhes.last_encounter
+	_detalhes_database.RaidTablesSaved = nil
 
-	--> last versions
-		_detalhes_database.last_realversion = _detalhes.realversion --> core number
-		_detalhes_database.last_version = _detalhes.userversion --> version
-		_detalhes_global.got_first_run = true
+	--save bookmark tables
+	_detalhes_global.switchSaved.slots = Details.switch.slots
+	_detalhes_global.switchSaved.table = Details.switch.table
 
+	--last boss (boss name)
+	_detalhes_database.last_encounter = Details.last_encounter
+
+	--save the details version of the last time the user logged out
+	_detalhes_database.last_realversion = Details.realversion --core number
+	_detalhes_database.last_version = Details.userversion --version
+	_detalhes_global.got_first_run = true
+
+	pcall(function()
+		--save the profile assigned to the character
+		_detalhes_global.__char_profiles = _detalhes_global.__char_profiles or {}
+		local realmName = GetRealmName()
+		local charName = UnitName("player")
+		_detalhes_global.__char_profiles[charName .. "-" .. realmName] = Details:GetCurrentProfileName()
+		--local charGUID = UnitGUID("player")
+		--_detalhes_global.__char_profiles[charGUID] = Details:GetCurrentProfileName()
+	end)
 end
