@@ -797,6 +797,10 @@ local segmentTypeToString = {
 			return self.combat_type
 		end
 
+		if (self == Details.tabela_overall) then --[3.3.5]
+			return DETAILS_SEGMENTTYPE_OVERALL
+		end
+
 		--mythic dungeon
 		local bIsMythicDungeon = self:IsMythicDungeon()
 		if (bIsMythicDungeon) then
