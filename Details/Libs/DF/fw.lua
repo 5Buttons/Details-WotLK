@@ -1701,7 +1701,7 @@ function DF:AddClassColorToText(text, className)
 
 	local color = RAID_CLASS_COLORS[className]
 	if (color) then
-		text = "|c" .. color.colorStr .. DF:RemoveRealName(text) .. "|r"
+		text = "|c" .. (color.colorStr or select(4, GetClassColor(className))) .. DF:RemoveRealName(text) .. "|r" --[3.3.5]
 	else
 		return DF:RemoveRealName(text)
 	end

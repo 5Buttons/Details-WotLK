@@ -148,6 +148,8 @@ frames\window_debug.lua
 frames\window_pro_file.lua
 frames\window_nestspells.lua
 frames\window_deathrecap.lua
+#[3.3.5]
+frames\window_deathrecap335.lua
 frames\window_transcriptor.lua
 frames\window_arenasummary.lua
 

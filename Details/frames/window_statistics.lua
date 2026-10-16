@@ -809,7 +809,7 @@ function Details:OpenRaidHistoryWindow(raidName, bossEncounterId, difficultyId, 
                 local className = select(2, GetClassInfo(playerInfo.class or 0))
                 local classColor = "FFFFFFFF"
                 if (className) then
-                    classColor = RAID_CLASS_COLORS[className] and RAID_CLASS_COLORS[className].colorStr
+                    classColor = RAID_CLASS_COLORS[className] and (RAID_CLASS_COLORS[className].colorStr or select(4, GetClassColor(className))) or "FFFFFFFF" --[3.3.5]
                 end
 
                 local playerNameFormated = Details:GetOnlyName(thisPlayerName)
@@ -908,7 +908,7 @@ function Details:OpenRaidHistoryWindow(raidName, bossEncounterId, difficultyId, 
                 local className = select(2, GetClassInfo(playerClassTable[playerTable[1]] or 0))
                 if (className) then
                     local playerNameFormated = Details:GetOnlyName(playerTable[1])
-                    local classColor = RAID_CLASS_COLORS[className] and RAID_CLASS_COLORS[className].colorStr
+                    local classColor = RAID_CLASS_COLORS[className] and (RAID_CLASS_COLORS[className].colorStr or select(4, GetClassColor(className))) or "FFFFFFFF" --[3.3.5]
                     playerTable [1] = "|c" .. classColor .. playerNameFormated .. "|r"
                 end
             end

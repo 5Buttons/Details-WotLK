@@ -1739,12 +1739,12 @@ function Details:CatchRaidBuffUptime(sOperationType) -- ~scan
 				local unitClass = Details:GetUnitClass(playername)
 				local class_color = ""
 				if (unitClass and RAID_CLASS_COLORS[unitClass]) then
-					class_color = RAID_CLASS_COLORS[unitClass].colorStr
+					class_color = RAID_CLASS_COLORS[unitClass].colorStr or select(4, GetClassColor(unitClass)) --[3.3.5]
 				end
 				string_output = string_output .. "|c" .. class_color .. playername .. "|r |T" .. icon .. ":14:14:0:0:64:64:0:64:0:64|t "
 			end
 
-			Details.pre_pot_used = string_output
+			Details.pre_pot_used = next(potUsage) and string_output or nil --[3.3.5]
 
 			Details:SendEvent("COMBAT_PREPOTION_UPDATED", nil, potUsage, focusAugmentation)
 		end
@@ -1862,12 +1862,12 @@ function Details:CatchRaidBuffUptime(sOperationType) -- ~scan
 				local unitClass = Details:GetUnitClass(playername)
 				local class_color = ""
 				if (unitClass and RAID_CLASS_COLORS[unitClass]) then
-					class_color = RAID_CLASS_COLORS[unitClass].colorStr
+					class_color = RAID_CLASS_COLORS[unitClass].colorStr or select(4, GetClassColor(unitClass)) --[3.3.5]
 				end
 				string_output = string_output .. "|c" .. class_color .. playername .. "|r |T" .. icon .. ":14:14:0:0:64:64:0:64:0:64|t "
 			end
 
-			Details.pre_pot_used = string_output
+			Details.pre_pot_used = next(potUsage) and string_output or nil --[3.3.5]
 			Details:SendEvent("COMBAT_PREPOTION_UPDATED", nil, potUsage, focusAugmentation)
 		end
 
@@ -1916,12 +1916,12 @@ function Details:CatchRaidBuffUptime(sOperationType) -- ~scan
 				local unitClass = Details:GetUnitClass(playername)
 				local class_color = ""
 				if (unitClass and RAID_CLASS_COLORS[unitClass]) then
-					class_color = RAID_CLASS_COLORS[unitClass].colorStr
+					class_color = RAID_CLASS_COLORS[unitClass].colorStr or select(4, GetClassColor(unitClass)) --[3.3.5]
 				end
 				string_output = string_output .. "|c" .. class_color .. playername .. "|r |T" .. icon .. ":14:14:0:0:64:64:0:64:0:64|t "
 			end
 
-			Details.pre_pot_used = string_output
+			Details.pre_pot_used = next(pot_usage) and string_output or nil --[3.3.5]
 			Details:SendEvent("COMBAT_PREPOTION_UPDATED", nil, pot_usage, focus_augmentation)
 		end
 

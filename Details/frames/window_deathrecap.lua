@@ -159,6 +159,9 @@ local create_deathrecap_line = function(parent, n)
 end
 
 local OpenDetailsDeathRecapAtSegment = function(segment)
+	if (Details222.DeathRecap335) then --[3.3.5]
+		return Details222.DeathRecap335.Refresh(segment)
+	end
 	Details.OpenDetailsDeathRecap(segment, RecapID)
 end
 
@@ -166,6 +169,10 @@ function Details.BuildDeathTableFromRecap(recapID)
     if detailsFramework.IsAddonApocalypseWow() then
         return
     end
+
+	if (not DeathRecap_GetEvents) then --[3.3.5]
+		return
+	end
 
 	local events = DeathRecap_GetEvents(recapID)
 
@@ -215,6 +222,9 @@ function Details.BuildDeathTableFromRecap(recapID)
 end
 
 function Details.GetDeathRecapFromChat()
+	if (not DeathRecap_GetEvents) then --[3.3.5]
+		return
+	end
 	local chat1 = ChatFrame1
 	local recapIDFromChat
 	if (chat1) then
@@ -263,6 +273,8 @@ function Details.OpenDetailsDeathRecap(segment, RecapID, fromChat)
 
         return
     end
+
+    local DeathRecapFrame = Details222.DeathRecap335 and Details222.DeathRecap335.GetHost() or DeathRecapFrame --[3.3.5]
 
     --hide blizzard death recap
     DeathRecapFrame.Recap1:Hide()

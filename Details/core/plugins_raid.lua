@@ -241,9 +241,21 @@
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 --built in announcers
 
+	local function GetGroupChatChannel() --[3.3.5]
+		if (IsInRaid()) then
+			local _, instanceType = IsInInstance()
+			if (instanceType == "pvp") then
+				return "BATTLEGROUND"
+			end
+			return "RAID"
+		elseif (IsInGroup()) then
+			return "PARTY"
+		end
+	end
+
 	function _detalhes:SendMsgToChannel (msg, channel, towho)
 		if (channel == "RAID" or channel == "PARTY") then
-			if (GetNumGroupMembers (LE_PARTY_CATEGORY_INSTANCE) > 0) then
+			if (IsInGroup(LE_PARTY_CATEGORY_INSTANCE)) then --[3.3.5]
 				channel = "INSTANCE_CHAT"
 			end
 			SendChatMessage (msg, channel)
@@ -306,20 +318,10 @@
 				spellname = _GetSpellInfo(extraSpellID)
 			end
 
-			if (channel == "RAID") then
-				local zone = _detalhes:GetZoneType()
-
-				if (zone ~= "party" and zone ~= "raid") then
+			if (channel == "RAID") then --[3.3.5]
+				channel = GetGroupChatChannel()
+				if (not channel) then
 					return
-				end
-
-				if (zone == "raid") then
-					channel = "RAID"
-				elseif (zone == "party") then
-					channel = "PARTY"
-				end
-				if (GetNumGroupMembers (LE_PARTY_CATEGORY_INSTANCE) > 0) then
-					channel = "INSTANCE_CHAT"
 				end
 			end
 
@@ -361,7 +363,7 @@
 
 				if (class) then
 					local coords = CLASS_ICON_TCOORDS [class]
-					class_color = "|TInterface\\AddOns\\Details\\images\\classes_small_alpha:12:12:0:0:128:128:" .. coords[1]/2*128 .. ":" .. coords[2]/2*128 .. ":" .. coords[3]/2*128 .. ":" .. coords[4]/2*128 .. "|t |c" .. RAID_CLASS_COLORS [class].colorStr
+					class_color = "|TInterface\\AddOns\\Details\\images\\classes_small_alpha:12:12:0:0:128:128:" .. coords[1]/2*128 .. ":" .. coords[2]/2*128 .. ":" .. coords[3]/2*128 .. ":" .. coords[4]/2*128 .. "|t |c" .. (RAID_CLASS_COLORS [class].colorStr or select(4, GetClassColor(class))) --[3.3.5]
 				end
 
 				if (second < 10) then
@@ -398,20 +400,10 @@
 				end
 			end
 
-			if (channel == "RAID") then
-				local zone = _detalhes:GetZoneType()
-
-				if (zone ~= "party" and zone ~= "raid") then
+			if (channel == "RAID") then --[3.3.5]
+				channel = GetGroupChatChannel()
+				if (not channel) then
 					return
-				end
-
-				if (zone == "raid") then
-					channel = "RAID"
-				elseif (zone == "party") then
-					channel = "PARTY"
-				end
-				if (GetNumGroupMembers (LE_PARTY_CATEGORY_INSTANCE) > 0) then
-					channel = "INSTANCE_CHAT"
 				end
 			end
 
@@ -466,12 +458,12 @@
 
 			if (class) then
 				local coords = CLASS_ICON_TCOORDS [class]
-				class_color = "|TInterface\\AddOns\\Details\\images\\classes_small_alpha:12:12:0:0:128:128:" .. coords[1]/2*128 .. ":" .. coords[2]/2*128 .. ":" .. coords[3]/2*128 .. ":" .. coords[4]/2*128 .. "|t |c" .. RAID_CLASS_COLORS [class].colorStr
+				class_color = "|TInterface\\AddOns\\Details\\images\\classes_small_alpha:12:12:0:0:128:128:" .. coords[1]/2*128 .. ":" .. coords[2]/2*128 .. ":" .. coords[3]/2*128 .. ":" .. coords[4]/2*128 .. "|t |c" .. (RAID_CLASS_COLORS [class].colorStr or select(4, GetClassColor(class))) --[3.3.5]
 			end
 
 			if (class2) then
 				local coords = CLASS_ICON_TCOORDS [class2]
-				class_color2 = " -> |TInterface\\AddOns\\Details\\images\\classes_small_alpha:12:12:0:0:128:128:" .. coords[1]/2*128 .. ":" .. coords[2]/2*128 .. ":" .. coords[3]/2*128 .. ":" .. coords[4]/2*128 .. "|t |c" .. RAID_CLASS_COLORS [class2].colorStr
+				class_color2 = " -> |TInterface\\AddOns\\Details\\images\\classes_small_alpha:12:12:0:0:128:128:" .. coords[1]/2*128 .. ":" .. coords[2]/2*128 .. ":" .. coords[3]/2*128 .. ":" .. coords[4]/2*128 .. "|t |c" .. (RAID_CLASS_COLORS [class2].colorStr or select(4, GetClassColor(class2))) --[3.3.5]
 				alvo_name = _detalhes:GetOnlyName(alvo_name)
 			else
 				alvo_name = ""
@@ -510,7 +502,7 @@
 				elseif (zone == "party") then
 					channel = "PARTY"
 				end
-				if (GetNumGroupMembers (LE_PARTY_CATEGORY_INSTANCE) > 0) then
+				if (IsInGroup(LE_PARTY_CATEGORY_INSTANCE)) then --[3.3.5]
 					channel = "INSTANCE_CHAT"
 				end
 
@@ -519,7 +511,7 @@
 					return
 				end
 				channel = "RAID"
-				if (GetNumGroupMembers (LE_PARTY_CATEGORY_INSTANCE) > 0) then
+				if (IsInGroup(LE_PARTY_CATEGORY_INSTANCE)) then --[3.3.5]
 					channel = "INSTANCE_CHAT"
 				end
 
@@ -528,7 +520,7 @@
 					return
 				end
 				channel = "PARTY"
-				if (GetNumGroupMembers (LE_PARTY_CATEGORY_INSTANCE) > 0) then
+				if (IsInGroup(LE_PARTY_CATEGORY_INSTANCE)) then --[3.3.5]
 					channel = "INSTANCE_CHAT"
 				end
 
@@ -562,7 +554,7 @@
 
 				if (class) then
 					local coords = CLASS_ICON_TCOORDS [class]
-					class_color = "|TInterface\\AddOns\\Details\\images\\classes_small_alpha:12:12:0:0:256:256:" .. coords[1]/2*256 .. ":" .. coords[2]/2*256 .. ":" .. coords[3]/2*256 .. ":" .. coords[4]/2*256 .. "|t |c" .. RAID_CLASS_COLORS [class].colorStr
+					class_color = "|TInterface\\AddOns\\Details\\images\\classes_small_alpha:12:12:0:0:256:256:" .. coords[1]/2*256 .. ":" .. coords[2]/2*256 .. ":" .. coords[3]/2*256 .. ":" .. coords[4]/2*256 .. "|t |c" .. (RAID_CLASS_COLORS [class].colorStr or select(4, GetClassColor(class))) --[3.3.5]
 				end
 				msg = "Death: " .. class_color .. alvo_name .. "|r ->"
 			else

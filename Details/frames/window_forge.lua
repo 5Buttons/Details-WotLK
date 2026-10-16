@@ -517,7 +517,7 @@ function Details:OpenForge()
                         events = events:sub (1, #events - 3)
                     end
                     local spellName, _, spellIcon = GetSpellInfo(data[1])
-                    local classColor = RAID_CLASS_COLORS [data[2]] and RAID_CLASS_COLORS [data[2]].colorStr or "FFFFFFFF"
+                    local classColor = RAID_CLASS_COLORS [data[2]] and (RAID_CLASS_COLORS [data[2]].colorStr or select(4, GetClassColor(data[2]))) or "FFFFFFFF" --[3.3.5]
                     return {
                         index,
                         {texture = spellIcon, texcoord = {.1, .9, .1, .9}},

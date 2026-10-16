@@ -831,7 +831,7 @@ function Details222.StartUp.StartMeUp()
 	Details.options_group_edit = true
 
 	--shutdown pre-pot announcer
-	Details.announce_prepots.enabled = false
+	--Details.announce_prepots.enabled = false --[3.3.5]
 	--remove standard skin on 9.0.1
 	Details.standard_skin = false
 	--enforce to show 6 abilities on the tooltip

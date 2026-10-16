@@ -964,6 +964,10 @@
 					return
 				end
 
+				if (Details.announce_firsthit.enabled) then --[3.3.5]
+					Details.FirstHit335 = {GetTime(), "|cFFFFFF00First Hit|r: " .. (_GetSpellInfo(spellId) or "") .. " from " .. (sourceName or "Unknown")} --[3.3.5]
+				end --[3.3.5]
+
 				if (Details.encounter_table.id and Details.encounter_table["start"] >= GetTime() - 3 and Details.announce_firsthit.enabled) then
 					local link = _GetSpellInfo(spellId) --Removed check for the id being <= 10, both branches were the same.
 
@@ -974,9 +978,10 @@
 					Details.WhoAggroTimer = C_Timer.NewTimer(0.1, whoAggro)
 					Details.WhoAggroTimer.HitBy = "|cFFFFFF00First Hit|r: " .. (link or "") .. " from " .. (sourceName or "Unknown")
 
-					if (Details.announce_firsthit.enabled) then
-						Details:Msg("", Details.WhoAggroTimer.HitBy)
-					end
+					--[3.3.5]
+					--if (Details.announce_firsthit.enabled) then
+					--	Details:Msg("", Details.WhoAggroTimer.HitBy)
+					--end
 				end
 
 				--local spellInfo = C_Spell.GetSpellInfo(spellId)
@@ -5682,6 +5687,11 @@ local SPELL_POWER_PAIN = SPELL_POWER_PAIN or (PowerEnum and PowerEnum.Pain) or 1
 		if not detailsFramework.IsAddonApocalypseWow() then
 			if (not Details.WhoAggroTimer and Details.announce_firsthit.enabled) then
 				Details.WhoAggroTimer = C_Timer.NewTimer(0.1, whoAggro)
+				local firstHit = Details.FirstHit335 --[3.3.5]
+				if (firstHit and GetTime() - firstHit[1] <= 5) then --[3.3.5]
+					Details.WhoAggroTimer.HitBy = firstHit[2] --[3.3.5]
+				end --[3.3.5]
+				Details.FirstHit335 = nil --[3.3.5]
 				for i = 1, 5 do
 					local boss = UnitExists("boss" .. i)
 					if (boss) then

@@ -341,7 +341,7 @@ do
 			local color = classColors[class]
 			--check if the player name is valid
 			if (type(thisString) == "string" and color) then
-				thisString = "|c" .. color.colorStr .. thisString .. "|r"
+				thisString = "|c" .. (color.colorStr or select(4, GetClassColor(class))) .. thisString .. "|r" --[3.3.5]
 				return thisString
 			end
 		end

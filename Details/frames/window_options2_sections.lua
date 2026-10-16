@@ -3600,7 +3600,7 @@ do
                 local textureOptions = sectionFrame.wallpaperOptions
                 local selectedTextureOption = texturePath
 
-                if (texturePath:find("TALENTFRAME")) then
+                if (texturePath:lower():find("talentframe")) then --[3.3.5]
                     editInstanceSetting(getInstance(), "InstanceWallpaper", texturePath, nil, nil, {0, 1, 0, 0.703125}, nil, nil, {1, 1, 1, 1})
                     afterUpdate(getInstance())
 
@@ -3650,42 +3650,42 @@ do
                 {value = [[Interface\ACHIEVEMENTFRAME\UI-Achievement-Parchment-Highlight]], label = "Golden Highlight", onclick = onSelectSecTexture, icon = [[Interface\ACHIEVEMENTFRAME\UI-Achievement-Parchment-Highlight]], texcoord = {0.35, 0.655, 0.0390625, 0.859375}},
                 {value = [[Interface\ACHIEVEMENTFRAME\UI-Achievement-Stat-Buttons]], label = "Gray Gradient", onclick = onSelectSecTexture, icon = [[Interface\ACHIEVEMENTFRAME\UI-Achievement-Stat-Buttons]], texcoord = {0, 1, 97/128, 1}},
                 {value = [[Interface\ACHIEVEMENTFRAME\UI-Achievement-Borders]], label = "Orange Gradient", onclick = onSelectSecTexture, icon = [[Interface\ACHIEVEMENTFRAME\UI-Achievement-Borders]], texcoord = {160/512, 345/512, 80/256, 130/256}},
-                {value = [[Interface\ARCHEOLOGY\Arch-BookCompletedLeft]], label = "Book Wallpaper", onclick = onSelectSecTexture, icon = [[Interface\ARCHEOLOGY\Arch-BookCompletedLeft]], texcoord = nil},
-                {value = [[Interface\ARCHEOLOGY\Arch-BookItemLeft]], label = "Book Wallpaper 2", onclick = onSelectSecTexture, icon = [[Interface\ARCHEOLOGY\Arch-BookItemLeft]], texcoord = nil},
-                {value = [[Interface\TALENTFRAME\bg-deathknight-blood]], label = "Blood", onclick = onSelectSecTexture, icon = [[Interface\ICONS\Spell_Deathknight_BloodPresence]], texcoord = nil},
-                {value = [[Interface\TALENTFRAME\bg-deathknight-frost]], label = "Frost", onclick = onSelectSecTexture, icon = [[Interface\ICONS\Spell_Deathknight_FrostPresence]], texcoord = nil},
-                {value = [[Interface\TALENTFRAME\bg-deathknight-unholy]], label = "Unholy", onclick = onSelectSecTexture, icon = [[Interface\ICONS\Spell_Deathknight_UnholyPresence]], texcoord = nil},
-                {value = [[Interface\TALENTFRAME\bg-druid-bear]], label = "Guardian", onclick = onSelectSecTexture, icon = [[Interface\ICONS\ability_racial_bearform]], texcoord = nil},
-                {value = [[Interface\TALENTFRAME\bg-druid-restoration]], label = "Restoration", onclick = onSelectSecTexture, icon = [[Interface\ICONS\spell_nature_healingtouch]], texcoord = nil},
-                {value = [[Interface\TALENTFRAME\bg-druid-cat]], label = "Feral", onclick = onSelectSecTexture, icon = [[Interface\ICONS\spell_shadow_vampiricaura]], texcoord = nil},
-                {value = [[Interface\TALENTFRAME\bg-druid-balance]], label = "Balance", onclick = onSelectSecTexture, icon = [[Interface\ICONS\spell_nature_starfall]], texcoord = nil},
-                {value = [[Interface\TALENTFRAME\bg-hunter-beastmaster]], label = "Beast Mastery", onclick = onSelectSecTexture, icon = [[Interface\ICONS\ability_hunter_bestialdiscipline]], texcoord = nil},
-                {value = [[Interface\TALENTFRAME\bg-hunter-marksman]], label = "Marksmanship", onclick = onSelectSecTexture, icon = [[Interface\ICONS\ability_hunter_focusedaim]], texcoord = nil},
-                {value = [[Interface\TALENTFRAME\bg-hunter-survival]], label = "Survival", onclick = onSelectSecTexture, icon = [[Interface\ICONS\ability_hunter_camouflage]], texcoord = nil},
-                {value = [[Interface\TALENTFRAME\bg-mage-arcane]], label = "Arcane", onclick = onSelectSecTexture, icon = [[Interface\ICONS\spell_holy_magicalsentry]], texcoord = nil},
-                {value = [[Interface\TALENTFRAME\bg-mage-fire]], label = "Fire", onclick = onSelectSecTexture, icon = [[Interface\ICONS\spell_fire_firebolt02]], texcoord = nil},
-                {value = [[Interface\TALENTFRAME\bg-mage-frost]], label = "Frost", onclick = onSelectSecTexture, icon = [[Interface\ICONS\spell_frost_frostbolt02]], texcoord = nil},
-                {value = [[Interface\TALENTFRAME\bg-monk-brewmaster]], label = "Brewmaster", onclick = onSelectSecTexture, icon = [[Interface\ICONS\monk_stance_drunkenox]], texcoord = nil},
-                {value = [[Interface\TALENTFRAME\bg-monk-mistweaver]], label = "Mistweaver", onclick = onSelectSecTexture, icon = [[Interface\ICONS\monk_stance_wiseserpent]], texcoord = nil},
-                {value = [[Interface\TALENTFRAME\bg-monk-battledancer]], label = "Windwalker", onclick = onSelectSecTexture, icon = [[Interface\ICONS\monk_stance_whitetiger]], texcoord = nil},
-                {value = [[Interface\TALENTFRAME\bg-paladin-holy]], label = "Holy", onclick = onSelectSecTexture, icon = [[Interface\ICONS\spell_holy_holybolt]], texcoord = nil},
-                {value = [[Interface\TALENTFRAME\bg-paladin-protection]], label = "Protection", onclick = onSelectSecTexture, icon = [[Interface\ICONS\ability_paladin_shieldofthetemplar]], texcoord = nil},
-                {value = [[Interface\TALENTFRAME\bg-paladin-retribution]], label = "Retribution", onclick = onSelectSecTexture, icon = [[Interface\ICONS\spell_holy_auraoflight]], texcoord = nil},
-                {value = [[Interface\TALENTFRAME\bg-priest-discipline]], label = "Discipline", onclick = onSelectSecTexture, icon = [[Interface\ICONS\spell_holy_powerwordshield]], texcoord = nil},
-                {value = [[Interface\TALENTFRAME\bg-priest-holy]], label = "Holy", onclick = onSelectSecTexture, icon = [[Interface\ICONS\spell_holy_guardianspirit]], texcoord = nil},
-                {value = [[Interface\TALENTFRAME\bg-priest-shadow]], label = "Shadow", onclick = onSelectSecTexture, icon = [[Interface\ICONS\spell_shadow_shadowwordpain]], texcoord = nil},
-                {value = [[Interface\TALENTFRAME\bg-rogue-assassination]], label = "Assassination", onclick = onSelectSecTexture, icon = [[Interface\ICONS\ability_rogue_eviscerate]], texcoord = nil},
-                {value = [[Interface\TALENTFRAME\bg-rogue-combat]], label = "Combat", onclick = onSelectSecTexture, icon = [[Interface\ICONS\ability_backstab]], texcoord = nil},
-                {value = [[Interface\TALENTFRAME\bg-rogue-subtlety]], label = "Subtlety", onclick = onSelectSecTexture, icon = [[Interface\ICONS\ability_stealth]], texcoord = nil},
-                {value = [[Interface\TALENTFRAME\bg-shaman-elemental]], label = "Elemental", onclick = onSelectSecTexture, icon = [[Interface\ICONS\spell_nature_lightning]], texcoord = nil},
-                {value = [[Interface\TALENTFRAME\bg-shaman-enhancement]], label = "Enhancement", onclick = onSelectSecTexture, icon = [[Interface\ICONS\spell_nature_lightningshield]], texcoord = nil},
-                {value = [[Interface\TALENTFRAME\bg-shaman-restoration]], label = "Restoration", onclick = onSelectSecTexture, icon = [[Interface\ICONS\spell_nature_magicimmunity]], texcoord = nil},
-                {value = [[Interface\TALENTFRAME\bg-warlock-affliction]], label = "Affliction", onclick = onSelectSecTexture, icon = [[Interface\ICONS\spell_shadow_deathcoil]], texcoord = nil},
-                {value = [[Interface\TALENTFRAME\bg-warlock-demonology]], label = "Demonology", onclick = onSelectSecTexture, icon = [[Interface\ICONS\spell_shadow_metamorphosis]], texcoord = nil},
-                {value = [[Interface\TALENTFRAME\bg-warlock-destruction]], label = "Destruction", onclick = onSelectSecTexture, icon = [[Interface\ICONS\spell_shadow_rainoffire]], texcoord = nil},
-                {value = [[Interface\TALENTFRAME\bg-warrior-arms]], label = "Arms", onclick = onSelectSecTexture, icon = [[Interface\ICONS\ability_warrior_savageblow]], texcoord = nil},
-                {value = [[Interface\TALENTFRAME\bg-warrior-fury]], label = "Fury", onclick = onSelectSecTexture, icon = [[Interface\ICONS\ability_warrior_innerrage]], texcoord = nil},
-                {value = [[Interface\TALENTFRAME\bg-warrior-protection]], label = "Protection", onclick = onSelectSecTexture, icon = [[Interface\ICONS\ability_warrior_defensivestance]], texcoord = nil},
+                {value = [[Interface\AddOns\Details\images\retail\archeology\arch-bookcompletedleft]], label = "Book Wallpaper", onclick = onSelectSecTexture, icon = [[Interface\AddOns\Details\images\retail\archeology\arch-bookcompletedleft]], texcoord = nil},
+                {value = [[Interface\AddOns\Details\images\retail\archeology\arch-bookitemleft]], label = "Book Wallpaper 2", onclick = onSelectSecTexture, icon = [[Interface\AddOns\Details\images\retail\archeology\arch-bookitemleft]], texcoord = nil},
+                {value = [[Interface\AddOns\Details\images\retail\talentframe\bg-deathknight-blood]], label = "Blood", onclick = onSelectSecTexture, icon = [[Interface\ICONS\Spell_Deathknight_BloodPresence]], texcoord = nil},
+                {value = [[Interface\AddOns\Details\images\retail\talentframe\bg-deathknight-frost]], label = "Frost", onclick = onSelectSecTexture, icon = [[Interface\ICONS\Spell_Deathknight_FrostPresence]], texcoord = nil},
+                {value = [[Interface\AddOns\Details\images\retail\talentframe\bg-deathknight-unholy]], label = "Unholy", onclick = onSelectSecTexture, icon = [[Interface\ICONS\Spell_Deathknight_UnholyPresence]], texcoord = nil},
+                {value = [[Interface\AddOns\Details\images\retail\talentframe\bg-druid-bear]], label = "Guardian", onclick = onSelectSecTexture, icon = [[Interface\ICONS\ability_racial_bearform]], texcoord = nil},
+                {value = [[Interface\AddOns\Details\images\retail\talentframe\bg-druid-restoration]], label = "Restoration", onclick = onSelectSecTexture, icon = [[Interface\ICONS\spell_nature_healingtouch]], texcoord = nil},
+                {value = [[Interface\AddOns\Details\images\retail\talentframe\bg-druid-cat]], label = "Feral", onclick = onSelectSecTexture, icon = [[Interface\ICONS\spell_shadow_vampiricaura]], texcoord = nil},
+                {value = [[Interface\AddOns\Details\images\retail\talentframe\bg-druid-balance]], label = "Balance", onclick = onSelectSecTexture, icon = [[Interface\ICONS\spell_nature_starfall]], texcoord = nil},
+                {value = [[Interface\AddOns\Details\images\retail\talentframe\bg-hunter-beastmaster]], label = "Beast Mastery", onclick = onSelectSecTexture, icon = [[Interface\AddOns\Details\images\retail\icons\ability_hunter_bestialdiscipline]], texcoord = nil},
+                {value = [[Interface\AddOns\Details\images\retail\talentframe\bg-hunter-marksman]], label = "Marksmanship", onclick = onSelectSecTexture, icon = [[Interface\ICONS\ability_hunter_focusedaim]], texcoord = nil},
+                {value = [[Interface\AddOns\Details\images\retail\talentframe\bg-hunter-survival]], label = "Survival", onclick = onSelectSecTexture, icon = [[Interface\AddOns\Details\images\retail\icons\ability_hunter_camouflage]], texcoord = nil},
+                {value = [[Interface\AddOns\Details\images\retail\talentframe\bg-mage-arcane]], label = "Arcane", onclick = onSelectSecTexture, icon = [[Interface\ICONS\spell_holy_magicalsentry]], texcoord = nil},
+                {value = [[Interface\AddOns\Details\images\retail\talentframe\bg-mage-fire]], label = "Fire", onclick = onSelectSecTexture, icon = [[Interface\ICONS\spell_fire_firebolt02]], texcoord = nil},
+                {value = [[Interface\AddOns\Details\images\retail\talentframe\bg-mage-frost]], label = "Frost", onclick = onSelectSecTexture, icon = [[Interface\ICONS\spell_frost_frostbolt02]], texcoord = nil},
+                {value = [[Interface\AddOns\Details\images\retail\talentframe\bg-monk-brewmaster]], label = "Brewmaster", onclick = onSelectSecTexture, icon = [[Interface\AddOns\Details\images\retail\icons\monk_stance_drunkenox]], texcoord = nil},
+                {value = [[Interface\AddOns\Details\images\retail\talentframe\bg-monk-mistweaver]], label = "Mistweaver", onclick = onSelectSecTexture, icon = [[Interface\AddOns\Details\images\retail\icons\monk_stance_wiseserpent]], texcoord = nil},
+                {value = [[Interface\AddOns\Details\images\retail\talentframe\bg-monk-battledancer]], label = "Windwalker", onclick = onSelectSecTexture, icon = [[Interface\AddOns\Details\images\retail\icons\monk_stance_whitetiger]], texcoord = nil},
+                {value = [[Interface\AddOns\Details\images\retail\talentframe\bg-paladin-holy]], label = "Holy", onclick = onSelectSecTexture, icon = [[Interface\ICONS\spell_holy_holybolt]], texcoord = nil},
+                {value = [[Interface\AddOns\Details\images\retail\talentframe\bg-paladin-protection]], label = "Protection", onclick = onSelectSecTexture, icon = [[Interface\ICONS\ability_paladin_shieldofthetemplar]], texcoord = nil},
+                {value = [[Interface\AddOns\Details\images\retail\talentframe\bg-paladin-retribution]], label = "Retribution", onclick = onSelectSecTexture, icon = [[Interface\ICONS\spell_holy_auraoflight]], texcoord = nil},
+                {value = [[Interface\AddOns\Details\images\retail\talentframe\bg-priest-discipline]], label = "Discipline", onclick = onSelectSecTexture, icon = [[Interface\ICONS\spell_holy_powerwordshield]], texcoord = nil},
+                {value = [[Interface\AddOns\Details\images\retail\talentframe\bg-priest-holy]], label = "Holy", onclick = onSelectSecTexture, icon = [[Interface\ICONS\spell_holy_guardianspirit]], texcoord = nil},
+                {value = [[Interface\AddOns\Details\images\retail\talentframe\bg-priest-shadow]], label = "Shadow", onclick = onSelectSecTexture, icon = [[Interface\ICONS\spell_shadow_shadowwordpain]], texcoord = nil},
+                {value = [[Interface\AddOns\Details\images\retail\talentframe\bg-rogue-assassination]], label = "Assassination", onclick = onSelectSecTexture, icon = [[Interface\ICONS\ability_rogue_eviscerate]], texcoord = nil},
+                {value = [[Interface\AddOns\Details\images\retail\talentframe\bg-rogue-combat]], label = "Combat", onclick = onSelectSecTexture, icon = [[Interface\ICONS\ability_backstab]], texcoord = nil},
+                {value = [[Interface\AddOns\Details\images\retail\talentframe\bg-rogue-subtlety]], label = "Subtlety", onclick = onSelectSecTexture, icon = [[Interface\ICONS\ability_stealth]], texcoord = nil},
+                {value = [[Interface\AddOns\Details\images\retail\talentframe\bg-shaman-elemental]], label = "Elemental", onclick = onSelectSecTexture, icon = [[Interface\ICONS\spell_nature_lightning]], texcoord = nil},
+                {value = [[Interface\AddOns\Details\images\retail\talentframe\bg-shaman-enhancement]], label = "Enhancement", onclick = onSelectSecTexture, icon = [[Interface\ICONS\spell_nature_lightningshield]], texcoord = nil},
+                {value = [[Interface\AddOns\Details\images\retail\talentframe\bg-shaman-restoration]], label = "Restoration", onclick = onSelectSecTexture, icon = [[Interface\ICONS\spell_nature_magicimmunity]], texcoord = nil},
+                {value = [[Interface\AddOns\Details\images\retail\talentframe\bg-warlock-affliction]], label = "Affliction", onclick = onSelectSecTexture, icon = [[Interface\ICONS\spell_shadow_deathcoil]], texcoord = nil},
+                {value = [[Interface\AddOns\Details\images\retail\talentframe\bg-warlock-demonology]], label = "Demonology", onclick = onSelectSecTexture, icon = [[Interface\ICONS\spell_shadow_metamorphosis]], texcoord = nil},
+                {value = [[Interface\AddOns\Details\images\retail\talentframe\bg-warlock-destruction]], label = "Destruction", onclick = onSelectSecTexture, icon = [[Interface\ICONS\spell_shadow_rainoffire]], texcoord = nil},
+                {value = [[Interface\AddOns\Details\images\retail\talentframe\bg-warrior-arms]], label = "Arms", onclick = onSelectSecTexture, icon = [[Interface\ICONS\ability_warrior_savageblow]], texcoord = nil},
+                {value = [[Interface\AddOns\Details\images\retail\talentframe\bg-warrior-fury]], label = "Fury", onclick = onSelectSecTexture, icon = [[Interface\ICONS\ability_warrior_innerrage]], texcoord = nil},
+                {value = [[Interface\AddOns\Details\images\retail\talentframe\bg-warrior-protection]], label = "Protection", onclick = onSelectSecTexture, icon = [[Interface\ICONS\ability_warrior_defensivestance]], texcoord = nil},
             }
 
         --create preview
@@ -3809,7 +3809,7 @@ do
 
                 local wallpaper = getInstance().wallpaper
 
-                if (wallpaper.texture:find("TALENTFRAME")) then
+                if (wallpaper.texture:lower():find("talentframe")) then --[3.3.5]
                     if (wallpaper.anchor == "all") then
                         DF:ImageEditor (callmeback, wallpaper.texture, wallpaper.texcoord, wallpaper.overlay, getInstance().baseframe.wallpaper:GetWidth(), getInstance().baseframe.wallpaper:GetHeight(), nil, wallpaper.alpha, true)
                     else
@@ -4499,7 +4499,7 @@ do --raid tools
 			{value = "PRINT", icon = [[Interface\LFGFRAME\BattlenetWorking2]], iconsize = {14, 14}, iconcolor = {1, 1, 1, 1}, texcoord = {12/64, 53/64, 11/64, 53/64}, label = Loc ["STRING_CHANNEL_PRINT"], onclick = on_select_channel},
 			{value = "SAY", icon = [[Interface\FriendsFrame\UI-Toast-ToastIcons]], iconsize = {14, 14}, texcoord = {0.0390625, 0.203125, 0.09375, 0.375}, label = Loc ["STRING_CHANNEL_SAY"], onclick = on_select_channel},
 			{value = "YELL", icon = [[Interface\FriendsFrame\UI-Toast-ToastIcons]], iconsize = {14, 14}, texcoord = {0.0390625, 0.203125, 0.09375, 0.375}, iconcolor = {1, 0.3, 0, 1}, label = Loc ["STRING_CHANNEL_YELL"], onclick = on_select_channel},
-			{value = "RAID", icon = [[Interface\FriendsFrame\UI-Toast-ToastIcons]], iconcolor = {1, 0.49, 0}, iconsize = {14, 14}, texcoord = {0.53125, 0.7265625, 0.078125, 0.40625}, label = Loc ["STRING_INSTANCE_CHAT"], onclick = on_select_channel},
+			{value = "RAID", icon = [[Interface\FriendsFrame\UI-Toast-ToastIcons]], iconcolor = {1, 0.49, 0}, iconsize = {14, 14}, texcoord = {0.53125, 0.7265625, 0.078125, 0.40625}, label = Loc ["STRING_CHANNEL_RAID"] .. " / " .. Loc ["STRING_REPORTFRAME_PARTY"], onclick = on_select_channel}, --[3.3.5]
 			{value = "WHISPER", icon = [[Interface\FriendsFrame\UI-Toast-ToastIcons]], iconcolor = {1, 0.49, 1}, iconsize = {14, 14}, texcoord = {0.0546875, 0.1953125, 0.625, 0.890625}, label = Loc ["STRING_CHANNEL_WHISPER"], onclick = on_select_channel},
 		}
 		local buildInterruptChannelMenu = function()
@@ -4516,7 +4516,7 @@ do --raid tools
 			{value = "PRINT", icon = [[Interface\LFGFRAME\BattlenetWorking2]], iconsize = {14, 14}, iconcolor = {1, 1, 1, 1}, texcoord = {12/64, 53/64, 11/64, 53/64}, label = Loc ["STRING_CHANNEL_PRINT"], onclick = on_select_channel},
 			{value = "SAY", icon = [[Interface\FriendsFrame\UI-Toast-ToastIcons]], iconsize = {14, 14}, texcoord = {0.0390625, 0.203125, 0.09375, 0.375}, label = Loc ["STRING_CHANNEL_SAY"], onclick = on_select_channel},
 			{value = "YELL", icon = [[Interface\FriendsFrame\UI-Toast-ToastIcons]], iconsize = {14, 14}, texcoord = {0.0390625, 0.203125, 0.09375, 0.375}, iconcolor = {1, 0.3, 0, 1}, label = Loc ["STRING_CHANNEL_YELL"], onclick = on_select_channel},
-			{value = "RAID", icon = [[Interface\FriendsFrame\UI-Toast-ToastIcons]], iconcolor = {1, 0.49, 0}, iconsize = {14, 14}, texcoord = {0.53125, 0.7265625, 0.078125, 0.40625}, label = Loc ["STRING_INSTANCE_CHAT"], onclick = on_select_channel},
+			{value = "RAID", icon = [[Interface\FriendsFrame\UI-Toast-ToastIcons]], iconcolor = {1, 0.49, 0}, iconsize = {14, 14}, texcoord = {0.53125, 0.7265625, 0.078125, 0.40625}, label = Loc ["STRING_CHANNEL_RAID"] .. " / " .. Loc ["STRING_REPORTFRAME_PARTY"], onclick = on_select_channel}, --[3.3.5]
 			{value = "WHISPER", icon = [[Interface\FriendsFrame\UI-Toast-ToastIcons]], iconcolor = {1, 0.49, 1}, iconsize = {14, 14}, texcoord = {0.0546875, 0.1953125, 0.625, 0.890625}, label = Loc ["STRING_CHANNEL_WHISPER_TARGET_COOLDOWN"], onclick = on_select_channel},
 		}
 		local buildCooldownsChannelMenu = function()
@@ -4913,6 +4913,17 @@ do --raid tools
                 end,
                 name = Loc ["STRING_OPTIONS_RT_FIRST_HIT"],
                 desc = Loc ["STRING_OPTIONS_RT_FIRST_HIT_DESC"],
+            },
+
+            {--show pre potion usage --[3.3.5]
+                type = "toggle",
+                get = function() return Details.announce_prepots.enabled end,
+                set = function(self, fixedparam, value)
+                    Details.announce_prepots.enabled = value
+                    afterUpdate(getInstance())
+                end,
+                name = Loc ["STRING_OPTIONS_RT_INFOS_PREPOTION"],
+                desc = Loc ["STRING_OPTIONS_RT_INFOS_PREPOTION_DESC"],
             },
 
             {--show death menu

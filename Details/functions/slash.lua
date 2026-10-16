@@ -602,7 +602,7 @@ function SlashCmdList.DETAILS (msg, editbox)
 			print("crop: ", unpack(texCoords))
 		end
 
-		Details.gump:ImageEditor (callback, "Interface\\TALENTFRAME\\bg-paladin-holy", nil, {1, 1, 1, 1}) -- {0.25, 0.25, 0.25, 0.25}
+		Details.gump:ImageEditor (callback, "Interface\\AddOns\\Details\\images\\retail\\talentframe\\bg-paladin-holy", nil, {1, 1, 1, 1}) -- {0.25, 0.25, 0.25, 0.25}
 
 	elseif (msg == "chat") then
 

@@ -1363,6 +1363,12 @@ elseif (DF.IsWotLKWow()) then
 		[53750] = true, -- Crazy Alchemist's Potion
 		[43186] = true, -- Runic Mana Potion
 		[67490] = true, -- Runic Mana Injector
+
+		[53910] = true, --Mighty Arcane Protection Potion --[3.3.5]
+		[53911] = true, --Mighty Fire Protection Potion --[3.3.5]
+		[53913] = true, --Mighty Frost Protection Potion --[3.3.5]
+		[53914] = true, --Mighty Nature Protection Potion --[3.3.5]
+		[53915] = true, --Mighty Shadow Protection Potion --[3.3.5]
 	}
 	DF.FeastIDs = {}
 	DF.RuneIDs = {}

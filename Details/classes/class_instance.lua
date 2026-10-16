@@ -3867,7 +3867,7 @@ function Details:MontaAtributosOption (instancia, func)
 			if (i == 1) then
 				CoolTip:SetWallpaper (2, [[Interface\TALENTFRAME\WarlockDestruction-TopLeft]], {1, 0.22, 0, 0.55}, wallpaper_bg_color)
 			elseif (i == 2) then
-				CoolTip:SetWallpaper (2, [[Interface\TALENTFRAME\bg-priest-holy]], {1, .6, 0, .2}, wallpaper_bg_color)
+				CoolTip:SetWallpaper (2, [[Interface\AddOns\Details\images\retail\talentframe\bg-priest-holy]], {1, .6, 0, .2}, wallpaper_bg_color)
 			elseif (i == 3) then
 				CoolTip:SetWallpaper (2, [[Interface\TALENTFRAME\ShamanEnhancement-TopLeft]], {0, 1, .2, .6}, wallpaper_bg_color)
 			elseif (i == 4) then
@@ -4344,7 +4344,7 @@ function Details:SendApocalypseReport()
 		end
 
 		if (toWho == "RAID" or toWho == "PARTY") then
-			if (GetNumGroupMembers(LE_PARTY_CATEGORY_INSTANCE) > 0) then
+			if (IsInGroup(LE_PARTY_CATEGORY_INSTANCE)) then --[3.3.5]
 				toWho = "INSTANCE_CHAT"
 			end
 		end
@@ -4983,7 +4983,7 @@ function Details:envia_relatorio (linhas, custom)
 	end
 
 	if (to_who == "RAID" or to_who == "PARTY") then
-		if (GetNumGroupMembers (LE_PARTY_CATEGORY_INSTANCE) > 0) then
+		if (IsInGroup(LE_PARTY_CATEGORY_INSTANCE)) then --[3.3.5]
 			to_who = "INSTANCE_CHAT"
 		end
 	end

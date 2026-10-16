@@ -5448,6 +5448,14 @@ function Details:InstanceWallpaper(texture, anchor, alpha, texCoord, width, heig
 		overlay = overlay or wallpaper.overlay
 	end
 
+	if (type(texture) == "string") then --[3.3.5]
+		local lowerPath = texture:lower():gsub("/", "\\")
+		local retailPath = lowerPath:match("^interface\\(talentframe\\bg%-[%a%-]+)$") or lowerPath:match("^interface\\(archeology\\arch%-book%a+left)$")
+		if (retailPath) then
+			texture = "Interface\\AddOns\\Details\\images\\retail\\" .. retailPath
+		end
+	end
+
 	if (not wallpaper.texture and not texture) then
 		texture = "Interface\\AddOns\\Details\\images\\background"
 		texCoord = {0, 1, 0, 0.7}

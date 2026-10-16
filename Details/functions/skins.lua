@@ -2451,7 +2451,7 @@ local addonName, Details222 = ...
 				["anchor"] = "all",
 				["height"] = 225.999984741211,
 				["alpha"] = 0.498039245605469,
-				["texture"] = "Interface\\TALENTFRAME\\bg-priest-shadow",
+				["texture"] = "Interface\\AddOns\\Details\\images\\retail\\talentframe\\bg-priest-shadow",
 			},
 			["stretch_button_side"] = 1,
 			["micro_displays_locked"] = true,
