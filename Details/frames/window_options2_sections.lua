@@ -152,7 +152,7 @@ function Details222.OptionsPanel.UpdateAutoHideSettings(instance, sectionFrame)
         return
     end
 
-    for contextId, line in ipairs(sectionFrame.AutoHideOptions) do --tab13 = automation settings
+    for contextId, line in pairs(sectionFrame.AutoHideOptions) do --[3.3.5]
         line.enabledCheckbox:SetValue(instance.hide_on_context[contextId].enabled)
         line.reverseCheckbox:SetValue(instance.hide_on_context[contextId].inverse)
         line.alphaSlider:SetValue(instance.hide_on_context[contextId].value)
@@ -516,17 +516,7 @@ do
                 desc = Loc ["STRING_OPTIONS_OVERALL_NEWBOSS_DESC"],
                 boxfirst = true,
             },
-            {--erase overall data on mythic plus
-                type = "toggle",
-                get = function() return Details.overall_clear_newchallenge end,
-                set = function(self, fixedparam, value)
-                    Details:SetOverallResetOptions(nil, value)
-                    afterUpdate(getInstance())
-                end,
-                name = Loc ["STRING_OPTIONS_OVERALL_MYTHICPLUS"],
-                desc = Loc ["STRING_OPTIONS_OVERALL_MYTHICPLUS_DESC"],
-                boxfirst = true,
-            },
+            --[3.3.5]
             {--erase overall data on logout
                 type = "toggle",
                 get = function() return Details.overall_clear_pvp end,
@@ -4370,7 +4360,7 @@ do
 			_G.ARENA or "_G.ARENA",
 		}
 
-		local optionsOrder = {3, 4, 5, 6, 9, 7, 8, 1, 2}
+		local optionsOrder = {3, 4, 5, 6, 9, 7, 1, 2} --[3.3.5]
 
 		local header1Label = _G.DetailsFramework:CreateLabel(sectionFrame, Loc["STRING_CONTEXT"])
 		local header2Label = _G.DetailsFramework:CreateLabel(sectionFrame, Loc["STRING_ENABLED"])
@@ -5184,39 +5174,7 @@ do
                 desc = "Quick Player Info Detection",
             },
 
-            {--disable M+ shenanigans
-                type = "toggle",
-                get = function() return Details.streamer_config.disable_mythic_dungeon end,
-                set = function(self, fixedparam, value)
-                    Details.streamer_config.disable_mythic_dungeon = value
-                    afterUpdate(getInstance())
-                end,
-                name = "Disable Mythic+ Stuff", --localize-me
-                desc = "Disable Mythic+ Stuff",
-            },
-
-            {--disable M+ charts
-                type = "toggle",
-                get = function() return Details.mythic_plus.show_damage_graphic end,
-                set = function(self, fixedparam, value)
-                    Details.mythic_plus.show_damage_graphic = value
-                    afterUpdate(getInstance())
-                end,
-                name = "Disable Mythic+ Chart", --localize-me
-                desc = "Disable Mythic+ Chart",
-            },
-
-            {--clear cache regurlary
-                type = "toggle",
-                get = function() return Details.mythic_plus.show_damage_graphic end,
-                set = function(self, fixedparam, value)
-                    Details.mythic_plus.show_damage_graphic = value
-                    afterUpdate(getInstance())
-                end,
-                name = "Clear Cache Regularly", --localize-me
-                desc = "Clear Cache Regularly",
-            },
-
+            --[3.3.5]
             {--hide helptips
                 type = "toggle",
                 get = function() return Details.streamer_config.no_helptips end,
@@ -5974,16 +5932,7 @@ do
                 desc = "Invert Death Log (Raid)",
             },
 
-            {--reverse death logs
-                type = "toggle",
-                get = function() return Details.combat_log.inverse_deathlog_mplus end,
-                set = function(self, fixedparam, value)
-                    Details.combat_log.inverse_deathlog_mplus = value
-                end,
-                name = "Invert Death Log (M+)",
-                desc = "Invert Death Log (M+)",
-            },
-
+            --[3.3.5]
             {--reverse death logs
                 type = "toggle",
                 get = function() return Details.combat_log.inverse_deathlog_overalldata end,
@@ -6044,61 +5993,7 @@ do
                 boxfirst = true,
             },
 
-            {--merge gemstone 10.0.7
-                type = "toggle",
-                get = function() return Details.combat_log.merge_gemstones_1007 end,
-                set = function(self, fixedparam, value)
-                    Details.combat_log.merge_gemstones_1007 = value
-                    afterUpdate(getInstance())
-                    Details:ClearParserCache()
-                end,
-                name = "Merge Ring Gems 11.0.7",
-                desc = "Merge Ring Gems 11.0.7",
-                boxfirst = true,
-            },
-
-            {type = "blank"},
-            {type = "label", get = function() return "Class Options:" end, text_template = subSectionTitleTextTemplate},
-
-            {--hunter track pet frenzy
-                type = "toggle",
-                get = function() return Details.combat_log.track_hunter_frenzy end,
-                set = function(self, fixedparam, value)
-                    Details.combat_log.track_hunter_frenzy = value
-                    afterUpdate(getInstance())
-                    Details:ClearParserCache()
-                end,
-                name = DF:AddClassIconToText("Hunter Track Pet Frenzy", false, "HUNTER"),
-                desc = "Hunter Track Pet Frenzy",
-                boxfirst = true,
-            },
-
-            {--show evoker bar
-                type = "toggle",
-                get = function() return Details.combat_log.calc_evoker_damage end,
-                set = function(self, fixedparam, value)
-                    Details.combat_log.calc_evoker_damage = value
-                    afterUpdate(getInstance())
-                    Details:ClearParserCache()
-                    getInstance():InstanceReset()
-                end,
-                name = DF:AddClassIconToText("Show Augmentation Extra Bar", false, "EVOKER"),
-                desc = "Calculate how much the Augmentation Evoker are buffing other players",
-                boxfirst = true,
-            },
-
-            {--use realtime dps for evoker augmentataion
-                type = "toggle",
-                get = function() return Details.combat_log.evoker_show_realtimedps end,
-                set = function(self, fixedparam, value)
-                    Details.combat_log.evoker_show_realtimedps = value
-                    afterUpdate(getInstance())
-                    Details:ClearParserCache()
-                end,
-                name = DF:AddClassIconToText("Use Real Time Dps for Aug. Evoker", false, "EVOKER"),
-                desc = "Use Real Time Dps for Augmentation Evoker",
-                boxfirst = true,
-            },
+            --[3.3.5]
 
             {type = "breakline"},
             {type = "label", get = function() return "Parser Options:" end, text_template = subSectionTitleTextTemplate},
@@ -6131,19 +6026,7 @@ do
                 boxfirst = true,
             },
 
-            {--merge healing criticals
-                type = "toggle",
-                get = function() return Details.combat_log.merge_critical_heals end,
-                set = function(self, fixedparam, value)
-                    Details.combat_log.merge_critical_heals = value
-                    afterUpdate(getInstance())
-                    Details:ClearParserCache()
-                end,
-                name = "Merge Critical Heals",
-                desc = "Merges spells like Atonement and Awakened Faeline with their critical damage component.",
-                boxfirst = true,
-            },
-
+            --[3.3.5]
             {--record tank avoidance
                 type = "toggle",
                 get = function() return Details.parser_options.tank_avoidance end,
