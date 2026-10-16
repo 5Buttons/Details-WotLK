@@ -933,7 +933,7 @@ detailsFramework.ChartFrameMixin = {
         local firstValue = self:GetDataFirstValue()
         assert(firstValue, "Can't Plot(), chart has no data, use Chart:SetData(table)")
 
-        local plotFrameHeightScaled = self.plotFrame:GetHeight() * (yPointScale or 1)
+        local plotFrameHeightScaled = (self.plotHeight335 or self.plotFrame:GetHeight()) * (yPointScale or 1) --[3.3.5]
         local currentXPoint = 0
         local currentYPoint = self:CalcYAxisPointForValue(firstValue, plotFrameHeightScaled)
 
@@ -1472,6 +1472,7 @@ detailsFramework.MultiChartFrameMixin = {
             chartFrame.plotFrame:ClearAllPoints()
             chartFrame.plotFrame:SetAllPoints(multiChartFrame.plotFrame)
 
+            chartFrame.plotHeight335 = multiChartFrame.plotFrame:GetHeight() --[3.3.5]
             chartFrame:SetLineThickness(multiChartFrame.lineThickness)
             chartFrame:SetLineWidth(eachLineWidth)
 

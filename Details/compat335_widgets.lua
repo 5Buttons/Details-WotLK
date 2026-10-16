@@ -210,6 +210,36 @@ local fontStringMethods = {
 	SetMaxLines = noop,
 }
 
+local LINE_TEXTURE = [[Interface\AddOns\Details\Libs\LibGraph-2.0\line]]
+local LINE_FACTOR_2 = 128 / 126 / 2
+local LINE_THICKNESS_FACTOR = 16
+
+local H_RANK = {LEFT = 0, [""] = 1, RIGHT = 2}
+local V_RANK = {TOP = 0, [""] = 1, BOTTOM = 2}
+
+local function splitPoint(point)
+	local v = point:match("^TOP") or point:match("^BOTTOM") or ""
+	local h = point:match("LEFT$") or point:match("RIGHT$") or ""
+	return v, h
+end
+
+local function joinPoint(v, h)
+	local point = v .. h
+	if (point == "") then
+		return "CENTER"
+	end
+	return point
+end
+
+local function clampCoord(value)
+	if (value > 10000) then
+		return 10000
+	elseif (value < -10000) then
+		return -10000
+	end
+	return value
+end
+
 local lineMethods = {
 	SetThickness = function(self, thickness)
 		self.__thickness = thickness
@@ -245,7 +275,7 @@ local lineMethods = {
 		end
 	end,
 	SetColorTexture = function(self, r, g, b, a)
-		self:SetTexture(r or 1, g or 1, b or 1, a or 1)
+		self:SetVertexColor(r or 1, g or 1, b or 1, a or 1)
 	end,
 	UpdateLine = function(self)
 		local s, e = self.__start, self.__end
@@ -253,36 +283,124 @@ local lineMethods = {
 			return
 		end
 		local parent = self:GetParent()
-		local function anchorOffset(anchor)
-			local target = anchor[2] or parent
+		if (not parent.__lines335) then
+			parent.__lines335 = {}
+			parent:HookScript("OnSizeChanged", function(frame)
+				for line in pairs(frame.__lines335) do
+					line:UpdateLine()
+				end
+			end)
+		end
+		parent.__lines335[self] = true
+		local thickness = self.__thickness or 1
+		local startTarget, endTarget = s[2] or parent, e[2] or parent
+		local startPoint, endPoint = s[1]:upper(), e[1]:upper()
+		self:ClearAllPoints()
+		if (startTarget == endTarget) then
+			local sv, sh = splitPoint(startPoint)
+			local ev, eh = splitPoint(endPoint)
+			if (sv == ev and s[4] == e[4]) then
+				self:SetSolid335()
+				local l, r = s, e
+				local lh, rh = sh, eh
+				if (H_RANK[sh] > H_RANK[eh] or (sh == eh and s[3] > e[3])) then
+					l, r, lh, rh = e, s, eh, sh
+				end
+				self:SetPoint("TOPLEFT", startTarget, joinPoint(sv, lh), l[3], s[4] + thickness / 2)
+				self:SetPoint("BOTTOMRIGHT", startTarget, joinPoint(sv, rh), r[3], s[4] - thickness / 2)
+				return
+			elseif (sh == eh and s[3] == e[3]) then
+				self:SetSolid335()
+				local t, b = s, e
+				local tv, bv = sv, ev
+				if (V_RANK[sv] > V_RANK[ev] or (sv == ev and s[4] < e[4])) then
+					t, b, tv, bv = e, s, ev, sv
+				end
+				self:SetPoint("TOPLEFT", startTarget, joinPoint(tv, sh), s[3] - thickness / 2, t[4])
+				self:SetPoint("BOTTOMRIGHT", startTarget, joinPoint(bv, sh), s[3] + thickness / 2, b[4])
+				return
+			elseif (startPoint == endPoint) then
+				self:DrawDiagonal335(startTarget, startPoint, s[3], s[4], e[3], e[4], thickness)
+				return
+			end
+		end
+		local function anchorOffset(anchor, target)
 			local px, py = 0, 0
 			local point = anchor[1]:upper()
 			local w, h = target:GetWidth() or 0, target:GetHeight() or 0
 			if (point:find("LEFT")) then px = -w / 2 elseif (point:find("RIGHT")) then px = w / 2 end
 			if (point:find("TOP")) then py = h / 2 elseif (point:find("BOTTOM")) then py = -h / 2 end
-			return target, px + anchor[3], py + anchor[4]
+			return px + anchor[3], py + anchor[4]
 		end
-		local startTarget, sx, sy = anchorOffset(s)
-		local endTarget, ex, ey = anchorOffset(e)
-		local thickness = self.__thickness or 1
-		self:ClearAllPoints()
-		if (startTarget == endTarget and (sy == ey or sx == ex)) then
-			if (sy == ey) then
-				self:SetPoint("LEFT", startTarget, "CENTER", math.min(sx, ex), sy)
-				self:SetWidth(math.max(math.abs(ex - sx), 1))
-				self:SetHeight(thickness)
-			else
-				self:SetPoint("BOTTOM", startTarget, "CENTER", sx, math.min(sy, ey))
-				self:SetHeight(math.max(math.abs(ey - sy), 1))
-				self:SetWidth(thickness)
+		local sx, sy = anchorOffset(s, startTarget)
+		local ex, ey = anchorOffset(e, endTarget)
+		if (startTarget ~= endTarget) then
+			local scx, scy = startTarget:GetCenter()
+			local ecx, ecy = endTarget:GetCenter()
+			if (scx and ecx) then
+				local scale = endTarget:GetEffectiveScale() / startTarget:GetEffectiveScale()
+				ex = ex + (ecx * scale - scx)
+				ey = ey + (ecy * scale - scy)
 			end
+		end
+		if (sy == ey) then
+			self:SetSolid335()
+			self:SetPoint("LEFT", startTarget, "CENTER", math.min(sx, ex), sy)
+			self:SetWidth(math.max(math.abs(ex - sx), 1))
+			self:SetHeight(thickness)
+			return
+		elseif (sx == ex) then
+			self:SetSolid335()
+			self:SetPoint("BOTTOM", startTarget, "CENTER", sx, math.min(sy, ey))
+			self:SetHeight(math.max(math.abs(ey - sy), 1))
+			self:SetWidth(thickness)
 			return
 		end
+		self:DrawDiagonal335(startTarget, "CENTER", sx, sy, ex, ey, thickness)
+	end,
+	SetSolid335 = function(self)
+		if (self.__diagonal) then
+			self.__diagonal = nil
+			self:SetTexture(1, 1, 1, 1)
+			self:SetTexCoord(0, 1, 0, 1)
+		end
+	end,
+	DrawDiagonal335 = function(self, target, refPoint, sx, sy, ex, ey, thickness)
+		if (not self.__diagonal) then
+			self.__diagonal = true
+			self:SetTexture(LINE_TEXTURE)
+		end
 		local dx, dy = ex - sx, ey - sy
-		local length = sqrt(dx * dx + dy * dy)
-		self:SetPoint("CENTER", startTarget, "CENTER", (sx + ex) / 2, (sy + ey) / 2)
-		self:SetSize(math.max(length, 1), thickness)
-		applyRotation(self, atan2(dy, dx))
+		local cx, cy = (sx + ex) / 2, (sy + ey) / 2
+		if (dx < 0) then
+			dx, dy = -dx, -dy
+		end
+		local l = sqrt(dx * dx + dy * dy)
+		if (not (l > 0.01)) then
+			self:SetPoint("CENTER", target, refPoint, sx, sy)
+			self:SetSize(0.01, 0.01)
+			return
+		end
+		local w = thickness * LINE_THICKNESS_FACTOR
+		local sn, cs = -dy / l, dx / l
+		local sc = sn * cs
+		local bwid, bhgt, blx, bly, tlx, tly, trx, try, brx, bry
+		if (dy >= 0) then
+			bwid = ((l * cs) - (w * sn)) * LINE_FACTOR_2
+			bhgt = ((w * cs) - (l * sn)) * LINE_FACTOR_2
+			blx, bly, bry = (w / l) * sc, sn * sn, (l / w) * sc
+			brx, tlx, tly, trx = 1 - bly, bly, 1 - bry, 1 - blx
+			try = brx
+		else
+			bwid = ((l * cs) + (w * sn)) * LINE_FACTOR_2
+			bhgt = ((w * cs) + (l * sn)) * LINE_FACTOR_2
+			blx, bly, brx = sn * sn, -(l / w) * sc, 1 + (w / l) * sc
+			bry, tlx, tly, try = blx, 1 - brx, 1 - blx, 1 - bly
+			trx = tly
+		end
+		self:SetTexCoord(clampCoord(tlx), clampCoord(tly), clampCoord(blx), clampCoord(bly), clampCoord(trx), clampCoord(try), clampCoord(brx), clampCoord(bry))
+		self:SetPoint("BOTTOMLEFT", target, refPoint, cx - bwid, cy - bhgt)
+		self:SetPoint("TOPRIGHT", target, refPoint, cx + bwid, cy + bhgt)
 	end,
 }
 
@@ -586,6 +704,74 @@ for frameType, sample in pairs(samples) do
 			addMethods(methods, modelMethods)
 		end
 	end
+end
+
+do
+	local mouseScripts = {OnEnter = true, OnLeave = true, OnMouseDown = true, OnMouseUp = true, OnDragStart = true, OnReceiveDrag = true}
+	local strfind, debugstack = string.find, debugstack
+
+	local isDetailsCaller = function()
+		return strfind(debugstack(2, 3, 0) or "", "AddOns\\Details", 1, true) ~= nil
+	end
+
+	local onSetScript = function(self, scriptName, func)
+		if (not func) then
+			return
+		end
+		if (mouseScripts[scriptName]) then
+			if (not self:IsMouseEnabled() and isDetailsCaller()) then
+				self:EnableMouse(true)
+			end
+		elseif (scriptName == "OnMouseWheel") then
+			if (isDetailsCaller()) then
+				self:EnableMouseWheel(true)
+			end
+		end
+	end
+
+	for frameType, sample in pairs(samples) do
+		local methods = getMethods(sample)
+		if (methods and not rawget(methods, "__detailsCompatMouse") and frameType ~= "Button" and frameType ~= "CheckButton") then
+			methods.__detailsCompatMouse = true
+			hooksecurefunc(methods, "SetScript", onSetScript)
+		end
+	end
+
+	local isDetailsLineCaller = function()
+		local stack = debugstack(1, 8, 0) or ""
+		for line in stack:gmatch("[^\n]+") do
+			if ((strfind(line, "%.lua:%d") or strfind(line, "%[string")) and not strfind(line, "compat335_widgets", 1, true)) then
+				return strfind(line, "AddOns\\Details", 1, true) ~= nil
+			end
+		end
+		return false
+	end
+
+	local detailsCreateLine = frameMethods.CreateLine
+	local lineWrappers = {[detailsCreateLine] = true}
+
+	local installLineWrappers = function()
+		for _, sample in pairs(samples) do
+			local methods = getMethods(sample)
+			local otherCreateLine = methods and rawget(methods, "CreateLine")
+			if (otherCreateLine and not lineWrappers[otherCreateLine]) then
+				local wrapper = function(self, ...)
+					if (isDetailsLineCaller()) then
+						return detailsCreateLine(self, ...)
+					end
+					return otherCreateLine(self, ...)
+				end
+				lineWrappers[wrapper] = true
+				methods.CreateLine = wrapper
+			end
+		end
+	end
+	installLineWrappers()
+
+	local lineEventFrame = CreateFrame("frame")
+	lineEventFrame:RegisterEvent("ADDON_LOADED")
+	lineEventFrame:RegisterEvent("PLAYER_LOGIN")
+	lineEventFrame:SetScript("OnEvent", installLineWrappers)
 end
 
 do

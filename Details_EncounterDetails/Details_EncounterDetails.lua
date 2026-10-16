@@ -675,9 +675,10 @@ end
 --Here start the data mine ---------------------------------------------------------------------------------------------------------
 function encounterDetails:OpenAndRefresh(_, segment)
 	local segmentsDropdown = _G[edFrame:GetName() .. "SegmentsDropdown"]
-	segmentsDropdown.MyObject:Refresh()
+	if (segmentsDropdown) then --[3.3.5]
+		segmentsDropdown.MyObject:Refresh()
+	end
 	encounterDetails.LastOpenedTime = GetTime()
-	segmentsDropdown.MyObject:Refresh()
 
 	edFrame.ShowType = encounterDetails.db.last_section_selected
 
@@ -698,7 +699,7 @@ function encounterDetails:OpenAndRefresh(_, segment)
 
 				DebugMessage("segment found: ", index, combatObject:GetCombatName(), combatObject.is_trash)
 				--the first segment found here will be the first segment the dropdown found, so it can use the index 1 of the dropdown list
-				_G [edFrame:GetName().."SegmentsDropdown"].MyObject:Select(1, true)
+				if (segmentsDropdown) then segmentsDropdown.MyObject:Select(1, true) end --[3.3.5]
 
 				foundABoss = true
 				break
@@ -725,7 +726,7 @@ function encounterDetails:OpenAndRefresh(_, segment)
 				_combat_object = combat
 
 				--the first segment found here will be the first segment the dropdown found, so it can use the index 1 of the dropdown list
-				_G [edFrame:GetName() .. "SegmentsDropdown"].MyObject:Select(1, true)
+				if (segmentsDropdown) then segmentsDropdown.MyObject:Select(1, true) end --[3.3.5]
 
 				DebugMessage("found another segment during another loop", index, combat:GetCombatName(), combat.is_trash)
 				foundSegment = true

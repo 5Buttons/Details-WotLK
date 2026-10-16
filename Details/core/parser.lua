@@ -7114,9 +7114,45 @@ local SPELL_POWER_PAIN = SPELL_POWER_PAIN or (PowerEnum and PowerEnum.Pain) or 1
 		return parser:heal("SPELL_ABSORBED", time, shield.serial, shield.name, shield.flags, targetSerial, targetName, targetFlags, NO_RAID_FLAGS, shield.spellId, shield.spellName, shield.school, amount, 0, 0, nil, true)
 	end
 
+	local castStart335 = {}
+
+	local function uncountCast335(serial, spellName)
+		local pending = castStart335[serial]
+		if (pending and pending.spellName == spellName) then
+			castStart335[serial] = nil
+			local casts = _current_combat.amountCasts[pending.sourceName]
+			if (casts and casts[spellName] and casts[spellName] > 0) then
+				casts[spellName] = casts[spellName] - 1
+			end
+		end
+	end
+
 	local function dispatch335(handlers, time, token, who_serial, who_name, who_flags, target_serial, target_name, target_flags, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12)
 		if (absorbTrackedTokens[token]) then
 			trackAbsorbs335(time, token, who_serial, who_name, who_flags, target_serial, target_name, target_flags, A1, A2, A3, A4, A5, A6, A7, A8, A9)
+		end
+		if (token == "SPELL_CAST_START") then
+			if (handlers["SPELL_CAST_SUCCESS"] and _in_combat and who_name and bitBand(who_flags, 0x00000040) == 0) then
+				local castTime = select(7, GetSpellInfo(A1)) or 0
+				castStart335[who_serial] = {spellName = A2, sourceName = who_name, expires = time + castTime / 1000 + 1}
+				return handlers["SPELL_CAST_SUCCESS"](nil, "SPELL_CAST_SUCCESS", time, who_serial, who_name, who_flags, target_serial, target_name, target_flags, NO_RAID_FLAGS, A1, A2, A3)
+			end
+			return
+		elseif (token == "SPELL_CAST_SUCCESS") then
+			local pending = castStart335[who_serial]
+			if (pending) then
+				castStart335[who_serial] = nil
+				if (pending.spellName == A2 and time <= pending.expires) then
+					return
+				end
+			end
+		elseif (token == "SPELL_CAST_FAILED") then
+			if (A4 == SPELL_FAILED_INTERRUPTED or A4 == SPELL_FAILED_INTERRUPTED_COMBAT) then
+				uncountCast335(who_serial, A2)
+			end
+			return
+		elseif (token == "SPELL_INTERRUPT") then
+			uncountCast335(target_serial, A5)
 		end
 		local func = handlers[token]
 		if (func) then

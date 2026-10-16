@@ -111,6 +111,22 @@ local function hookDBM()
 		endEncounter("DBM", false)
 	end)
 
+	DBM:RegisterCallback("DBM_SetStage", function(event, mod, modId, phase)
+		local encounterTable = Details.encounter_table
+		phase = tonumber(phase)
+		if (not phase or not bossmods335.encounterId or not Details.in_combat or encounterTable.phase == phase) then
+			return
+		end
+		Details:OnCombatPhaseChanged()
+		encounterTable.phase = phase
+		local currentCombat = Details:GetCurrentCombat()
+		local combatTime = currentCombat:GetCombatTime()
+		if (combatTime > 5) then
+			table.insert(currentCombat.PhaseData, {phase, combatTime})
+		end
+		Details:SendEvent("COMBAT_ENCOUNTER_PHASE_CHANGED", nil, phase)
+	end)
+
 	if (Details.debug) then
 		Details:Msg("(debug) [3.3.5] DBM boss mod callbacks registered.")
 	end

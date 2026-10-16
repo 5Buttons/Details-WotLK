@@ -49,9 +49,9 @@ local createMultiChartFrame = function()
     ---@type df_chartmulti
     local chartPanel = detailsFramework:CreateGraphicMultiLineFrame(edFrame, "EncounterDetailsChartPanel")
     chartPanel.xAxisLabelsYOffset = -9
+    chartPanel:SetSize(CONST_CHART_WIDTH, CONST_CHART_HEIGHT) --[3.3.5]
     chartPanel:CreateAxesLines(48, 28, "left", 1, 10, 10, 1, 1, 1, 1)
     chartPanel:SetXAxisDataType("time")
-    chartPanel:SetSize(CONST_CHART_WIDTH, CONST_CHART_HEIGHT)
     chartPanel:SetPoint("topleft", encounterDetails.Frame, "topleft", 2, -76)
     chartPanel:SetLineThickness(3)
     encounterDetails.chartPanel = chartPanel
@@ -93,6 +93,19 @@ function encounterDetails:ShowChartFrame()
         multiChartPanel = createMultiChartFrame()
     end
     multiChartPanel:Reset()
+
+    if (multiChartPanel.plotFrame:GetWidth() < 1 or multiChartPanel.plotFrame:GetHeight() < 1) then --[3.3.5]
+        multiChartPanel.layoutRetries335 = (multiChartPanel.layoutRetries335 or 0) + 1
+        if (multiChartPanel.layoutRetries335 <= 10) then
+            C_Timer.After(0, function()
+                if (multiChartPanel:IsShown() and encounterDetails.Frame.ShowType == "graph") then
+                    encounterDetails:ShowChartFrame()
+                end
+            end)
+            return
+        end
+    end
+    multiChartPanel.layoutRetries335 = nil
 
     ---@type combat
     local combatObject = encounterDetails:GetCombat(segment)

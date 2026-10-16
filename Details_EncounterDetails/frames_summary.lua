@@ -30,6 +30,13 @@ end
 local encounterDetails = _G.EncounterDetailsGlobal
 local edFrame = encounterDetails.Frame
 
+--[3.3.5]
+encounterDetails.FallbackActor335 = {
+	Class = function() return "UNKNOW" end,
+	Spec = function() return nil end,
+	Name = function() return "" end,
+}
+
 ---@alias interruptamount number
 ---@alias successcastamount number
 
@@ -127,7 +134,7 @@ do --player damage taken
         bar.highlightTexture:Show()
 
         ---@type combat
-        local combatObject = encounterDetails:GetCombat(encounterDetails._segment)
+        local combatObject = encounterDetails._summaryCombat or encounterDetails:GetCombat(encounterDetails._segment) --[3.3.5]
         local damageTakenFrom = actorObject.damage_from
         local damageTakenAmount = actorObject.damage_taken
         local actorName = actorObject:Name()
@@ -188,7 +195,7 @@ do --player damage taken
     local damageTaken_RefreshFunc = function(self, data, offset, totalLines) --~refresh ~damage ~taken ~by ~spell
         local ToK = Details:GetCurrentToKFunction()
         ---@type combat
-        local combatObject = encounterDetails:GetCombat(encounterDetails._segment)
+        local combatObject = encounterDetails._summaryCombat or encounterDetails:GetCombat(encounterDetails._segment) --[3.3.5]
         local topValue = data[1] and data[1][2]
 
         for i = 1, totalLines do
@@ -199,7 +206,7 @@ do --player damage taken
                 local line = self:GetLine(i)
                 local actorName = thisData[1]
                 local damageTaken = thisData[2]
-                local actorObject = combatObject:GetActor(DETAILS_ATTRIBUTE_DAMAGE, actorName)
+                local actorObject = combatObject:GetActor(DETAILS_ATTRIBUTE_DAMAGE, actorName) or encounterDetails.FallbackActor335 --[3.3.5]
 
                 line.lineText1:SetText(detailsFramework:RemoveRealmName(actorName))
                 line.lineText3:SetText("")
@@ -276,7 +283,7 @@ do --~ability ~damage taken by spell
         bar.highlightTexture:Show()
 
         ---@type combat
-        local combatObject = encounterDetails:GetCombat(encounterDetails._segment)
+        local combatObject = encounterDetails._summaryCombat or encounterDetails:GetCombat(encounterDetails._segment) --[3.3.5]
         ---@type actorcontainer
         local damageContainer = combatObject:GetContainer(DETAILS_ATTRIBUTE_DAMAGE)
 
@@ -346,7 +353,7 @@ do --~ability ~damage taken by spell
     ---@param totalLines number
     local spellDamage_RefreshFunc = function(self, data, offset, totalLines) --~refresh ~damage ~taken ~by ~spell
         ---@type combat
-        local combatObject = encounterDetails:GetCombat(encounterDetails._segment)
+        local combatObject = encounterDetails._summaryCombat or encounterDetails:GetCombat(encounterDetails._segment) --[3.3.5]
         local topValue = data[1] and data[1][2]
 
         for i = 1, totalLines do
@@ -488,7 +495,7 @@ do --enemy damage taken ~adds ~enemies
         bar.highlightTexture:Show()
 
         ---@type combat
-        local combatObject = encounterDetails:GetCombat(encounterDetails._segment)
+        local combatObject = encounterDetails._summaryCombat or encounterDetails:GetCombat(encounterDetails._segment) --[3.3.5]
         local damageTakenFrom = actorObject.damage_from
         local damageTakenAmount = actorObject.damage_taken
         local actorName = actorObject:Name()
@@ -540,7 +547,7 @@ do --enemy damage taken ~adds ~enemies
     local enemiesScroll_RefreshFunc = function(self, data, offset, totalLines) --~refresh ~damage ~taken ~by ~spell
         local ToK = Details:GetCurrentToKFunction()
         ---@type combat
-        local combatObject = encounterDetails:GetCombat(encounterDetails._segment)
+        local combatObject = encounterDetails._summaryCombat or encounterDetails:GetCombat(encounterDetails._segment) --[3.3.5]
         local topValue = data[1] and data[1][2]
 
         for i = 1, totalLines do
@@ -551,7 +558,7 @@ do --enemy damage taken ~adds ~enemies
                 local line = self:GetLine(i)
                 local actorName = thisData[1]
                 local damageTaken = thisData[2]
-                local actorObject = combatObject:GetActor(DETAILS_ATTRIBUTE_DAMAGE, actorName)
+                local actorObject = combatObject:GetActor(DETAILS_ATTRIBUTE_DAMAGE, actorName) or encounterDetails.FallbackActor335 --[3.3.5]
 
                 line.actorName = actorName
                 line.damegeTaken = damageTaken
@@ -637,11 +644,11 @@ do -- ~interrupt
         GameCooltip:Preset(2)
 
         ---@type combat
-        local combatObject = encounterDetails:GetCombat(encounterDetails._segment)
+        local combatObject = encounterDetails._summaryCombat or encounterDetails:GetCombat(encounterDetails._segment) --[3.3.5]
         local interruptsByTable = {}
 
         for playerName, amount in pairs(interruptBy) do
-            local actorObject = combatObject:GetActor(DETAILS_ATTRIBUTE_DAMAGE, playerName)
+            local actorObject = combatObject:GetActor(DETAILS_ATTRIBUTE_DAMAGE, playerName) or encounterDetails.FallbackActor335 --[3.3.5]
             interruptsByTable[#interruptsByTable + 1] = {playerName, amount, actorObject}
         end
 
@@ -679,7 +686,7 @@ do -- ~interrupt
     local interruptScroll_RefreshFunc = function(self, data, offset, totalLines) --~refresh ~interrupt ~interrupts ~cut ~kicks ~quick
         local ToK = Details:GetCurrentToKFunction()
         ---@type combat
-        local combatObject = encounterDetails:GetCombat(encounterDetails._segment)
+        local combatObject = encounterDetails._summaryCombat or encounterDetails:GetCombat(encounterDetails._segment) --[3.3.5]
         local topValue = data[1] and data[1][2]
 
         for i = 1, totalLines do
@@ -822,11 +829,11 @@ do -- ~dispel
         GameCooltip:Preset(2)
 
         ---@type combat
-        local combatObject = encounterDetails:GetCombat(encounterDetails._segment)
+        local combatObject = encounterDetails._summaryCombat or encounterDetails:GetCombat(encounterDetails._segment) --[3.3.5]
         local dispelsByTable = {}
 
         for playerName, amount in pairs(dispelBy) do
-            local actorObject = combatObject:GetActor(DETAILS_ATTRIBUTE_DAMAGE, playerName)
+            local actorObject = combatObject:GetActor(DETAILS_ATTRIBUTE_DAMAGE, playerName) or encounterDetails.FallbackActor335 --[3.3.5]
             dispelsByTable[#dispelsByTable + 1] = {playerName, amount, actorObject}
         end
 
@@ -864,7 +871,7 @@ do -- ~dispel
     local dispelScroll_RefreshFunc = function(self, data, offset, totalLines) --~refresh ~dispel ~dispels
         local ToK = Details:GetCurrentToKFunction()
         ---@type combat
-        local combatObject = encounterDetails:GetCombat(encounterDetails._segment)
+        local combatObject = encounterDetails._summaryCombat or encounterDetails:GetCombat(encounterDetails._segment) --[3.3.5]
         local topValue = data[1] and data[1][2]
 
         for i = 1, totalLines do
@@ -1123,7 +1130,7 @@ do --~deaths ~dead
 
     local deathScroll_RefreshFunc = function(self, data, offset, totalLines) --~refresh ~death ~deaths
         ---@type combat
-        local combatObject = encounterDetails:GetCombat(encounterDetails._segment)
+        local combatObject = encounterDetails._summaryCombat or encounterDetails:GetCombat(encounterDetails._segment) --[3.3.5]
         local topValue = data[1] and data[1][2]
 
         for i = 1, totalLines do
@@ -1138,7 +1145,7 @@ do --~deaths ~dead
                 local deathTimeUnixTime = thisData[4]
                 local battleRess = thisData[5]
 
-                local actorObject = combatObject:GetActor(DETAILS_ATTRIBUTE_DAMAGE, actorName)
+                local actorObject = combatObject:GetActor(DETAILS_ATTRIBUTE_DAMAGE, actorName) or encounterDetails.FallbackActor335 --[3.3.5]
                 local combatTime = combatObject:GetCombatTime()
 
                 ---@type unixtime
@@ -1238,6 +1245,7 @@ do --~deaths ~dead
 end
 
 function encounterDetails.RefreshSummaryPage(combatObject)
+    encounterDetails._summaryCombat = combatObject --[3.3.5]
     local gradientHeight = 20
     local gradientAlpha = 0.25
 

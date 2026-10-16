@@ -1027,7 +1027,7 @@ local on_enter = function(self)
 
             --total casts
             local amountOfCasts = combatObject:GetSpellCastAmount(player1, GetSpellInfo(spellid))
-            if (amountOfCasts) then
+            if (amountOfCasts and amountOfCasts > 0) then --[3.3.5]
                 frame1.tooltip.casts_label3:SetText(amountOfCasts)
                 frame1.tooltip.casts_label2:SetText(COMPARE_FIRSTPLAYER_PERCENT)
 
@@ -1182,7 +1182,7 @@ local on_enter = function(self)
             --total casts
             local amt_casts = combatObject:GetSpellCastAmount(player2_misc:Name(), GetSpellInfo(spellid))
 
-            if (amt_casts) then
+            if (amt_casts and amt_casts > 0) then --[3.3.5]
                 if (not player1_casts) then
                     frame2.tooltip.casts_label3:SetText(amt_casts)
                     frame2.tooltip.casts_label2:SetText(COMPARE_UNKNOWNDATA)
@@ -1338,10 +1338,11 @@ local on_enter = function(self)
             --total casts
             local amt_casts = combatObject:GetSpellCastAmount(player3_misc:Name(), GetSpellInfo(spellid))
 
-            if (amt_casts) then
+            if (amt_casts and amt_casts > 0) then --[3.3.5]
 
                 if (not player1_casts) then
-                    frame3.tooltip.casts_label2:SetText(amt_casts)
+                    frame3.tooltip.casts_label3:SetText(amt_casts) --[3.3.5]
+                    frame3.tooltip.casts_label2:SetText(COMPARE_UNKNOWNDATA) --[3.3.5]
                 elseif (player1_casts > amt_casts) then
                     local diff = player1_casts - amt_casts
                     local up = diff / amt_casts * 100

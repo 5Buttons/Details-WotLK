@@ -299,6 +299,19 @@ do
 				Details:OpenPlugin("DETAILS_PLUGIN_ENCOUNTER_DETAILS")
 			end
 
+			if (tabSelected and not encounterDetails._segment and not encounterDetails.refreshing335) then --[3.3.5]
+				encounterDetails.refreshing335 = true
+				encounterDetails.db.last_section_selected = tabSelected
+				local ok, err = pcall(encounterDetails.OpenAndRefresh, encounterDetails)
+				encounterDetails.refreshing335 = nil
+				if (not ok) then
+					geterrorhandler()(err)
+				end
+				if (encounterDetails._segment) then
+					return
+				end
+			end
+
 			EncounterDetailsPhaseFrame:Hide()
 			resetSelectedButtonTemplate()
 
@@ -313,7 +326,7 @@ do
 				hide_Emote()
 
 				edFrame.ShowType = "main"
-				edFrame.segmentsDropdown:Enable()
+				if (edFrame.segmentsDropdown) then edFrame.segmentsDropdown:Enable() end --[3.3.5]
 				edFrame.buttonSwitchNormal:SetTemplate(detailsFramework:GetTemplate("button", "DETAILS_PLUGIN_BUTTONSELECTED_TEMPLATE"))
 				encounterDetails.db.last_section_selected = edFrame.ShowType
 
@@ -350,7 +363,7 @@ do
 				encounterDetails.EmoteScrollFrame:Update()
 				edFrame.EmotesSegment:Refresh()
 				edFrame.EmotesSegment:Select(encounterDetails.emoteSegmentIndex)
-				edFrame.segmentsDropdown:Disable()
+				if (edFrame.segmentsDropdown) then edFrame.segmentsDropdown:Disable() end --[3.3.5]
 				edFrame.buttonSwitchBossEmotes:SetTemplate(detailsFramework:GetTemplate("button", "DETAILS_PLUGIN_BUTTONSELECTED_TEMPLATE"))
 				encounterDetails.db.last_section_selected = edFrame.ShowType
 
@@ -398,7 +411,7 @@ do
 					widget:Hide()
 				end
 
-				edFrame.segmentsDropdown:Enable()
+				if (edFrame.segmentsDropdown) then edFrame.segmentsDropdown:Enable() end --[3.3.5]
 				edFrame.buttonSwitchGraphic:SetTemplate(detailsFramework:GetTemplate("button", "DETAILS_PLUGIN_BUTTONSELECTED_TEMPLATE"))
 				encounterDetails.db.last_section_selected = edFrame.ShowType
 			end
