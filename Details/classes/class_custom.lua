@@ -1452,14 +1452,14 @@
 
 			local DamageActivityTime = {
 				name = Loc ["STRING_CUSTOM_ACTIVITY_DPS"],
-				icon = [[Interface\Buttons\UI-MicroStream-Red]],
+				icon = [[Interface\AddOns\Details\images\retail\buttons\ui-microstream-red]],
 				attribute = false,
 				spellid = false,
 				author = "Terciob",
 				desc = Loc ["STRING_CUSTOM_ACTIVITY_DPS_DESC"],
 				source = false,
 				target = false,
-				script_version = 4,
+				script_version = 5, --[3.3.5]
 				total_script = [[
 					local value, top, total, combat, instance = ...
 					local minutos, segundos = math.floor(value/60), math.floor(value%60)
@@ -1514,14 +1514,14 @@
 
 			local HealActivityTime = {
 				name = Loc ["STRING_CUSTOM_ACTIVITY_HPS"],
-				icon = [[Interface\Buttons\UI-MicroStream-Green]],
+				icon = [[Interface\AddOns\Details\images\retail\buttons\ui-microstream-green]],
 				attribute = false,
 				spellid = false,
 				author = "Terciob",
 				desc = Loc ["STRING_CUSTOM_ACTIVITY_HPS_DESC"],
 				source = false,
 				target = false,
-				script_version = 3,
+				script_version = 4, --[3.3.5]
 				total_script = [[
 					local value, top, total, combat, instance = ...
 					local minutos, segundos = math.floor(value/60), math.floor(value%60)

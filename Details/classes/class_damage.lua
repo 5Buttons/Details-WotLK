@@ -5332,7 +5332,7 @@ function damageClass:ToolTip_DamageTaken(instance, numero, barra, keydown)
 	end
 
 	if (subAttribute == DETAILS_SUBATTRIBUTE_ENEMIES) then
-		--Details:AddTooltipSpellHeaderText(Loc ["STRING_DAMAGE_TAKEN_FROM"], headerColor, #damageTakenDataSorted, [[Interface\Buttons\UI-MicroStream-Red]], 0.1875, 0.8125, 0.15625, 0.78125)
+		--Details:AddTooltipSpellHeaderText(Loc ["STRING_DAMAGE_TAKEN_FROM"], headerColor, #damageTakenDataSorted, [[Interface\AddOns\Details\images\retail\buttons\ui-microstream-red]], 0.1875, 0.8125, 0.15625, 0.78125)
 	else
 		--Details:AddTooltipSpellHeaderText(Loc ["STRING_FROM"], headerColor, #damageTakenDataSorted, [[Interface\Addons\Details\images\icons]], 0.126953125, 0.1796875, 0, 0.0546875)
 	end
@@ -7996,7 +7996,7 @@ end
 
 		--enemy damage taken
 		Details:AddTooltipSpellHeaderText(Loc ["STRING_ATTRIBUTE_DAMAGE"], headerColor, i-1, true)
-		GameCooltip:AddIcon([=[Interface\Buttons\UI-MicroStream-Green]=], 2, 1, 14, 14, 0.1875, 0.8125, 0.15625, 0.78125)
+		GameCooltip:AddIcon([=[Interface\AddOns\Details\images\retail\buttons\ui-microstream-green]=], 2, 1, 14, 14, 0.1875, 0.8125, 0.15625, 0.78125)
 		GameCooltip:AddIcon([=[Interface\AddOns\Details\images\key_shift]=], 2, 2, Details.tooltip_key_size_width, Details.tooltip_key_size_height, 0, 1, 0, 0.640625, Details.tooltip_key_overlay2)
 		GameCooltip:AddStatusBar(100, 2, 0.7, g, b, 1)
 

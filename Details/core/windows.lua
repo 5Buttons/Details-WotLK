@@ -1385,10 +1385,10 @@
 
 						--reopen all windows
 						GameCooltip:AddMenu (1, Details.ReabrirTodasInstancias, true, nil, nil, Loc ["STRING_MINIMAPMENU_REOPENALL"], nil, true)
-						GameCooltip:AddIcon ([[Interface\Buttons\UI-MicroStream-Green]], 1, 1, 14, 14, 0.1875, 0.8125, 0.84375, 0.15625)
+						GameCooltip:AddIcon ([[Interface\AddOns\Details\images\retail\buttons\ui-microstream-green]], 1, 1, 14, 14, 0.1875, 0.8125, 0.84375, 0.15625)
 						--close all windows
 						GameCooltip:AddMenu (1, Details.ShutDownAllInstances, true, nil, nil, Loc ["STRING_MINIMAPMENU_CLOSEALL"], nil, true)
-						GameCooltip:AddIcon ([[Interface\Buttons\UI-MicroStream-Red]], 1, 1, 14, 14, 0.1875, 0.8125, 0.15625, 0.84375)
+						GameCooltip:AddIcon ([[Interface\AddOns\Details\images\retail\buttons\ui-microstream-red]], 1, 1, 14, 14, 0.1875, 0.8125, 0.15625, 0.84375)
 
 						GameCooltip:AddLine("$div")
 
