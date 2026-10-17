@@ -14,6 +14,15 @@ Started as an update for Bunny67 backport but it ended more in a complete rebase
 3. Coming from an older Details backport? Delete or rename `WTF\Account\<ACCOUNT>\SavedVariables\Details.lua`, because the old data format is not compatible.
 4. Restart the client completely; a `/reload` is not enough for new texture files.
 
+## Optional: Encounter Journal
+
+If the [EncounterJournal](https://github.com/5Buttons/EncounterJournal) addon is installed, Details! also reads boss and instance data from it. EncounterJournal is an optional dependency only, so Details! loads normally without it.
+
+What you get with it:
+- **Boss portraits** next to boss segments in the segment menu
+- **Instance artwork** as the tooltip background for raid and dungeon segments
+- **Encounter information** for boss fights: Details! links each fight to the right boss and instance (proper names and icons instead of a plain "boss fight" entry)
+- **Statistics window**: records can be filtered to current content (WotLK raids and dungeons)
 ## Plugins
 
 | Plugin | Status |
