@@ -72,6 +72,28 @@
 		end
 	end
 
+	do --[3.3.5]
+		local wotlkCooldowns = {
+			--PALADIN
+			[633] = 3, [2800] = 3, [10310] = 3, [27154] = 3, [48788] = 3, --Lay on Hands
+			[1022] = 3, [5599] = 3, [10278] = 3, --Hand of Protection
+			[64205] = 4, --Divine Sacrifice
+			--DRUID
+			[740] = 4, [8918] = 4, [9862] = 4, [9863] = 4, [26983] = 4, [48446] = 4, [48447] = 4, --Tranquility
+			[20484] = 3, [20739] = 3, [20742] = 3, [20747] = 3, [20748] = 3, [26994] = 3, [48477] = 3, --Rebirth
+			--ROGUE
+			[1856] = 2, [1857] = 2, [26889] = 2, --Vanish
+			[5277] = 2, [26669] = 2, --Evasion
+			--SHAMAN
+			[16190] = 4, --Mana Tide Totem
+			[2825] = 4, --Bloodlust
+			[32182] = 4, --Heroism
+		}
+		for spellId, cooldownType in pairs(wotlkCooldowns) do
+			defensive_cooldowns[spellId] = defensive_cooldowns[spellId] or {type = cooldownType}
+		end
+	end
+
 	--cache the addition functions for each attribute
 	local _spell_damage_func = Details.habilidade_dano.Add
 	local _spell_damageMiss_func = Details.habilidade_dano.AddMiss
@@ -945,6 +967,19 @@
 			--	sourceName = Details.NeltharusWeaponActorName
 			--	sourceFlags = 0x514
 			--	sourceSerial = "Creature-0-3134-2289-28065-" .. spellId .. "-000164C698"
+			end
+		end
+
+		if (Details.FirstHitWait335) then --[3.3.5]
+			if (GetTime() - Details.FirstHitWait335 > 10) then
+				Details.FirstHitWait335 = nil
+			elseif (token ~= "SPELL_PERIODIC_DAMAGE" and ((sourceFlags and bitBand(sourceFlags, AFFILIATION_GROUP) ~= 0) or (targetFlags and bitBand(targetFlags, AFFILIATION_GROUP) ~= 0))) then
+				Details.FirstHitWait335 = nil
+				if (Details.WhoAggroTimer) then
+					Details.WhoAggroTimer:Cancel()
+				end
+				Details.WhoAggroTimer = C_Timer.NewTimer(0.1, whoAggro)
+				Details.WhoAggroTimer.HitBy = "|cFFFFFF00First Hit|r: " .. (_GetSpellInfo(spellId) or "") .. " from " .. (sourceName or "Unknown")
 			end
 		end
 
@@ -5686,10 +5721,12 @@ local SPELL_POWER_PAIN = SPELL_POWER_PAIN or (PowerEnum and PowerEnum.Pain) or 1
 
 		if not detailsFramework.IsAddonApocalypseWow() then
 			if (not Details.WhoAggroTimer and Details.announce_firsthit.enabled) then
-				Details.WhoAggroTimer = C_Timer.NewTimer(0.1, whoAggro)
 				local firstHit = Details.FirstHit335 --[3.3.5]
 				if (firstHit and GetTime() - firstHit[1] <= 5) then --[3.3.5]
+					Details.WhoAggroTimer = C_Timer.NewTimer(0.1, whoAggro) --[3.3.5]
 					Details.WhoAggroTimer.HitBy = firstHit[2] --[3.3.5]
+				else --[3.3.5]
+					Details.FirstHitWait335 = GetTime() --[3.3.5]
 				end --[3.3.5]
 				Details.FirstHit335 = nil --[3.3.5]
 				for i = 1, 5 do

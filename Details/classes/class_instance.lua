@@ -2656,6 +2656,10 @@ end
 		newInstance:ReajustaGump()
 
 		newInstance.rows_fit_in_window = _math_floor(newInstance.posicao[newInstance.mostrando].h / newInstance.row_height)
+		for i = #newInstance.barras + 1, newInstance.rows_fit_in_window do --[3.3.5]
+			gump:CreateNewLine(newInstance, i)
+		end
+		newInstance.rows_created = #newInstance.barras --[3.3.5]
 
 		--all done
 		--'temp' and 'all' are passed for a detached instance so the activation does not ungroup other

@@ -743,9 +743,9 @@ function atributo_misc:UpdateDeathRow(deathTable, whichRowLine, rankPosition, in
 			thisRow.icone_classe:SetTexture(instanceObject.row_info.spec_file)
 			thisRow.icone_classe:SetTexCoord(unpack(Details.class_specs_coords[spec]))
 		else
-			if (CLASS_ICON_TCOORDS [deathTable[4]]) then
+			if (Details.class_coords[deathTable[4]]) then --[3.3.5]
 				thisRow.icone_classe:SetTexture(instanceObject.row_info.icon_file)
-				thisRow.icone_classe:SetTexCoord(unpack(CLASS_ICON_TCOORDS [deathTable[4]]))
+				thisRow.icone_classe:SetTexCoord(unpack(Details.class_coords[deathTable[4]]))
 			else
 				local texture, l, r, t, b = Details:GetUnknownClassIcon()
 				thisRow.icone_classe:SetTexture(texture)
@@ -753,9 +753,9 @@ function atributo_misc:UpdateDeathRow(deathTable, whichRowLine, rankPosition, in
 			end
 		end
 	else
-		if (CLASS_ICON_TCOORDS [deathTable[4]]) then
+		if (Details.class_coords[deathTable[4]]) then --[3.3.5]
 			thisRow.icone_classe:SetTexture(instanceObject.row_info.icon_file)
-			thisRow.icone_classe:SetTexCoord(unpack(CLASS_ICON_TCOORDS [deathTable[4]]))
+			thisRow.icone_classe:SetTexCoord(unpack(Details.class_coords[deathTable[4]]))
 		else
 			local texture, l, r, t, b = Details:GetUnknownClassIcon()
 			thisRow.icone_classe:SetTexture(texture)

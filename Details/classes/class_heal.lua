@@ -1898,7 +1898,7 @@ function healingClass:MontaInfoHealTaken()
 
 		--hes:UpdadeInfoBar(row, index, spellid, name, value, max, percent, icon, detalhes)
 
-		local texCoords = CLASS_ICON_TCOORDS [tabela[4]]
+		local texCoords = _detalhes.class_coords[tabela[4]] --[3.3.5]
 		if (not texCoords) then
 			texCoords = _detalhes.class_coords ["UNKNOW"]
 		end

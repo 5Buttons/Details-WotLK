@@ -121,6 +121,7 @@ do
 			[48825]			=	65, -- Holy Shock (rank 7)
 			[31842]			=	65, -- Divine Illumination
 			[53563]			=	65, -- Beacon of Light
+			[53652]			=	65, -- Beacon of Light --[3.3.5]
 
 			-- Protection Paladin:
 			[20925]			=	66, -- Holy Shield (rank 1)
