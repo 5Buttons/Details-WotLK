@@ -1558,6 +1558,7 @@ do
 		SharedMedia:Register("statusbar", "Details Hyanda Reverse", [[Interface\AddOns\Details\images\bar_textures\bar_hyanda_reverse.tga]])
 		SharedMedia:Register("statusbar", "You Are the Best!", [[Interface\AddOns\Details\images\bar_textures\bar_best.tga]])
 		SharedMedia:Register("statusbar", "Details Hyanda", [[Interface\AddOns\Details\images\bar_hyanda]])
+		SharedMedia:Register("statusbar", "Blizzard Raid Bar", [[Interface\AddOns\Details\images\retail\raidframe\raid-bar-hp-fill]]) --[3.3.5]
 
 		SharedMedia:Register("statusbar", "Details D'ictum", [[Interface\AddOns\Details\images\bar4]])
 		SharedMedia:Register("statusbar", "Details Vidro", [[Interface\AddOns\Details\images\bar4_vidro]])

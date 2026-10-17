@@ -479,8 +479,10 @@ local runCallbackFunctionForButton = function(button)
 	--exec function if any
 	if (button.table.onclick) then
 		--need: the the callback func, the object of the dropdown (capsule), the object (capsule) of the button to get FixedValue and the last need the value of the optionTable
-		xpcall(button.table.onclick, geterrorhandler(), button:GetParent():GetParent():GetParent().MyObject, button.object.FixedValue, button.table.value)
-		button:GetParent():GetParent():GetParent().MyObject:RunHooksForWidget("OnOptionSelected", button:GetParent():GetParent():GetParent().MyObject, button.object.FixedValue, button.table.value)
+		local scrollFrame335 = button:GetParent():GetParent() --[3.3.5]
+		local dropdownObject335 = (scrollFrame335.dropdownOwner335 or scrollFrame335:GetParent()).MyObject --[3.3.5]
+		xpcall(button.table.onclick, geterrorhandler(), dropdownObject335, button.object.FixedValue, button.table.value) --[3.3.5]
+		dropdownObject335:RunHooksForWidget("OnOptionSelected", dropdownObject335, button.object.FixedValue, button.table.value) --[3.3.5]
 	end
 end
 
@@ -762,7 +764,49 @@ function DetailsFrameworkDropDownOptionClick(button)
 end
 
 --on click on the dropdown show the menu frame with the options to select
+local setStrataRecursive335 --[3.3.5]
+setStrataRecursive335 = function(frame, strata, level)
+	frame:SetFrameStrata(strata)
+	frame:SetFrameLevel(level)
+	local children = {frame:GetChildren()}
+	for i = 1, #children do
+		setStrataRecursive335(children[i], strata, level + 1)
+	end
+end
+
+local findParentOutsideScrollFrame335 = function(frame) --[3.3.5]
+	local target
+	local parent = frame:GetParent()
+	while (parent) do
+		if (parent:GetObjectType() == "ScrollFrame") then
+			target = parent:GetParent()
+		end
+		parent = parent:GetParent()
+	end
+	return target
+end
+
+local closeOnDropdownHide335 = function(dropdownFrame) --[3.3.5]
+	if (dropdownFrame.MyObject and dropdownFrame.dropdownborder:IsShown()) then
+		dropdownFrame.MyObject:Close()
+	end
+end
+
 function DropDownMetaFunctions:Open()
+	local outsideParent335 = findParentOutsideScrollFrame335(self.dropdown) --[3.3.5]
+	if (outsideParent335) then
+		self.dropdown.dropdownborder.dropdownOwner335 = self.dropdown
+		self.dropdown.dropdownframe.dropdownOwner335 = self.dropdown
+		self.dropdown.dropdownborder:SetParent(outsideParent335)
+		self.dropdown.dropdownframe:SetParent(outsideParent335)
+		if (not self.dropdown.closeOnHideHooked335) then
+			self.dropdown.closeOnHideHooked335 = true
+			self.dropdown:HookScript("OnHide", closeOnDropdownHide335)
+		end
+	end
+	local baseLevel335 = self.dropdown:GetFrameLevel() + 100 --[3.3.5]
+	setStrataRecursive335(self.dropdown.dropdownborder, "FULLSCREEN_DIALOG", baseLevel335) --[3.3.5]
+	setStrataRecursive335(self.dropdown.dropdownframe, "FULLSCREEN_DIALOG", baseLevel335 + 1) --[3.3.5]
 	self.dropdown.dropdownframe:Show()
 	self.dropdown.dropdownborder:Show()
 
@@ -795,7 +839,7 @@ end
 
 --close by escape key
 function DetailsFrameworkDropDownOptionsFrameOnHide(self)
-	self:GetParent().MyObject:Close()
+	(self.dropdownOwner335 or self:GetParent()).MyObject:Close() --[3.3.5]
 end
 
 --on enter an option in the menu dropdown

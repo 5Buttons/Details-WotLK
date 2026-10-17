@@ -3903,13 +3903,18 @@ function Details:MontaAtributosOption (instancia, func)
 			end
 		else
 			for o = 1, atributos [i] do
+				local iconInfo = sub_atributos[i].icones and sub_atributos[i].icones[o] --[3.3.5]
+				local iconTexture, l, r, t, b = menu_icones[i], p*(o-1), p*(o), 0, 1 --[3.3.5]
+				if (iconInfo) then --[3.3.5]
+					iconTexture, l, r, t, b = iconInfo[1], iconInfo[2][1], iconInfo[2][2], iconInfo[2][3], iconInfo[2][4]
+				end
 				if (Details:CaptureIsEnabled ( Details.atributos_capture [gindex] )) then
 					CoolTip:AddMenu (2, func, true, i, o, options[o], nil, true)
-					CoolTip:AddIcon (menu_icones[i], 2, 1, 20, 20, p*(o-1), p*(o), 0, 1)
+					CoolTip:AddIcon (iconTexture, 2, 1, 20, 20, l, r, t, b) --[3.3.5]
 				else
 					CoolTip:AddLine(options[o], nil, 2, .5, .5, .5, 1)
 					CoolTip:AddMenu (2, func, true, i, o)
-					CoolTip:AddIcon (menu_icones[i], 2, 1, 20, 20, p*(o-1), p*(o), 0, 1, {.3, .3, .3, 1})
+					CoolTip:AddIcon (iconTexture, 2, 1, 20, 20, l, r, t, b, {.3, .3, .3, 1}) --[3.3.5]
 				end
 
 				gindex = gindex + 1

@@ -490,6 +490,20 @@ function Details222.StartUp.StartMeUp()
 			end
 		end
 	end
+
+	do --[3.3.5]
+		local iconRemap = {
+			["interface\\buttons\\ui-microstream-red"] = [[Interface\AddOns\Details\images\retail\buttons\ui-microstream-red]],
+			["interface\\buttons\\ui-microstream-green"] = [[Interface\AddOns\Details\images\retail\buttons\ui-microstream-green]],
+		}
+		for _, customObject in ipairs(Details.custom) do
+			local newIcon = type(customObject.icon) == "string" and iconRemap[customObject.icon:lower()]
+			if (newIcon) then
+				customObject.icon = newIcon
+			end
+		end
+	end
+
 	--check is this is the first run of this version
 	if (Details.is_version_first_run) then
 		if (Details.build_counter == 13096) then
