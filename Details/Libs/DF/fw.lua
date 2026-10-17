@@ -544,18 +544,18 @@ end
 ---@field EJ_GetCreatureInfo fun(index: number, journalEncounterID: number?)
 ---@field EJ_SetDifficulty fun(difficultyID: number)
 ---@field EJ_GetNumLoot fun(): number
-DF.EncounterJournal = {
-	EJ_GetInstanceForMap = EJ_GetInstanceForMap or function() return nil end,
-	EJ_GetInstanceInfo = EJ_GetInstanceInfo or function() return nil end,
-	EJ_SelectInstance = EJ_SelectInstance or function() return nil end,
-	EJ_GetEncounterInfoByIndex = EJ_GetEncounterInfoByIndex or function() return nil end,
-	EJ_GetEncounterInfo = EJ_GetEncounterInfo or function() return nil end,
-	EJ_SelectEncounter = EJ_SelectEncounter or function() return nil end,
-	EJ_GetSectionInfo = EJ_GetSectionInfo or function() return nil end,
-	EJ_GetCreatureInfo = EJ_GetCreatureInfo or function() return nil end,
-	EJ_SetDifficulty = EJ_SetDifficulty or function() return nil end,
-	EJ_GetNumLoot = EJ_GetNumLoot or function() return 0 end,
-}
+--[3.3.5]
+local ejReturnNil = function() return nil end
+local ejReturnZero = function() return 0 end
+DF.EncounterJournal = setmetatable({}, {
+	__index = function(_, key)
+		local func = _G[key]
+		if (type(func) == "function") then
+			return func
+		end
+		return key == "EJ_GetNumLoot" and ejReturnZero or ejReturnNil
+	end,
+})
 
 --will always give a very random name for our widgets
 local init_counter = math.random(1, 1000000)
