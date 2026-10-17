@@ -1578,6 +1578,9 @@ do
 		SharedMedia:Register("statusbar", "Details2020", [[Interface\AddOns\Details\images\bar_textures\texture2020]])
 		SharedMedia:Register("statusbar", "Left White Gradient", [[Interface\AddOns\Details\images\bar_textures\gradient_white_10percent_left]])
 		SharedMedia:Register("statusbar", "Details! Slash", [[Interface\AddOns\Details\images\bar_textures\bar_of_bars.tga]])
+		SharedMedia:Register("statusbar", "TheWarWithinHeader", [[Interface\AddOns\Details\images\skins\tww\header]]) --[3.3.5]
+		SharedMedia:Register("statusbar", "TheWarWithinBar", [[Interface\AddOns\Details\images\skins\tww\bar]]) --[3.3.5]
+		SharedMedia:Register("statusbar", "TheWarWithinBackground", [[Interface\AddOns\Details\images\skins\tww\background]]) --[3.3.5]
 
 		--window bg and bar order
 		SharedMedia:Register("background", "Details Ground", [[Interface\AddOns\Details\images\background]])

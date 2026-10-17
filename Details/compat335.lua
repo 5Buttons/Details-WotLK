@@ -349,10 +349,7 @@ do
 			else
 				timer._cancelled = timer._handle and true or nil
 			end
-			local ok, err = pcall(timer._callback, timer._handle and timer or nil)
-			if (not ok) then
-				callErrorHandler(err)
-			end
+			xpcall(timer._callback, callErrorHandler, timer._handle and timer or nil)
 		end
 		if (heapSize == 0) then
 			self:Hide()
@@ -2609,6 +2606,34 @@ do
 			if (methods and not rawget(methods, "__detailsCompatMouse") and frameType ~= "Button" and frameType ~= "CheckButton") then
 				methods.__detailsCompatMouse = true
 				hooksecurefunc(methods, "SetScript", onSetScript)
+			end
+		end
+
+		local encounterEvents = {ENCOUNTER_START = true, ENCOUNTER_END = true}
+		local encounterFrames = setmetatable({}, {__mode = "k"})
+
+		for _, sample in pairs(samples) do
+			local methods = getMethods(sample)
+			if (methods and not rawget(methods, "__detailsCompatEncounter")) then
+				methods.__detailsCompatEncounter = true
+				hooksecurefunc(methods, "RegisterEvent", function(frame, event)
+					if (encounterEvents[event] and isDetailsCaller()) then
+						encounterFrames[frame] = true
+					end
+				end)
+			end
+		end
+
+		function Compat.FireEncounterEvent(event, ...)
+			local frames = {GetFramesRegisteredForEvent(event)}
+			for i = 1, #frames do
+				local frame = frames[i]
+				if (encounterFrames[frame] and frame ~= _G.Details.listener) then
+					local onEvent = frame:GetScript("OnEvent")
+					if (onEvent) then
+						xpcall(onEvent, callErrorHandler, frame, event, ...)
+					end
+				end
 			end
 		end
 

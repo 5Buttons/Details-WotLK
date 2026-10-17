@@ -44,6 +44,7 @@ local function startEncounter(source, encounterId, encounterName)
 		Details:Msg("(debug) [3.3.5] encounter start by", source, encounterId, encounterName)
 	end
 	Details.parser_functions:ENCOUNTER_START(encounterId, encounterName, difficultyId, size)
+	Compat.FireEncounterEvent("ENCOUNTER_START", encounterId, encounterName, difficultyId, size)
 end
 
 local function endEncounter(source, bIsKill)
@@ -59,6 +60,7 @@ local function endEncounter(source, bIsKill)
 		Details:Msg("(debug) [3.3.5] encounter end by", source, encounterId, bIsKill and "kill" or "wipe")
 	end
 	Details.parser_functions:ENCOUNTER_END(encounterId, encounterName, difficultyId, size, bIsKill and 1 or 0)
+	Compat.FireEncounterEvent("ENCOUNTER_END", encounterId, encounterName, difficultyId, size, bIsKill and 1 or 0)
 end
 bossmods335.EndEncounter = endEncounter
 

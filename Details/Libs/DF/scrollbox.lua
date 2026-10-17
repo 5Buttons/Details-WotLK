@@ -400,6 +400,7 @@ detailsFramework.ScrollBoxFunctions = {
 	---@param self df_scrollbox
 	---@param newAmount number
 	SetNumFramesShown = function(self, newAmount)
+		newAmount = math.max(newAmount, 0) --[3.3.5]
 		--hide frames which won't be used
 		if (newAmount < #self.Frames) then
 			for i = newAmount+1, #self.Frames do
