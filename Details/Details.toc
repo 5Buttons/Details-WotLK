@@ -10,8 +10,6 @@
 
 #[3.3.5]
 compat335.lua
-compat335_api.lua
-compat335_widgets.lua
 compat335_templates.xml
 compat335_data.lua
 
