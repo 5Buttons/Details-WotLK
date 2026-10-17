@@ -495,6 +495,7 @@ function Details222.StartUp.StartMeUp()
 		local iconRemap = {
 			["interface\\buttons\\ui-microstream-red"] = [[Interface\AddOns\Details\images\retail\buttons\ui-microstream-red]],
 			["interface\\buttons\\ui-microstream-green"] = [[Interface\AddOns\Details\images\retail\buttons\ui-microstream-green]],
+			["interface\\chatframe\\ui-chaticon-battlenet"] = [[Interface\AddOns\Details\images\retail\chatframe\ui-chaticon-battlenet]],
 		}
 		for _, customObject in ipairs(Details.custom) do
 			local newIcon = type(customObject.icon) == "string" and iconRemap[customObject.icon:lower()]

@@ -1818,7 +1818,7 @@
 
 			local MySpells = {
 				name = Loc ["STRING_CUSTOM_MYSPELLS"],
-				icon = [[Interface\CHATFRAME\UI-ChatIcon-Battlenet]],
+				icon = [[Interface\AddOns\Details\images\retail\chatframe\ui-chaticon-battlenet]],
 				attribute = false,
 				spellid = false,
 				author = "Terciob",

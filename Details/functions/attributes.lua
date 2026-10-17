@@ -60,6 +60,7 @@ do
 		"damage", --enemy damage
 		"aura", --auras
 		"damage", --damage taken by spell
+		"damage", --avoidable damage taken --[3.3.5]
 		
 		"heal", --healing done
 		"heal", --hps
@@ -68,6 +69,7 @@ do
 		"heal", --enemy healed
 		"heal", --damage prevented
 		"heal", --heal absorbed/denied
+		"heal", --potions --[3.3.5]
 		
 		"energy", --mana restored
 		"energy", --rage gained
