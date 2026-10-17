@@ -322,6 +322,15 @@ function petContainer.PetScan(from)
 	Details222.Profiling.ProfileStop("petContainer.PetScan." .. from)
 end
 
+--[3.3.5]
+local fixUnknownPetName335 = function(petInfo, petName)
+	if (petName and petName ~= petInfo.petName and (petInfo.petName == UNKNOWNOBJECT or petInfo.petName == UNKNOWN) and petName ~= UNKNOWNOBJECT and petName ~= UNKNOWN) then
+		petInfo.petName = petName
+		petInfo.displayName = petName
+		petInfo.hashName = petName .. " <" .. petInfo.ownerName .. ">"
+	end
+end
+
 ---@param petGuid guid
 ---@param petName actorname
 ---@return actorname? petNameWithOwner
@@ -340,6 +349,7 @@ function petContainer.GetOwner(petGuid, petName)
 	--check if the pet is already in the cache
 	local petInfo = petContainer.GetPetInfo(petGuid)
 	if (petInfo) then
+		fixUnknownPetName335(petInfo, petName) --[3.3.5]
 		Details222.Profiling.ProfileStop("petContainer.GetOwner")
 		return petInfo.hashName, petInfo.ownerName, petInfo.ownerGuid, petInfo.ownerFlags
 	end
@@ -351,6 +361,7 @@ function petContainer.GetOwner(petGuid, petName)
 	--check if the pet scan found the pet owner
 	local petInfo = petContainer.GetPetInfo(petGuid)
 	if (petInfo) then
+		fixUnknownPetName335(petInfo, petName) --[3.3.5]
 		Details222.Profiling.ProfileStop("petContainer.GetOwner")
 		return petInfo.hashName, petInfo.ownerName, petInfo.ownerGuid, petInfo.ownerFlags
 	end

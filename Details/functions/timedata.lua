@@ -535,6 +535,7 @@
 	end
 
 	function Details:BrokerTick()
+		if (not Details.databroker) then return end --[3.3.5]
 		Details.databroker.text = parse_broker_text()
 	end
 

@@ -1440,11 +1440,40 @@
 				end,
 			})
 
-			if (databroker and not LDBIcon:IsRegistered ("Details")) then
+			--[3.3.5]
+			if (databroker) then
+				Details.databroker = databroker
+			end
+
+			if (databroker and LDBIcon and not LDBIcon:IsRegistered ("Details")) then
 				LDBIcon:Register ("Details", databroker, self.minimap)
 			end
 
-			Details.databroker = databroker
+			--[3.3.5]
+			local styleMinimapButton = function()
+				local button = LDBIcon.objects and LDBIcon.objects["Details"]
+				if (not button or button.__detailsBackground or not button.icon) then
+					return
+				end
+				local background = button:CreateTexture(nil, "BACKGROUND")
+				background:SetTexture([[Interface\Minimap\UI-Minimap-Background]])
+				background:SetVertexColor(0, 0, 0, 1)
+				background:SetWidth(24)
+				background:SetHeight(24)
+				background:SetPoint("CENTER", button.icon, "CENTER")
+				button.__detailsBackground = background
+			end
+			if (LDBIcon) then
+				local okay, errorText = pcall(styleMinimapButton)
+				if (not okay) then
+					print("Details! minimap style:", errorText)
+				end
+			end
+			if (LDBIcon and not Details.__minimapStyleHooked) then
+				Details.__minimapStyleHooked = true
+				hooksecurefunc(LDBIcon, "Show", styleMinimapButton)
+				hooksecurefunc(LDBIcon, "Refresh", styleMinimapButton)
+			end
 		end
 	end
 

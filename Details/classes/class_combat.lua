@@ -1370,7 +1370,7 @@ function classCombat:NovaTabela(bTimeStarted, overallCombatObject, combatId, ...
 		targetGUID = Details222.BParser.GetPlayerTargetGUID()
 	end
 
-	if (targetGUID and issecretvalue and not DetailsCompat335.IsSecretValue(targetGUID)) then
+	if (targetGUID and not DetailsCompat335.IsSecretValue(targetGUID)) then --[3.3.5]
 		local npcId = Details:GetNpcIdFromGuid(targetGUID)
 		if (npcId) then
 			if (Details222.TrainingDummiesNpcId[npcId]) then
