@@ -2,7 +2,7 @@
 
 A port of the **current retail Details!** damage meter (build `#Details.20261006.15326.172`) for the World of Warcraft **3.3.5a** client.
 
-Started as an update for Bunny67 backport but it ended more in a complete rebase of retail Details!. 
+Started as an update for Bunny's backport but it ended more in a complete rebase of retail Details!. 
 
 
 ## Installation
@@ -23,14 +23,6 @@ What you get with it:
 - **Instance artwork** as the tooltip background for raid and dungeon segments
 - **Encounter information** for boss fights: Details! links each fight to the right boss and instance (proper names and icons instead of a plain "boss fight" entry)
 - **Statistics window**: records can be filtered to current content (WotLK raids and dungeons)
-## Plugins
-
-| Plugin | Status |
-| --- | --- |
-| Encounter Details | ported from retail |
-| Tiny Threat | ported from retail |
-| Data Storage | ported from retail |
-| Sunder Count | kept for 3.3.5 (counts Sunder Armor + Devastate) |
 
 ## Bug reports
 
