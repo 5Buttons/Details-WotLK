@@ -658,6 +658,9 @@ function Details:CloseBreakdownWindow()
 end
 
 function Details.PlayerBreakdown.CreateDumpDataFrame()
+	if (breakdownWindowFrame.dumpDataFrame) then --[3.3.5]
+		return
+	end
 	local playerSelectionScrollFrame = DetailsBreakdownWindowPlayerScrollBox
 	breakdownWindowFrame.dumpDataFrame = CreateFrame("frame", "$parentDumpTableFrame", playerSelectionScrollFrame, "DetailsBackdropTemplate")
 	breakdownWindowFrame.dumpDataFrame:SetPoint("topleft", playerSelectionScrollFrame, "topleft", 0, 0)
