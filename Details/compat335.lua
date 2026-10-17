@@ -2577,7 +2577,13 @@ do
 			local stack = debugstack(1, 8, 0) or ""
 			for line in stack:gmatch("[^\n]+") do
 				if ((strfind(line, "%.lua:%d") or strfind(line, "%[string")) and not strfind(line, "compat335.lua", 1, true)) then
-					return strfind(line, "AddOns\\Details", 1, true) ~= nil
+					if (strfind(line, "AddOns\\Details", 1, true)) then
+						return true
+					end
+					if (strfind(line, "^%s*%.%.%.")) then
+						return (strfind(line, "Details", 1, true) or strfind(line, "window_breakdown", 1, true)) ~= nil
+					end
+					return false
 				end
 			end
 			return false
