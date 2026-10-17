@@ -2810,6 +2810,10 @@
 				sourceActor.targets_absorbs[targetName] = (sourceActor.targets_absorbs[targetName] or 0) + effectiveHeal
 			end
 
+			if (LIB_OPEN_RAID_HEALING_POTIONS[spellId]) then --[3.3.5]
+				sourceActor.healpotion = (sourceActor.healpotion or 0) + effectiveHeal
+			end
+
 			--pet
 			if (ownerActor) then
 				ownerActor.total = ownerActor.total + effectiveHeal --heal do pet

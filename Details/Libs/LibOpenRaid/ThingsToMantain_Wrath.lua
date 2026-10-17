@@ -122,13 +122,41 @@ LIB_OPEN_RAID_FOOD_BUFF = {}
 
 LIB_OPEN_RAID_FLASK_BUFF = {}
 
-LIB_OPEN_RAID_ALL_POTIONS = {}
+LIB_OPEN_RAID_ALL_POTIONS = { --[3.3.5]
+	[53908] = true, --Potion of Speed
+	[53909] = true, --Potion of Wild Magic
+	[53762] = true, --Indestructible Potion
+	[53753] = true, --Potion of Nightmares
+	[53750] = true, --Crazy Alchemist's Potion
+	[53761] = true, --Powerful Rejuvenation Potion
+	[61371] = true, --Endless Rejuvenation Potion
+	[43185] = true, --Runic Healing Potion
+	[67489] = true, --Runic Healing Injector
+	[43186] = true, --Runic Mana Potion
+	[67490] = true, --Runic Mana Injector
+	[53910] = true, --Mighty Arcane Protection Potion
+	[53911] = true, --Mighty Fire Protection Potion
+	[53913] = true, --Mighty Frost Protection Potion
+	[53914] = true, --Mighty Nature Protection Potion
+	[53915] = true, --Mighty Shadow Protection Potion
+	[28494] = true, --Insane Strength Potion
+	[28506] = true, --Heroic Potion
+	[28507] = true, --Haste Potion
+	[28508] = true, --Destruction Potion
+	[28515] = true, --Ironshield Potion
+}
 
-LIB_OPEN_RAID_HEALING_POTIONS = {
-	[33447] = true, --Runic Healing Potion
-	[41166] = true, --Runic Healing Injector
+LIB_OPEN_RAID_HEALING_POTIONS = { --[3.3.5]
+	[43185] = true, --Runic Healing Potion
+	[67489] = true, --Runic Healing Injector
+	[53761] = true, --Powerful Rejuvenation Potion
+	[61371] = true, --Endless Rejuvenation Potion
+	[53750] = true, --Crazy Alchemist's Potion
+	[47872] = true, --Master Healthstone
+	[47873] = true, --Master Healthstone
+	[47874] = true, --Master Healthstone
 	[47875] = true, --Warlock's Healthstone (0/2 Talent)
-	[47867] = true, --Warlock's Healthstone (1/2 Talent)
+	[47876] = true, --Warlock's Healthstone (1/2 Talent)
 	[47877] = true, --Warlock's Healthstone (2/2 Talent)
 }
 
@@ -173,6 +201,7 @@ LIB_OPEN_RAID_COOLDOWNS_INFO = {
 	[116705] = {class = "MONK", specs = {268, 269}, cooldown = 15, silence = 4, talent = false, cooldownWithTalent = false, cooldownTalentId = false, type = 6, charges = 1}, --Spear Hand Strike (brewmaster and windwalker)
 	[57994] = {class = "SHAMAN", specs = {262, 263, 264}, cooldown = 12, silence = 3, talent = false, cooldownWithTalent = false, cooldownTalentId = false, type = 6, charges = 1}, --Wind Shear
 	[47528] = {class = "DEATHKNIGHT", specs = {250, 251, 252}, cooldown = 15, silence = 3, talent = false, cooldownWithTalent = false, cooldownTalentId = false, type = 6, charges = 1}, --Mind Freeze
+	[47476] = {class = "DEATHKNIGHT", specs = {250, 251, 252}, cooldown = 120, silence = 3, talent = false, cooldownWithTalent = false, cooldownTalentId = false, type = 6, charges = 1}, --Strangulate --[3.3.5]
 	[106839] = {class = "DRUID", specs = {103, 104}, cooldown = 15, silence = 4, talent = false, cooldownWithTalent = false, cooldownTalentId = false, type = 6, charges = 1}, --Skull Bash (feral, guardian)
 	[78675] = {class = "DRUID", specs = {102}, cooldown = 60, silence = 8, talent = false, cooldownWithTalent = false, cooldownTalentId = false, type = 6, charges = 1}, --Solar Beam (balance)
 	[147362] = {class = "HUNTER", specs = {253, 254}, cooldown = 24, silence = 3, talent = false, cooldownWithTalent = false, cooldownTalentId = false, type = 6, charges = 1}, --Counter Shot (beast mastery, marksmanship)
@@ -468,6 +497,7 @@ LIB_OPEN_RAID_CROWDCONTROL = { --copied from retail
 	[334693] = {cooldown = 0,	class = "DEAHTKNIGHT"}, --Absolute Zero
 	[221562] = {cooldown = 45,	class = "DEATHKNIGHT"}, --Asphyxiate
 	[47528] = {cooldown = 15,	class = "DEATHKNIGHT"}, --Mind Freeze
+	[47476] = {cooldown = 120,  class = "DEATHKNIGHT"}, --Strangulate --[3.3.5]
 	[207167] = {cooldown = 60,	class = "DEATHKNIGHT"}, --Blinding Sleet
 	[91807] = {cooldown = 0,	class = "DEATHKNIGHT"}, --Shambling Rush
 	[108194] = {cooldown = 45,	class = "DEATHKNIGHT"}, --Asphyxiate
@@ -483,7 +513,7 @@ LIB_OPEN_RAID_CROWDCONTROL = { --copied from retail
 	[93985] = {cooldown = 0,	class = "DRUID"}, --Skull Bash
 	[2637] = {cooldown = 0,		class = "DRUID"}, --Hibernate
 	[5211] = {cooldown = 60,	class = "DRUID"}, --Mighty Bash
-	[99] = {cooldown = 30,		class = "DRUID"}, --Incapacitating Roar
+	[22570] = {cooldown = 10,       class = "DRUID"}, --Maim --[3.3.5]
 	[127797] = {cooldown = 0,	class = "DRUID"}, --Ursol's Vortex
 	[203123] = {cooldown = 0,	class = "DRUID"}, --Maim
 	[45334] = {cooldown = 0,	class = "DRUID"}, --Immobilized
@@ -502,6 +532,7 @@ LIB_OPEN_RAID_CROWDCONTROL = { --copied from retail
 	[24394] = {cooldown = 0,	class = "HUNTER"}, --Intimidation
 	[117405] = {cooldown = 0,	class = "HUNTER"}, --Binding Shot
 	[19577] = {cooldown = 60,	class = "HUNTER"}, --Intimidation
+	[19503] = {cooldown = 30,	class = "HUNTER"}, --Scatter Shot --[3.3.5]
 	[1513] = {cooldown = 0,		class = "HUNTER"}, --Scare Beast
 	[3355] = {cooldown = 30,	class = "HUNTER"}, --Freezing Trap
 	[203337] = {cooldown = 30,	class = "HUNTER"}, --Freezing trap with diamond ice talent
@@ -511,6 +542,7 @@ LIB_OPEN_RAID_CROWDCONTROL = { --copied from retail
 	[157981] = {cooldown = 30,	class = "MAGE"}, --Blast Wave
 	[82691] = {cooldown = 0,	class = "MAGE"}, --Ring of Frost
 	[118] = {cooldown = 0,		class = "MAGE"}, --Polymorph
+	[44572] = {cooldown = 0,	class = "MAGE"}, --Deep Freeze --[3.3.5]
 	[161354] = {cooldown = 0,	class = "MAGE"}, --Polymorph
 	[157997] = {cooldown = 25,	class = "MAGE"}, --Ice Nova
 	[391622] = {cooldown = 0,	class = "MAGE"}, --Polymorph
@@ -568,6 +600,7 @@ LIB_OPEN_RAID_CROWDCONTROL = { --copied from retail
 	[89766] = {cooldown = 30,	class = "WARLOCK"}, --Axe Toss (pet felguard ability)
 	[6789] = {cooldown = 45,	class = "WARLOCK"}, --Mortal Coil
 	[118699] = {cooldown = 0,	class = "WARLOCK"}, --Fear
+	[5782] = {cooldown = 0,	class = "WARLOCK"}, --Fear --[3.3.5]
 	[710] = {cooldown = 0,		class = "WARLOCK"}, --Banish
 	[212619] = {cooldown = 60,	class = "WARLOCK"}, --Call Felhunter
 	[19647] = {cooldown = 24,	class = "WARLOCK"}, --Spell Lock
@@ -649,6 +682,7 @@ LIB_OPEN_RAID_SPELL_INTERRUPT = {
 	[57994] = LIB_OPEN_RAID_COOLDOWNS_INFO[57994], --Wind Shear
 
 	[47528] = LIB_OPEN_RAID_COOLDOWNS_INFO[47528], --Mind Freeze
+	[47476] = LIB_OPEN_RAID_COOLDOWNS_INFO[47476], --Strangulate --[3.3.5]
 
 	[106839] = LIB_OPEN_RAID_COOLDOWNS_INFO[106839], --Skull Bash (feral, guardian)
 	[78675] = LIB_OPEN_RAID_COOLDOWNS_INFO[78675], --Solar Beam (balance)

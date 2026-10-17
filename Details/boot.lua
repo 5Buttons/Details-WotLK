@@ -1269,21 +1269,21 @@ do
 		--constants
 
 		if (DetailsFramework.IsWotLKWow()) then
-			--[[global]] DETAILS_HEALTH_POTION1_ID = 33447 -- Runic Healing Potion
-			--[[global]] DETAILS_HEALTH_POTION2_ID = 41166 -- Runic Healing Injector
-			--[[global]] DETAILS_REJU_POTION_ID = 40087 -- Powerful Rejuvenation Potion
-			--[[global]] DETAILS_REJU_POTION2_ID = 40077 -- Crazy Alchemist's Potion
-			--[[global]] DETAILS_MANA_POTION_ID = 33448 -- Runic Mana Potion
-			--[[global]] DETAILS_MANA_POTION2_ID = 42545 -- Runic Mana Injector
+			--[[global]] DETAILS_HEALTH_POTION1_ID = 43185 -- Runic Healing Potion --[3.3.5]
+			--[[global]] DETAILS_HEALTH_POTION2_ID = 67489 -- Runic Healing Injector --[3.3.5]
+			--[[global]] DETAILS_REJU_POTION_ID = 53761 -- Powerful Rejuvenation Potion --[3.3.5]
+			--[[global]] DETAILS_REJU_POTION2_ID = 53750 -- Crazy Alchemist's Potion --[3.3.5]
+			--[[global]] DETAILS_MANA_POTION_ID = 43186 -- Runic Mana Potion --[3.3.5]
+			--[[global]] DETAILS_MANA_POTION2_ID = 67490 -- Runic Mana Injector --[3.3.5]
 			--[[global]] DETAILS_FOCUS_POTION_ID = 307161
 			--[[global]] DETAILS_HEALTHSTONE_ID = 47875 --Warlock's Healthstone
 			--[[global]] DETAILS_HEALTHSTONE2_ID = 47876 --Warlock's Healthstone (1/2 Talent)
 			--[[global]] DETAILS_HEALTHSTONE3_ID = 47877 --Warlock's Healthstone (2/2 Talent)
 
-			--[[global]] DETAILS_INT_POTION_ID = 40212 --Potion of Wild Magic
-			--[[global]] DETAILS_AGI_POTION_ID = 40211 --Potion of Speed
+			--[[global]] DETAILS_INT_POTION_ID = 53909 --Potion of Wild Magic --[3.3.5]
+			--[[global]] DETAILS_AGI_POTION_ID = 53908 --Potion of Speed --[3.3.5]
 			--[[global]] DETAILS_STR_POTION_ID = 307164
-			--[[global]] DETAILS_STAMINA_POTION_ID = 40093 --Indestructible Potion
+			--[[global]] DETAILS_STAMINA_POTION_ID = 53762 --Indestructible Potion --[3.3.5]
 			--[[global]] DETAILS_HEALTH_POTION_LIST = {
 					[DETAILS_HEALTH_POTION1_ID] = true, -- Runic Healing Potion
 					[DETAILS_HEALTH_POTION2_ID] = true, -- Runic Healing Injector
